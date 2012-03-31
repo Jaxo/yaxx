@@ -1,0 +1,95 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "encoding"=..\toolslib\encoding\encoding.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "reslib"=..\reslib\reslib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "rexx"=.\rexx.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name rexxlib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name toolslib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "rexxlib"=..\rexxlib\rexxlib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name toolslib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name reslib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "toolslib"=..\toolslib\toolslib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name reslib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name encoding
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

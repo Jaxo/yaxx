@@ -1,0 +1,870 @@
+--------------- testFileStream
+6
+15
+30
+Hello5 Hel
+Hello0Giuseppe ello2 Hello3 HeToto Hello5 HelTiti ello7 Hello8 Hello9 Hello10 Hello11 Hello12 Hello13 Hello14 Hello15 Hello16 Hello17 Hello18 Hello19 Hello20 Hello21 Hello22 Hello23 Hello24 Hello25 Hello26 Hello27 Hello28 Hello29 
+opening../tests/data/alice.xml...
+the first five words of this file are :
+"<Book>"  "<Title>ALICE'S"  "ADVENTURES"  "IN"  "WONDERLAND</Title>"  
+Trying seeks... 
+Is: "<Author>Lewis" equal to: "<Author>Lewis"?
+Is: "by" equal to: "by"?
+Is: "<Title>ALICE'S" the 2nd word of this file?
+Is: "</Book>" the last word of this file?
+Is: "<Title>ALICE'S" the 2nd word of this file?
+Is: "ADVENTURES" the 3rd word of this file?
+--------------- testMemStream
+rc=9876...
+--------------- testTransient
+OÃ¹ peut Ã
+(10)<<
+ªtre DÃ
+(7)<<
+©dÃ©, le naÃ¯f maraÃ®cher?
+Il faÃ§
+(35)<<
+*** No more couscous! ***
+onne un rÃ
+(10)<<
+´ti brÃ»lÃ© dans la bruyÃ¨re d'Ã  cÃ´
+(37)<<
+*** No more couscous! ***
+tÃ©.
+Un D
+(10)<<
+eux Trois Quatre Cinq
+
+(23)<<
+*** No more couscous! ***
+[EOF]
+--------------- testTransition
+Hello - I'm a native Transition
+Hello - I'm a NamedTransition: Intermediate
+Hello - I'm a native Transition
+--------------- testList
+Hello - I'm a NamedTransition: Joe
+Hello - I'm a NamedTransition: Kyle
+Hello - I'm a NamedTransition: Pierre
+Hello - I'm a NamedTransition: Roudoudou
+--------------- testLinkedList
+FIFO: **EMPTY**
+LIFO: **EMPTY**
+-------------------------
+FIFO: Pierre
+LIFO: Pierre
+-------------------------
+Removing Pierre
+FIFO: **EMPTY**
+LIFO: **EMPTY**
+-------------------------
+FIFO: Pierre, Jacques, Paul, Andre, Nicolas, Gregory, Benoit
+LIFO: Benoit, Gregory, Nicolas, Andre, Paul, Jacques, Pierre
+-------------------------
+Removing Pierre
+Number 2 is: Jean-Louis
+Removing Jacques
+FIFO: Jean-Paul, Pierre, Jean-Louis, Paul, Andre, Nicolas, Gregory, Benoit, Francois
+LIFO: Francois, Benoit, Gregory, Nicolas, Andre, Paul, Jean-Louis, Pierre, Jean-Paul
+-------------------------
+Removing Jean-Paul
+Removing Pierre
+Removing Jean-Louis
+Removing Paul
+Removing Andre
+Removing Nicolas
+Removing Gregory
+Removing Benoit
+Removing Francois
+FIFO: **EMPTY**
+LIFO: **EMPTY**
+-------------------------
+FIFO: **EMPTY**
+LIFO: **EMPTY**
+--------------- testReaderWriter
+*** No more couscous! ***
+O— peut ˆtre D‚d‚, le na‹f maraŒ
+*** No more couscous! ***
+cher?
+Il fa‡onne un r“t
+i br–l‚ dans la bruyŠre 
+*** No more couscous! ***
+d'… c“t‚.
+Un Deux Trois
+*** No more couscous! ***
+ Quatre Cinq
+
+--------------- testURI
+Opening "../tests/data/rfc2396.in" ...
+Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "http://www.jaxo.com"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http://www.jaxo.com" => "http://www.jaxo.com"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "mail://pgr@jaxo.com:8080/foobar?Hello#World"
+Scheme:    "mail"
+Authority: "pgr@jaxo.com:8080"
+UserInfo:  "pgr"
+Host:      "jaxo.com"
+Port:      "8080"
+Path:      "/foobar"
+Query:     "Hello"
+Fragment:  "World"
+SchemeVFT: "*DEFAULT*"
+"mail://pgr@jaxo.com:8080/foobar?Hello#World" => "mail://pgr@jaxo.com:8080/foobar?Hello#World"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "mail://www.jaxo.com/barfoo?Geeeeeeek"
+Scheme:    "mail"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "-1"
+Path:      "/barfoo"
+Query:     "Geeeeeeek"
+Fragment:  (undefined)
+SchemeVFT: "*DEFAULT*"
+"mail://www.jaxo.com/barfoo?Geeeeeeek" => "mail://www.jaxo.com/barfoo?Geeeeeeek"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "mail://pgr@jaxo.com:8080?Hello#World"
+Scheme:    "mail"
+Authority: "pgr@jaxo.com:8080"
+UserInfo:  "pgr"
+Host:      "jaxo.com"
+Port:      "8080"
+Path:      ""
+Query:     "Hello"
+Fragment:  "World"
+SchemeVFT: "*DEFAULT*"
+"mail://pgr@jaxo.com:8080?Hello#World" => "mail://pgr@jaxo.com:8080?Hello#World"
+---------------------------- "mail://pgr:password@jaxo.com:8080?Hello#World"
+Scheme:    "mail"
+Authority: "pgr:password@jaxo.com:8080"
+UserInfo:  "pgr:password"
+Host:      "jaxo.com"
+Port:      "8080"
+Path:      ""
+Query:     "Hello"
+Fragment:  "World"
+SchemeVFT: "*DEFAULT*"
+"mail://pgr:password@jaxo.com:8080?Hello#World" => "mail://pgr:password@jaxo.com:8080?Hello#World"
+---------------------------- "   #NiceDay"
+Scheme:    "mail"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "-1"
+Path:      "/barfoo"
+Query:     "Geeeeeeek"
+Fragment:  "NiceDay"
+SchemeVFT: "*DEFAULT*"
+"   #NiceDay" => "mail://www.jaxo.com/barfoo?Geeeeeeek#NiceDay"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "mail://pgr@jaxo.com:8080/foobar?Hello#World"
+Scheme:    "mail"
+Authority: "pgr@jaxo.com:8080"
+UserInfo:  "pgr"
+Host:      "jaxo.com"
+Port:      "8080"
+Path:      "/foobar"
+Query:     "Hello"
+Fragment:  "World"
+SchemeVFT: "*DEFAULT*"
+"mail://pgr@jaxo.com:8080/foobar?Hello#World" => "mail://pgr@jaxo.com:8080/foobar?Hello#World"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "      http://a/b/c/d;p?q"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/d;p"
+Query:     "q"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      http://a/b/c/d;p?q" => "http://a/b/c/d;p?q"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "      gg:h"
+Scheme:    "gg"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "h"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "*DEFAULT*"
+"      gg:h" => "gg:h"
+---------------------------- "      g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g" => "http://a/b/c/g"
+---------------------------- "      ./g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ./g" => "http://a/b/c/g"
+---------------------------- "      g/"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g/" => "http://a/b/c/g/"
+---------------------------- "      /g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      /g" => "http://a/g"
+---------------------------- "      //g"
+Scheme:    "http"
+Authority: "g"
+UserInfo:  (undefined)
+Host:      "g"
+Port:      "80"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      //g" => "http://g"
+---------------------------- "      ?y"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/"
+Query:     "y"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ?y" => "http://a/b/c/?y"
+---------------------------- "      g?y"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     "y"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g?y" => "http://a/b/c/g?y"
+---------------------------- "      #s"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/d;p"
+Query:     "q"
+Fragment:  "s"
+SchemeVFT: "HTTP"
+"      #s" => "http://a/b/c/d;p?q#s"
+---------------------------- "      g#s"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  "s"
+SchemeVFT: "HTTP"
+"      g#s" => "http://a/b/c/g#s"
+---------------------------- "      g?y#s"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     "y"
+Fragment:  "s"
+SchemeVFT: "HTTP"
+"      g?y#s" => "http://a/b/c/g?y#s"
+---------------------------- "      ;x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/;x"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ;x" => "http://a/b/c/;x"
+---------------------------- "      g;x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g;x"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g;x" => "http://a/b/c/g;x"
+---------------------------- "      g;x?y#s"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g;x"
+Query:     "y"
+Fragment:  "s"
+SchemeVFT: "HTTP"
+"      g;x?y#s" => "http://a/b/c/g;x?y#s"
+---------------------------- "      ."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ." => "http://a/b/c/"
+---------------------------- "      ./"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ./" => "http://a/b/c/"
+---------------------------- "      .."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      .." => "http://a/b/"
+---------------------------- "      ../"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../" => "http://a/b/"
+---------------------------- "      ../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../g" => "http://a/b/g"
+---------------------------- "      ../.."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../.." => "http://a/"
+---------------------------- "      ../../"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../../" => "http://a/"
+---------------------------- "      ../../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../../g" => "http://a/g"
+---------------------------- "      ../../../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/../g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../../../g" => "http://a/../g"
+---------------------------- "      ../../../../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/../../g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ../../../../g" => "http://a/../../g"
+---------------------------- "      /./g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/./g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      /./g" => "http://a/./g"
+---------------------------- "      /../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/../g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      /../g" => "http://a/../g"
+---------------------------- "      g."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g."
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g." => "http://a/b/c/g."
+---------------------------- "      .g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/.g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      .g" => "http://a/b/c/.g"
+---------------------------- "      g.."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g.."
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g.." => "http://a/b/c/g.."
+---------------------------- "      ..g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/..g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ..g" => "http://a/b/c/..g"
+---------------------------- "      ./../g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ./../g" => "http://a/b/g"
+---------------------------- "      ./g/."
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      ./g/." => "http://a/b/c/g/"
+---------------------------- "      g/./h"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g/h"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g/./h" => "http://a/b/c/g/h"
+---------------------------- "      g/../h"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/h"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g/../h" => "http://a/b/c/h"
+---------------------------- "      g;x=1/./y"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g;x=1/y"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g;x=1/./y" => "http://a/b/c/g;x=1/y"
+---------------------------- "      g;x=1/../y"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/y"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g;x=1/../y" => "http://a/b/c/y"
+---------------------------- "      g?y/./x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     "y/./x"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g?y/./x" => "http://a/b/c/g?y/./x"
+---------------------------- "      g?y/../x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     "y/../x"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      g?y/../x" => "http://a/b/c/g?y/../x"
+---------------------------- "      g#s/./x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  "s/./x"
+SchemeVFT: "HTTP"
+"      g#s/./x" => "http://a/b/c/g#s/./x"
+---------------------------- "      g#s/../x"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  "s/../x"
+SchemeVFT: "HTTP"
+"      g#s/../x" => "http://a/b/c/g#s/../x"
+---------------------------- "      http:g"
+Scheme:    "http"
+Authority: "a"
+UserInfo:  (undefined)
+Host:      "a"
+Port:      "80"
+Path:      "/b/c/g"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"      http:g" => "http://a/b/c/g"
+---------------------------- "      file:c:/Opaque Path/*/../fo?bar.*#Fragment"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "c:/Opaque Path/*/../fo?bar.*"
+Query:     (undefined)
+Fragment:  "Fragment"
+SchemeVFT: "FILE"
+"      file:c:/Opaque Path/*/../fo?bar.*#Fragment" => "file:c:/Opaque Path/*/../fo?bar.*#Fragment"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "file:c:/u/"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "c:/u/"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "FILE"
+"file:c:/u/" => "file:c:/u/"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "pgr/com/jaxo/io/foo.java"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "c:/u/pgr/com/jaxo/io/foo.java"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "FILE"
+"pgr/com/jaxo/io/foo.java" => "file:c:/u/pgr/com/jaxo/io/foo.java"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "file:c:"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "c:"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "FILE"
+"file:c:" => "file:c:"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "a"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "a"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "FILE"
+"a" => "file:a"
+---------------------------- "\a"
+Scheme:    "file"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      "\a"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "FILE"
+"\a" => "file:\a"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "http://www.jaxo.com/bar"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      "/bar"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http://www.jaxo.com/bar" => "http://www.jaxo.com/bar"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "gg:?foo"
+Scheme:    "gg"
+Authority: (undefined)
+UserInfo:  (undefined)
+Host:      (undefined)
+Port:      "-1"
+Path:      ""
+Query:     "foo"
+Fragment:  (undefined)
+SchemeVFT: "*DEFAULT*"
+"gg:?foo" => "gg:?foo"
+---------------------------- "http:?foo"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      "/"
+Query:     "foo"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http:?foo" => "http://www.jaxo.com/?foo"
+---------------------------- "?foo"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      "/"
+Query:     "foo"
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"?foo" => "http://www.jaxo.com/?foo"
+---------------------------- "http:"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      "/bar"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http:" => "http://www.jaxo.com/bar"
+Exit? (Y or N): Enter a Base URI - it will be used to resolve further URIS
+or just hit return for "no base"...
+---------------------- Base: "http://www.jaxo.com"
+Scheme:    "http"
+Authority: "www.jaxo.com"
+UserInfo:  (undefined)
+Host:      "www.jaxo.com"
+Port:      "80"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http://www.jaxo.com" => "http://www.jaxo.com"
+Enter the URI's to parse or just hit return to exit this loop...
+---------------------------- "//[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:88/index.html"
+Scheme:    "http"
+Authority: "[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:88"
+UserInfo:  (undefined)
+Host:      "[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]"
+Port:      "88"
+Path:      "/index.html"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:88/index.html" => "http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:88/index.html"
+---------------------------- "http://[3ffe:2a00:100:7031::1]"
+Scheme:    "http"
+Authority: "[3ffe:2a00:100:7031::1]"
+UserInfo:  (undefined)
+Host:      "[3ffe:2a00:100:7031::1]"
+Port:      "80"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"http://[3ffe:2a00:100:7031::1]" => "http://[3ffe:2a00:100:7031::1]"
+---------------------------- "//[::FFFF:129.144.52.38]:8182"
+Scheme:    "http"
+Authority: "[::FFFF:129.144.52.38]:8182"
+UserInfo:  (undefined)
+Host:      "[::FFFF:129.144.52.38]"
+Port:      "8182"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//[::FFFF:129.144.52.38]:8182" => "http://[::FFFF:129.144.52.38]:8182"
+---------------------------- "//[::FFFF:129.144.52.38]:"
+Scheme:    "http"
+Authority: "[::FFFF:129.144.52.38]:"
+UserInfo:  (undefined)
+Host:      "[::FFFF:129.144.52.38]"
+Port:      "80"
+Path:      ""
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//[::FFFF:129.144.52.38]:" => "http://[::FFFF:129.144.52.38]:"
+---------------------------- "//[]:/index.html"
+Scheme:    "http"
+Authority: "[]:"
+UserInfo:  (undefined)
+Host:      "[]"
+Port:      "80"
+Path:      "/index.html"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//[]:/index.html" => "http://[]:/index.html"
+---------------------------- "//:8183/index.html"
+Scheme:    "http"
+Authority: ":8183"
+UserInfo:  (undefined)
+Host:      ""
+Port:      "8183"
+Path:      "/index.html"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//:8183/index.html" => "http://:8183/index.html"
+---------------------------- "//:/index.html"
+Scheme:    "http"
+Authority: ":"
+UserInfo:  (undefined)
+Host:      ""
+Port:      "80"
+Path:      "/index.html"
+Query:     (undefined)
+Fragment:  (undefined)
+SchemeVFT: "HTTP"
+"//:/index.html" => "http://:/index.html"

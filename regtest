@@ -1,0 +1,93 @@
+#!/bin/csh -f
+# $Id: regtest,v 1.2 2002-01-28 09:51:23 pgr Exp $
+#
+# This script is reponsible to test our packages.
+#
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# set up default options
+# -----------------------------------------------------------------------------
+set whatpkg="."                        # tests all directories.
+set testname="'*.r'"                   # test all .in files
+set YAXX_HOME=`pwd`
+
+
+# -----------------------------------------------------------------------------
+# Process command line options
+# -----------------------------------------------------------------------------
+if ("$1" != "") then
+   set testname="'$1'"
+endif
+if ("$2" == "-reset") then
+   set resetbaseline="reset"
+else
+   set resetbaseline="nochange"
+endif
+if ("$3" != "") then
+   set YAXX_HOME=$3
+endif
+
+# -----------------------------------------------------------------------------
+# main loop - simplicity itself
+# -----------------------------------------------------------------------------
+cd ${YAXX_HOME}/testsLinux
+#foreach testfile ( "`find . -name $testname -print | sed s/\[/\]/./g | sed s/\[.\]\[.\]//g | sed s/\[.\].\*//g`" )
+foreach testfile ( "`find . -name $testname -print`" )
+    set testprog="$YAXX_HOME/yaxx/yaxx"
+    set infile=$testfile:r.in
+    set basfile=$testfile:r.out
+    set errfile=$testfile:r.err
+    set tmpbasfile=$testfile:r.tmp.out
+    set tmperrfile=$testfile:r.tmp.err
+    set difbasfile=$testfile:r.dif.out
+    set diferrfile=$testfile:r.dif.err
+
+    echo -n "   "
+    echo -n Testing \"$testfile\" ...
+    if ( -e $infile ) then
+       ($testprog $testfile < $infile > $tmpbasfile) >& $tmperrfile
+    else
+       ($testprog $testfile > $tmpbasfile) >& $tmperrfile
+    endif
+    diff $basfile $tmpbasfile >& $difbasfile
+    echo -n "    out: "
+    if ( ! -z $difbasfile ) then
+       if ( "$resetbaseline" == "reset" ) then
+          mv $tmpbasfile $basfile
+          rm $difbasfile
+          echo -n BASELINE RESET.
+       else
+          set resetbaseline="failed"
+          echo -n FAILED!
+       endif
+    else
+       echo -n Passed.
+       rm $tmpbasfile
+       rm $difbasfile
+    endif
+    diff $errfile $tmperrfile >& $diferrfile
+    echo -n "     err: "
+    if ( ! -z $diferrfile ) then
+       if ( "$resetbaseline" == "reset" ) then
+          mv $tmperrfile $errfile
+          rm $diferrfile
+          echo BASELINE RESET.
+       else
+          set resetbaseline="failed"
+          echo FAILED!
+       endif
+    else
+       echo Passed.
+       rm $tmperrfile
+       rm $diferrfile
+    endif
+end
+
+if ( "$resetbaseline" == "failed" ) then
+   echo Regression tests failed.
+   exit 201
+endif
+
+# =============================================================================

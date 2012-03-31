@@ -1,0 +1,40 @@
+rm -r D:\u\newdev\yaxx\Release
+rm -r D:\u\newdev\yaxx\reslib\Release
+rm -r D:\u\newdev\yaxx\rexx\Release
+rm -r D:\u\newdev\yaxx\rexxlib\Release
+rm -r D:\u\newdev\yaxx\toolslib\Release
+rm -r D:\u\newdev\yaxx\toolslib\encoding\Release
+rm -r D:\u\newdev\yaxx\yasp3\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\element\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\entity\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\model\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\parser\Release
+rm -r D:\u\newdev\yaxx\yasp3lib\syntax\Release
+rm -r D:\u\newdev\yaxx\Debug
+rm -r D:\u\newdev\yaxx\reslib\Debug
+rm -r D:\u\newdev\yaxx\rexx\Debug
+rm -r D:\u\newdev\yaxx\rexxlib\Debug
+rm -r D:\u\newdev\yaxx\toolslib\Debug
+rm -r D:\u\newdev\yaxx\toolslib\encoding\Debug
+rm -r D:\u\newdev\yaxx\yasp3\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\element\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\entity\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\model\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\parser\Debug
+rm -r D:\u\newdev\yaxx\yasp3lib\syntax\Debug
+del D:\u\newdev\yaxx\reslib\reslib.ncb
+del D:\u\newdev\yaxx\rexx\rexx.ncb
+del D:\u\newdev\yaxx\rexxlib\rexxlib.ncb
+del D:\u\newdev\yaxx\toolslib\toolslib.ncb
+del D:\u\newdev\yaxx\yasp3\yasp3.ncb
+del D:\u\newdev\yaxx\yasp3lib\yasp3lib.ncb
+del D:\u\newdev\yaxx\yaxx\yaxx.ncb
+del D:\u\newdev\yaxx\reslib\reslib.opt
+del D:\u\newdev\yaxx\rexx\rexx.opt
+del D:\u\newdev\yaxx\rexxlib\rexxlib.opt
+del D:\u\newdev\yaxx\toolslib\toolslib.opt
+del D:\u\newdev\yaxx\yasp3\yasp3.opt
+del D:\u\newdev\yaxx\yasp3lib\yasp3lib.opt
+del del D:\u\newdev\yaxx\yaxx\yaxx.opt

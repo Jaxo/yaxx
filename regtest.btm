@@ -1,0 +1,110 @@
+@echo off & setlocal
+REM $Id: regtest.btm,v 1.3 2002-01-23 11:04:58 pgr Exp $
+REM
+REM This batch file is for testing REXX on Windoze.
+REM
+REM Ex:
+REM      regtest               // run All regression tests
+REM      regtest p2            // run p2.r only
+REM      regtest p3 -reset     // run p3.r and reset the test baseline for p3
+REM      regtest *  -reset     // reset All test baseline
+REM
+REM ===========================================================================
+
+REM ---------------------------------------------------------------------------
+REM set up default options
+REM ---------------------------------------------------------------------------
+if "%YAXX_HOME%" == "" set YAXX_HOME=d:\u\newdev\yaxx
+if "%VCCONFIG%" == "" set VCCONFIG=debug
+set testname=*.r
+set WANTCOLOR=Yes
+
+REM ---------------------------------------------------------------------------
+REM Process command line options
+REM ---------------------------------------------------------------------------
+IF %# GE 1 (^
+   set testname=%1 &^
+)
+IFF %2 == -reset THEN &^
+   set resetbaseline=reset &^
+ELSE &^
+   set resetbaseline=nochange &^
+ENDIFF
+IF %# GE 3 (^
+   set YAXX_HOME=%3 &^
+)
+
+REM ---------------------------------------------------------------------------
+REM main loop - simplicity itself
+REM First: go to where the DLL's are!
+REM ---------------------------------------------------------------------------
+cd %YAXX_HOME%\%VCCONFIG%
+dir /S /B %YAXX_HOME%\tests\%testname% | for %infile in (@con) DO (^
+   gosub runRegression ^
+) &^
+IF "%resetbaseline%" == "failed" (^
+   echo Regression tests failed. &^
+   quit 201 ^
+)
+quit
+
+REM ---------------------------------------------------------------------------
+REM Subroutine to run each regression test.
+REM ---------------------------------------------------------------------------
+:runRegression
+   set testprog=%YAXX_HOME%\yaxx\%VCCONFIG%\yaxx.exe &^
+   if not exist %testprog% (^
+      echo Can not find %testprog%; skipping test. &^
+      return ^
+   ) &^
+   set message=Testing "%@name[%infile]"... &^
+   iff "%WANTCOLOR%" == "Yes" then &^
+      echo %message
+   else &^
+      echos %message
+   endiff
+   set infileName=%@PATH[%infile]%@NAME[%infile].
+   iff exist %infilename%in then &^
+      %testprog% %infile <%infilename%in > %infileName%tmp.out 2> %infileName%tmp.err
+   else &^
+      %testprog% %infile > %infileName%tmp.out 2> %infileName%tmp.err
+   endiff
+   set ext=err
+   gosub examineDiffs
+   set ext=out
+   gosub examineDiffs
+   return
+
+:examineDiffs
+   diff -b %infileName%%ext%  %infileName%tmp.%ext% >%infileName%dif.%ext% 2>nul
+   iff ERRORLEVEL GT 0 then &^
+      iff %resetbaseline% == reset then &^
+         copy %infileName%tmp.%ext% %infileName%%ext% 1>nul
+         set color=Bright Green ON Black
+         set result=%ext%: BASELINE RESET.
+         del %infileName%tmp.%ext% 1>nul 2>nul
+         del %infileName%dif.%ext% 1>nul 2>nul
+      else &^
+         set resetbaseline=failed
+         set color=Bright White ON Bright Red
+         set result=%ext%: FAILED!
+      endiff
+   else &^
+      set color=Green ON Black
+      set result=%ext%: PASSED.
+      del %infileName%tmp.%ext% 1>nul 2>nul
+      del %infileName%dif.%ext% 1>nul 2>nul
+   endiff
+   gosub tellResult
+   return
+
+:tellResult
+   set msglen=%@EVAL[2+%@LEN[%message]]
+   iff "%WANTCOLOR%" == "Yes" then &^
+      SCRPUT -1 +%msglen% %color% %result%
+      set message=%message% %result%
+   else &^
+      echo . %result%
+   endiff
+   return
+REM ===========================================================================

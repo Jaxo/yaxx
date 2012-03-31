@@ -1,0 +1,5 @@
+LIBRARY toolslib
+DESCRIPTION 'Jaxo Tools Library'
+EXPORTS ??2@YAPAXI@Z     ; overloaded global operator new
+        ??3@YAXPAX@Z     ; overloaded global operator delete
+

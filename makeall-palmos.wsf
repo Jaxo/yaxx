@@ -1,0 +1,227 @@
+' $Id: makeall-palmos.wsf,v 1.28 2003-05-12 10:23:08 pgr Exp $
+
+<job id="IRexxMakefile4PalmOS">
+        <?job error="false" debug="false"?>
+        <description>
+                A WSH as a WSF that automates CodeWarrior and makes IRexx for Palm OS.
+                It is best to invoke this using cscript, e.g.,
+                        cscript makeall-palmos.wsf /h:d:\...\yaxx
+        </description>
+        <reference object="CodeWarrior.CodeWarriorApp"/>
+        <runtime>
+        <named
+                        name="h"
+                        helpstring="The home of the IRexx directory. Must be absolute."
+                        type="string"
+                        required="true"/>
+        <named
+                        name="d"
+                        helpstring="Build debug target? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="r"
+                        helpstring="Build release target? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="dx"
+                        helpstring="Build debug XML target? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="rx"
+                        helpstring="Build release XML target? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="c"
+                        helpstring="Do a clean build? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="e"
+                        helpstring="Stop on errors? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="w"
+                        helpstring="Close CW when done? Default is no (-)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="k"
+                        helpstring="Keep all projects opened? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        <named
+                        name="s"
+                        helpstring="Build SGML libs? Default is yes (+)."
+                        type="boolean"
+                        required="false"/>
+        </runtime>
+<script language="VBScript">
+
+option explicit
+
+dim codewarrior
+dim irexxhome
+dim closeWhenDone
+dim keepProjectOpen
+dim targetRelease
+dim targetDebug
+dim targetReleaseXML
+dim targetDebugXML
+dim doClean
+dim doSGML
+dim stopOnErrors
+
+Sub LogMessages(messages)
+        dim errCollection
+        dim errMsg, errCount
+        Dim i, eplurality, fplurality
+        
+        if messages is nothing then exit sub
+        eplurality = ""
+        fplurality = "s"
+        Set errCollection = messages.Errors
+        errCount = errCollection.Count
+        if errCount = 0 then exit sub
+        if errCount > 1 then
+                eplurality = "s"
+                fplurality = ""
+        end if
+        Wscript.echo ""
+        wscript.echo "******* [errors] " & errCount & " error message" & eplurality & " follow" & fplurality
+        for i = 0 to errCount - 1
+                Set errMsg = errCollection.Item(i)
+                Wscript.echo errMsg.MessageText
+        next
+        wscript.echo ""
+        if stopOnErrors then WScript.Quit (1)
+End Sub
+
+Sub build(projectname)
+        dim project
+        dim messages
+        dim currentTarget
+        Set project = codewarrior.OpenProject(projectname, true, kCWConvertNo, kCWDonotRevertPanel)
+        if project is Nothing then
+                 Wscript.echo "Could not open project " & projectname
+                 Wscript.echo "Exiting..."
+                 if closeWhenDone then codewarrior.quit kCWSaveNone
+                 WScript.Quit (206004)
+        end if
+        Set currentTarget = project.GetCurrentTarget()
+        if targetDebug then
+                project.SetCurrentTarget "Debug"
+                if doClean then
+                        Wscript.echo "------- [clean] " & projectname
+                        project.RemoveObjectCode kCurrentTarget, true
+                end if
+                Wscript.echo "------- [debug] " & projectname
+                Set messages = project.BuildAndWaitToComplete
+                LogMessages messages
+        end if
+        if targetRelease then
+                project.SetCurrentTarget "Release"
+                if doClean then
+                        Wscript.echo "------- [clean] " & projectname
+                        project.RemoveObjectCode kCurrentTarget, true
+                end if
+                Wscript.echo "------- [release] " & projectname
+                Set messages = project.BuildAndWaitToComplete
+                LogMessages messages
+        end if
+        if targetDebugXML then
+                project.SetCurrentTarget "Debug XML"
+                if doClean then
+                        Wscript.echo "------- [clean] " & projectname
+                        project.RemoveObjectCode kCurrentTarget, true
+                end if
+                Wscript.echo "------- [debug XML] " & projectname
+                Set messages = project.BuildAndWaitToComplete
+                LogMessages messages
+        end if
+        if targetReleaseXML then
+                project.SetCurrentTarget "Release XML"
+                if doClean then
+                        Wscript.echo "------- [clean] " & projectname
+                        project.RemoveObjectCode kCurrentTarget, true
+                end if
+                Wscript.echo "------- [release XML] " & projectname
+                Set messages = project.BuildAndWaitToComplete
+                LogMessages messages
+        end if
+        project.SetCurrentTarget currentTarget.Name
+        if not keepProjectOpen then
+                Wscript.echo "------- [close] " & projectname
+                project.close
+        end if
+End Sub
+
+' TODO: Should use IREXXHOME environment variable or CD if parm not set.
+if not WScript.Arguments.Named.Exists("h") then
+        Wscript.Arguments.ShowUsage
+        Wscript.Quit (100)
+end if
+irexxhome = WScript.Arguments.Named.Item("h")
+
+targetDebug = true
+if WScript.Arguments.Named.Exists("d") then targetDebug = WScript.Arguments.Named.Item("d")
+
+targetRelease = true
+if WScript.Arguments.Named.Exists("r") then targetRelease = WScript.Arguments.Named.Item("r")
+
+targetDebugXML = false
+if WScript.Arguments.Named.Exists("dx") then targetDebugXML = WScript.Arguments.Named.Item("dx")
+
+targetReleaseXML = false
+if WScript.Arguments.Named.Exists("rx") then targetReleaseXML = WScript.Arguments.Named.Item("rx")
+
+doClean = true
+if WScript.Arguments.Named.Exists("c") then doClean = WScript.Arguments.Named.Item("c")
+
+stopOnErrors = true
+if WScript.Arguments.Named.Exists("e") then stopOnErrors = WScript.Arguments.Named.Item("e")
+
+closeWhenDone = false
+if WScript.Arguments.Named.Exists("w") then closeWhenDone = WScript.Arguments.Named.Item("w")
+
+keepProjectOpen = true
+if WScript.Arguments.Named.Exists("k") then keepProjectOpen = WScript.Arguments.Named.Item("k")
+
+doSGML = true
+if WScript.Arguments.Named.Exists("s") then doSGML = WScript.Arguments.Named.Item("s")
+
+Set codewarrior = CreateObject("CodeWarrior.CodeWarriorApp")
+codewarrior.Visible = false
+codewarrior.AllowUserInteraction = false
+
+build irexxhome & "\mwerks\decnblib\decnblib.mcp"
+build irexxhome & "\mwerks\palmiolib\palmiolib.mcp"
+build irexxhome & "\mwerks\toolslib\toolslib1.mcp"
+build irexxhome & "\mwerks\toolslib\toolslib2.mcp"
+
+build irexxhome & "\mwerks\rexxlib\rexxlib-misc.mcp"
+build irexxhome & "\mwerks\rexxlib\rexxlib-builtin.mcp"
+build irexxhome & "\mwerks\rexxlib\rexxlib-compiler.mcp"
+build irexxhome & "\mwerks\rexxlib\rexxlib-interpreter.mcp"
+build irexxhome & "\mwerks\rexxlib\rexxlib-rexxstring.mcp"
+build irexxhome & "\mwerks\rexxlib\rexxlib-routinesvar.mcp"
+
+if doSGML then
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-element.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-entity.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-model.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-parser1.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-parser2.mcp"
+        build irexxhome & "\mwerks\yasp3lib\yasp3lib-syntax.mcp"
+end if
+
+codewarrior.AllowUserInteraction = true
+if closeWhenDone then codewarrior.quit kCWSaveNone
+
+</script>
+</job>

@@ -1,0 +1,82 @@
+- make a URIConnection; implement getDoInput(), get DoOutput() -- rather than
+what we have in URIEntry! -- makeStream is really openConnection!
+- compare 2 URIs!
+- CREATOR is only used for writing a new file
+  (e.g.: we dont check in read mode)
+- use produce in ConsoleFilter
+- review PalmConsole (should be a MemStreamBuf)
+- flush after Say (interpreter)
+- do not bufferize in Trace
+- get maxchallocwhatever from "MemoryPriv.h"
+- FUZZY not implemented
+- STREAM CLOSE (???)
+
+- in t4.r, 8 should be 9
+- PresenceBits should be 32 bit long
+- test HALT
+- in ADDRESS, the return code seems not to be set
+- DO NOT ACCEPT LABELS inside DO-END, IF THEN SELECT etc... blocks
+- Clean after the interpetation the extra clauses
+- implement '=' in interactive trace
+- kill the malloc's: use new
+- @999
+- put the line count within pRxf
+
+- in Interpreter::endInterpret if not interactive, inheritate the SIGS!
+- signal on NOTREADY
+- handle the CONDITION built-in
+- CodeBuffer should derive from StringBuffer.
+- Review RC, SIGL, and RESULT.  Their symbols are created by the variable
+  handler, and do not match the symbol created by the compiler (so, the
+  cache mechanism does not apply.)  I'm not fixing it now, because I'm
+  waiting for reference counting so VariableHandler and Compiler can
+  share the same Symbol.
+- ConstantSymbol should be much more simple (just a Strung would suffice)
+- make MapItem IS-A Strung
+- rework BuiltIn (getResult() and getArg(int i)
+- the RexxNumber 0 and 1 should be Booleans, and there also might be
+  the Boolean Strung::True and Strung::False  refcounting them may be
+  dangerous for thread safety.
+- refcounting: for thread safety, some Strung (RexxNumber) should never
+  be refcounted.  This is the case for Nil.  It should be the case for
+  all static Strung (normally defined in Strung.h) <<< FIXME.
+  (I had the e_Given once a time...)
+  AND we should use more of these.
+- the Parser issues an error when encounting a dangling end tag.
+  it rather should output the bad markup just as text.
+  In order to achieve this, look in:
+  entity\entmgr.h 306 22:inline UnicodeString OpenEntityCache::getInputBackAt
+  entity\entmgr.cpp 137 27:UnicodeString OpenEntity::getInputBackAt
+  [these were implemented to reread the DTD - see the original code]
+  also: if the data is still in the cache, we should avoid a seek.
+- Optimization.  RexxString should use a pool of n x 256 characters.
+
+DONE:
+X cleanup #include
+X Parser messages should be reported with more infos.
+  This is just because some code is missing!
+X FileStream: CREATOR and TYPE
+X truncate the FileStream
+X fix NT sbumbc bug
+X remove the backspace removal in IOMgr::readLine (???)
+X trace is so slow!
+X temp fix in processHostCommand
+X use DbQuery and DbGet Record in PalmDbmStream
+X upgrade my POL!
+X Stack::pop should be destructive and returns nothing.
+X LIFO, on input, is not implemented
+X LOAD: give it a try
+X why I can't see +++RC=...+++ in the log?
+X initialize the Arguments from argv[1], [2], etc....
+X change the MN enum names into something more understandable
+X OPTYPE_PREFIX
+X Stack should derive from LinkedList
+X CodeBuffer: review the #ifdef ALIGN.  And m_ip should be computed here.
+X fix: p0.r, 695: strip('  foo' || '0a'x || '09'x || ' ') expecting: /foo/, found: /foo'1009'x/
+X Again, open of an unexisting file crashes
+X do max and min built-in as max (e.g.: use the RexxNumbers!)
+
+
+TO ADD TO THE FOILS:
+- the TRACE feature of REXX
+- the fact that YASP3 is UnicodeEnabled
