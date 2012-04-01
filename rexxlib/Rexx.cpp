@@ -2,8 +2,6 @@
 
 #include "Rexx.h"
 #include "BatchCompiler.h"
-#include <android/log.h>
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "REXX",__VA_ARGS__)
 
 #ifdef YAXX_NAMESPACE
 namespace YAXX_NAMESPACE {
@@ -58,13 +56,11 @@ int Rexx::Script::interpret(
    UnicodeComposer & erh          // Error Handler
 ) {
    int rc = -1;
-LOGI(" Rexx::interpret - arg is %s", arg? arg : "NULL");
    RexxString strArgs(arg, strlen(arg));
    BatchCompiler * pCompiler = 0;
    Interpreter * pInterpreter = 0;
    try {
       if (!m_isCompiled) {
-LOGI(" Rexx::interpret - running the BatchCompiler...");
          pCompiler = new BatchCompiler(
             m_input,
             m_strPath,
@@ -79,7 +75,6 @@ LOGI(" Rexx::interpret - running the BatchCompiler...");
          pCompiler = 0;
          m_isCompiled = true;
       }
-LOGI(" Rexx::interpret - running the Interpreter");
       pInterpreter = new Interpreter(
          strArgs,
          m_clauses,
@@ -96,15 +91,12 @@ LOGI(" Rexx::interpret - running the Interpreter");
       #endif
       result = pInterpreter->run();
       delete pInterpreter;
-LOGI(" Rexx::interpret - done (rc=0): the result is %s", (char const *)result);
       return 0;
    }catch (FatalException & e) {
       delete pCompiler;
       delete pInterpreter;
-LOGI(" Rexx::interpret - FATAL EXCEPTION => rc is %d", e.m_codeNo);
       return e.m_codeNo;
    }catch (...) {
-LOGI(" Rexx::interpret - INTERNAL ERROR?");
       delete pCompiler;
       delete pInterpreter;
       throw;
