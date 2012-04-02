@@ -1,4 +1,59 @@
-Empty Stub
-Will populate later...
+Note: this file is far to be finished and we hope to complete it over time...
 
-My First GIT change.
+What's YAXX ?
+^^^^^^^^^^^^^
+One could consider YAXX as a collection of many pieces of code that have been
+developed along a period of 20 years of fun at doing programming.
+
+"toolslib" gathers C++ objects that were missing from the original C++
+libraries (and, in my opinion, the gap was never filled
+the way Java designers did it later.)
+
+"decnblib" is Mike Cowlishaw's decimal number library, getting rid of the
+16-bit arithmetic barrier
+
+"stdiolib" makes a bridge from the C-stdio to java, easing the exchange of
+data via streams.
+
+"yasp3lib" is an SGML Parser (SGML being the precursor of XML)
+
+"rexxlib" provides all objects and methods required by the implementation
+of the Rexx interpreter (Restructured extended editor)
+
+Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull)
+routines.  It provides the means to build a REXX interpreter, and this is how
+most people will understand YAXX.
+
+Building YAXX (REXX)
+^^^^^^^^^^^^^^^^^^^^
+The libraries have been tested in several OS environments, which ascertains
+their portability and robustness.
+Besides classical OSes (Linux, MS Windows), Palm OS was one of the first
+candidate for writing "REXX for Palm OS" at the beginning of the 2000's.
+In 2010, REXX was ported to Android...
+
+Rexx on Android
+---------------
+There are two parts: 1) the .SO libraries; and 2) the android / eclipse project.
+The Android Eclipse project -- the GUI layer -- is named "Rexxoid", and can be
+retrieved from [NOT YET DONE].
+
+YAXX (this GIT) only builds the .SO libraries, which represents 95% of the
+whole edifice.
+
+The ~/yaxx/jni directory contains the makefiles...  Issue:
+
+| cd ~/yaxx
+| /path/to/android_ndk/ndk-build
+| (ex: /usr/android-ndk-r6/ndk-build)
+
+This produces the .SO files in ~/yaxx/libs/armeabi
+"libs/armeabi" needs to be copied in your Android project directory.
+
+One can examine them issuing"
+| nm -gC libtoolslib.so
+or
+| readelf -Ws libtoolslib.so | awk "{print $8}"
+
+
+
