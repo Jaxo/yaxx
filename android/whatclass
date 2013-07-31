@@ -1,0 +1,10 @@
+#!/bin/csh
+mkdir tmp
+cd tmp
+rm classes.dex
+rm -r com
+unzip -qq ~/dist/rexxoid.apk classes.dex
+/home/pgr/android-sdks/tools/dex2jar/dex2jar.sh classes.dex
+unzip -qq classes_dex2jar.jar
+javap -classpath . com.jaxo.android.rexx.Speaker
+javap -classpath . com.jaxo.android.rexx.RexxConsole

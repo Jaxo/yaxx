@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   package="com.jaxo.android.rexx"
+   android:versionCode="1"
+   android:versionName="1.1"
+>
+   <uses-sdk
+      android:minSdkVersion="7"
+      android:targetSdkVersion="7"
+   />
+   <application
+      android:icon="@drawable/icon"
+      android:label="@string/app_name"
+   >
+      <!--  android:debuggable="true" -->
+      <activity
+         android:name=".Launcher"
+         android:label="@string/app_name"
+      >
+         <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+         </intent-filter>
+      </activity>
+      <activity
+         android:name=".ScriptsList"
+      >
+<!--
+|        <intent-filter>
+|           <action android:name="android.intent.action.MAIN"/>
+|           <category android:name="android.intent.category.DEFAULT"/>
+|        </intent-filter>
+-->
+      </activity>
+
+      <activity android:name=".ScriptEditor">
+<!--
+|        <intent-filter>
+|           <action android:name="android.intent.action.EDIT"/>
+|           <action android:name="android.intent.action.CREATE"/>
+|        </intent-filter>
+-->
+      </activity>
+
+      <activity android:name=".Rexx">
+<!--
+|        <intent-filter>
+|           <action android:name="android.intent.action.RUN"/>
+|        </intent-filter>
+-->
+      </activity>
+
+      <activity android:name=".Preferences"/>
+      <activity android:name=".About"/>
+   </application>
+</manifest>

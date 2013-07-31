@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  $Id: about.xml,v 1.1 2011-08-12 16:45:42 pgr Exp $
+
+  (C) Copyright 2009-2011 Jaxo Systems.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo Systems.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+<RelativeLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/root"
+   android:orientation="vertical"
+   android:layout_height="fill_parent"
+   android:layout_gravity="center"
+   android:layout_width="fill_parent"
+   android:background="@color/bgdark"
+>
+   <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_centerHorizontal="true"
+   >
+     <ImageView android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rexxoid_60x83"
+     />
+     <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+     >
+        <TextView
+            android:id="@+id/title"
+            style="@style/AboutTitle"
+            android:text="Rexx for Android"
+        />
+        <TextView
+            android:id="@+id/edition"
+            style="@style/AboutMedium"
+            android:text="Version"
+        />
+        <TextView
+            style="@style/AboutSmall"
+            android:text="@string/madeby"
+        />
+        <TextView
+            android:id="@+id/forandroid"
+            style="@style/AboutMicro"
+        />
+        <TextView
+            style="@style/AboutSmall"
+            android:textColorLink="#FFF"
+            android:text="@string/copyright"
+        />
+     </LinearLayout>
+  </LinearLayout>
+  <TextView
+      android:layout_width="wrap_content"
+      android:textColorLink="#FFFF9C"
+      android:textColor="#FFF"
+      android:autoLink="all"
+      android:text="http://www.jaxo.com"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+  />
+</RelativeLayout>

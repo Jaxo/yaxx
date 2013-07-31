@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  $Id: console.xml,v 1.1 2011-08-23 08:40:14 pgr Exp $
+
+  (C) Copyright 2011 Jaxo.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:background="@color/bgdark"
+   android:padding="3sp"
+>
+   <EditText
+      android:id="@+id/say_view"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:inputType="textMultiLine"
+      android:scrollbars="vertical"
+      android:textSize="11sp"
+      android:textColor="#000000"
+      android:background="@drawable/say"
+   >
+   <!--
+      android:focusable="true"
+      android:focusableInTouchMode="true"
+   -->
+   </EditText>
+</LinearLayout>

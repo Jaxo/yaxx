@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  $Id: splash.xml,v 1.1 2011-08-12 16:45:42 pgr Exp $
+
+  (C) Copyright 2009 Jaxo Systems.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo Systems.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+<RelativeLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:background="@color/bgdark"
+>
+   <ImageView
+      android:id="@+id/logo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:adjustViewBounds="true"
+      android:src="@drawable/rexxoid"
+      android:layout_centerHorizontal="true"
+      android:layout_centerInParent="true"
+   />
+   <TextView
+      android:id="@+id/edition"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/logo"
+      android:layout_centerHorizontal="true"
+      android:textStyle="bold"
+      android:text="@string/versionname"
+      android:textColor="#EEE"
+      android:layout_marginTop="10sp"
+   />
+   <TextView
+      android:layout_height="wrap_content"
+      android:text="@string/copyright"
+      android:layout_alignParentBottom="true"
+      android:layout_width="fill_parent"
+      android:textAppearance="?android:attr/textAppearanceSmall"
+      android:textSize="5pt"
+   />
+   <!--
+   <ImageView
+      android:layout_width="wrap_content"
+      android:src="@drawable/smalllogo"
+      android:layout_gravity="bottom|right"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+   />
+   -->
+</RelativeLayout>
+

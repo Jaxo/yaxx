@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   $Id: scripts_list_item.xml,v 1.1 2011-08-08 13:30:38 pgr Exp $
+
+  (C) Copyright 2011 Jaxo Inc.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:padding="3dp"
+   android:background="@android:color/transparent"
+
+>
+   <ImageView
+      android:id="@+id/bullet"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginLeft="10px"
+      android:layout_marginRight="10dp"
+      android:src="@drawable/yellow_bullet"
+   />
+   <TextView
+      android:id="@+id/title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="10"
+      android:singleLine="true"
+      android:text="PI value"
+   />
+   <TextView
+      android:id="@+id/date"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:singleLine="true"
+      android:paddingRight="5dp"
+      android:layout_gravity="bottom|right"
+      android:text="2011/08/12 12:30"
+      android:textSize="10dp"/>
+</LinearLayout>

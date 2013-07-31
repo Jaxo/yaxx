@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  $Id: preferences.xml,v 1.2 2011-08-29 06:33:33 pgr Exp $
+
+  (C) Copyright 2011 Jaxo Inc.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+
+<PreferenceScreen
+   xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<!--
+|  <PreferenceScreen
+|     android:key="PREF_ONCLICK"
+|     android:title="@string/OnItemClicked"
+|     android:summary="@string/OnItemClickedSummary"
+|  >
+|     <CheckBoxPreference
+|         android:key="PREF_ONCLICK_EDIT"
+|         android:defaultValue="true"
+|         android:title="@string/ClickedScriptEdit"
+|         android:summary="@string/ClickedScriptEditSummary"
+|     />
+|     <CheckBoxPreference
+|         android:key="PREF_ONCLICK_RUN"
+|         android:title="@string/ClickedScriptRun"
+|         android:defaultValue="false"
+|         android:summary="@string/ClickedScriptRunSummary"
+|     />
+|  </PreferenceScreen>
+-->
+   <CheckBoxPreference
+       android:key="PREF_ONCLICK_RUN"
+       android:title="@string/OnItemClicked"
+       android:defaultValue="false"
+       android:summary="@string/OnItemClickedSummary"
+   />
+<!--
+|  <ListPreference
+|      android:key="PREF_ONCLICK"
+|      android:title="@string/OnItemClicked"
+|      android:summary="@string/OnItemClickedSummary"
+|      android:defaultValue="PREF_ONCLICK_EDIT"
+|      android:entries="@array/listArray"
+|      android:entryValues="@array/listValues"
+|  />
+-->
+<!--
+|  <CheckBoxPreference
+|      android:key="PREF_RXML"
+|      android:defaultValue="false"
+|      android:title="@string/ParseRexxml"
+|      android:summary="@string/ParseRexxmlSummary"
+|  />
+-->
+</PreferenceScreen>

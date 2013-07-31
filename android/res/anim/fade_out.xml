@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  $Id: fade_out.xml,v 1.1 2011-08-12 16:45:17 pgr Exp $
+
+  (C) Copyright 2011 Jaxo.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+<alpha
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:interpolator="@android:anim/accelerate_interpolator"
+   android:fromAlpha="1.0"
+   android:toAlpha="0.0"
+   android:duration="1200"
+/>
+
