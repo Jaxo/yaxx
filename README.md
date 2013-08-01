@@ -1,7 +1,6 @@
-Note: this file is far to be finished and we hope to complete it over time...
+Note: this readme is far to be finished and I hope to complete it over time&hellip;
 
-What is YAXX?
-=============
+#What is YAXX?
 One could consider YAXX as a collection of many pieces of code that have been
 developed along a period of 20 years of fun at doing programming.
 
@@ -24,16 +23,19 @@ Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull)
 routines.  It provides the means to build a _REXX interpreter_, and this is how
 most people will understand YAXX.
 
-Building REXX
-=============
+#Running REXX on my Android Device
+You say *"I don't want to build Rexxoid, I just want to install it on my device"*.<br/>
+OK, then get the already-built Rexxoid.apk
+
+
+#Building REXX
 The libraries have been tested in several OS environments, which ascertains
 their portability and robustness.
 Besides classical OSes (Linux, MS Windows), Palm OS was one of the first
 candidate for writing "REXX for Palm OS" at the beginning of the 2000's.
 In 2010, REXX was ported to Android...
 
-Rexx on Android
----------------
+##Rexx on Android
 You need the appropriate android / eclipse project, and to build the .so libraries.
 
 The Android Eclipse project -- the GUI layer -- is named *Rexxoid*, and can be
@@ -49,12 +51,20 @@ cd ~/yaxx
 </pre>
 This produces the .SO files in <code>~/yaxx/libs/armeabi</code><br/>
 "libs/armeabi" needs to be <i>ln -s'ed</i> from your Android project directory.
-<BR>
-<BR/><U>My Personal Cheatsheet</U>
+<br/>
+<br/><u>My Personal Cheatsheet</u>
 <ul><li>the ~/yaxx/jni directory contains the android makefiles;
+<br/>
 <li>to examine .so entries, do
-<BR/>&nbsp;<code>nm -gC libtoolslib.so</code>&nbsp; &nbsp; <i>or,</i>
-<BR/>&nbsp;<code>readelf -Ws libtoolslib.so | awk "{print $8}"</code> 
+<pre>
+   <code>nm -gC libtoolslib.so</code>     <i>or,</i>
+   <code>readelf -Ws libtoolslib.so | awk "{print $8}"</code>
+</pre>
+<li>to start an emulator from the console:
+<pre>
+   android create avd --force -n petrus -t 10 -c 2G
+   emulator -avd petrus
+</pre>
 </ul>
 
 
@@ -101,22 +111,73 @@ Before to start, you may want you get acquainted to Android debug mechanism at r
 <a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
 <br/>
 <ol>
-<li>Change 2 "hard-coded" values in the <i>.project</i> file.&nbsp; 
+<li>Change 2 "hard-coded" values in the *.project* file.&nbsp;
+<br>
 <ul>
-<li>edit <i>[$home]</i>/yaxx/android/.project
-<li>change (at the end of this file) <b>$HOME</b> for <b><i>[$home]</i></b>
+<li>edit *[$home]*/yaxx/android/.project
+<br/>
+<li>at the end of this file: 
 <pre>   &lt;linkedResources>
       &lt;link>
          &lt;name>jni&lt;/name>
          &lt;type>2&lt;/type>
-         &lt;location><b>/home/pgr</b>/yaxx/jni&lt;/location>
+         &lt;location>**/home/pgr**/yaxx/jni&lt;/location>
       &lt;/link>
       &lt;link>
          &lt;name>libs&lt;/name>
          &lt;type>2&lt;/type>
-         &lt;location><b>/home/pgr</b>/yaxx/libs&lt;/location>
+         &lt;location>**/home/pgr**/yaxx/libs&lt;/location>
       &lt;/link>
-   &lt;/linkedResources></pre></ul>
-<li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace.
-<br/>Android 2.1</i> is the SDK to be used (Android Preferences.)
+   &lt;/linkedResources></pre>
+change **/home/pgr** for your own home directory, aka <b> *[$home]*</b></ul>
+<br/>
+<li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace -> Next
+<br/>
+<li>In the dialog *Import Projects*:
+<pre>  Root Directory:  <b>*[$home]*/yaxx/android</b>
+  *Copy projects into workspace* stays unchecked
+  *Add project to working sets* stays unchecked
+</pre>
+Press *Finish*.
+<br/>
+<li>Expand the project "rexxoid" and check that the "jni" and "libs" library are not empty. Otherwise you've missed a step, restart from scratch!
+<br/>
+<li>
+Right click on the project name "rexxoid" in the Package Explorer pane, then Debug As -> Android Application.<br/>
+It is *Android Application*, do **not** choose *Android Native Application*
+<br/>
+<li>You probably will fall on the *Android Device Chooser* dialog since you didn't tell what Android Virtual Device you wanted to run with.
+<ul>
+<li>check *Launch a new Android Virtual Device*
+<li>Press the *Manager&hellip;* button 
+<li>In the *Android Virtual Device Manager* dialog, press the *New&hellip;* button
+<li>In the *Create a new Android Virtual Device (AVD)* dialog, press the *New&hellip;* button, and enter:
+<pre>
+   AVD Name:    <b>RexxDevice</b>
+   Device:      <b>3.2" QVGA (ADP2)</b>
+   Target:      <b>Android 2.1 - API Level 7</b>
+   SD Card:     <b>10MiB</b>
+</pre>
+The 3rd parameter (Target) is important: you **must** select a device with min API level 7!  For the other parameters, it's up to your taste.
+<li>Press *OK* and close the *Create a new Android Virtual Device (AVD)* dialog
+<li>Back to the *Android Device Chooser* dialog, press *Refresh*, select the newly created device, press OK
+<li>Wait 2 or 3 minutes until the Android device gets ready
+</ul><br/>
+<li>You must then see the Rexx *Android King*.  Run *qheure* to test that everything is OK.
 </ol>
+####Create the APK
+<ol>
+<li>
+Right click on the project name "rexxoid" in the Package Explorer pane, then Android Tools -> Export Signed Application Package.
+<li>If you don't yet have a *keystore*, select *Create new keystore*
+<li>I suggest the the target directory of your *Rexxoid.apk* be *[$home]*/yaxx/bin
+</ol>
+####Install the APK on your device
+Use the Android *adb* tool, from your *[android sdk root]*/platform-tools directory.<br/>
+With your phone device adb-connected to your computer,
+<pre>
+cd ~/android-sdk-linux_x86/platform-tools
+cp ~/workspace/Rexxoid/bin/Rexxoid.apk .
+adb install Rexxoid.apk
+rm Rexxoid.apk
+</pre>
