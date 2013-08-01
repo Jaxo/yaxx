@@ -26,6 +26,15 @@ most people will understand YAXX.
 #Running REXX on my Android Device
 You say *"I don't want to build Rexxoid, I just want to install it on my device"*.<br/>
 OK, then get the already-built Rexxoid.apk
+<br/><br/>
+Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>, 
+<ol>
+<li>in the list above this README, find *Rexxoid.apk* and click on it;
+<li>in the page that appears, click the *Raw* tab;
+<li>this should open a dialog offering a *Save File* option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">‎Firefox</a> does it!)
+<li>Save the file and install it on your device.<br/>The easiest way is to mail the *Rexxoid.apk* file to your email account on your android device.  Then, you can install straight from the mail. 
+</ol>
+
 
 
 #Building REXX
