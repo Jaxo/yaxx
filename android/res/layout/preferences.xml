@@ -9,7 +9,9 @@
 -->
 
 <PreferenceScreen
-   xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:android="http://schemas.android.com/apk/res/android"       
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
 >
 <!--
 |  <PreferenceScreen
@@ -32,6 +34,8 @@
 |  </PreferenceScreen>
 -->
    <CheckBoxPreference
+       android:layout_width="fill_parent" 
+       android:layout_height="wrap_content"
        android:key="PREF_ONCLICK_RUN"
        android:title="@string/OnItemClicked"
        android:defaultValue="false"
