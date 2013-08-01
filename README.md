@@ -48,7 +48,7 @@ cd ~/yaxx
 /path/to/android_ndk/ndk-build
 </pre>
 This produces the .SO files in <code>~/yaxx/libs/armeabi</code><br/>
-In turn, "libs/armeabi" needs to be copied into your Android project directory.
+"libs/armeabi" needs to be <i>ln -s'ed</i> from your Android project directory.
 <BR>
 <BR/><U>My Personal Cheatsheet</U>
 <ul><li>the ~/yaxx/jni directory contains the android makefiles;
@@ -60,7 +60,12 @@ In turn, "libs/armeabi" needs to be copied into your Android project directory.
 
 ###Detailed Instructions
 
-_These instructions have been tested on Linux Ubuntu 12.04_
+<ul>
+<li><i>These instructions have been tested on Linux Ubuntu 12.04</i>
+<br>
+<li><i>In what follows, you must replace the symbol <b>[$home]</b> with the fully qualified name of your home directory.<br/>
+Ex: <i>[$home]</i> -> /home/myuserid
+</ul>
 
 #### Building the .so files
 <ol>
@@ -69,41 +74,49 @@ _These instructions have been tested on Linux Ubuntu 12.04_
 cd ~
 git clone https://github.com/Jaxo/yaxx.git
 </pre>
-creates the yaxx directory in hour home (<i>i.e.:</i>&nbsp; <code>~/yaxx</code>)
+creates the yaxx directory in your home (<i>i.e.:</i>&nbsp; <code><i>[$home]<i>/yaxx</code>)
 <br/>
-<li>Install Eclipse, you can download it from <a href="http://www.eclipse.orgs/downloads/" target="_blank">here</a>
+<li>Install Eclipse.&nbsp; you can download it from <a href="http://www.eclipse.orgs/downloads/" target="_blank">here</a>
 <br/>
 <li>Install the Android plugin for Eclipse.&nbsp; Go to <a href="http://developer.android.com/sdk/installing/installing-adt.html" target="_blank">that page</a> and carefully follow the instructions.
 <br/>
 <li>Install the Android NDK: android-ndk-r9-linux-x86.tar.bz2 from <a href="http://developer.android.com/tools/sdk/ndk/index.html" target="_blank">here</a>
-<br/><br/><i>"NDK" &mdash; not to be confused with "SDK" &mdash; is a complementary tool.</i>&nbsp; <br/>After download, I entered:
-<pre>
-cd /usr/local
+<br/><br/><i>"NDK" &mdash; not to be confused with "SDK" &mdash; is a complementary tool.</i>&nbsp; <br/>To install it, after download, I did:
+<pre>cd /usr/local
 sudo mv ~/Downloads/android-ndk-r9-linux-x86.tar.bz2 .
 sudo tar -xjvf android-ndk-r9-linux-x86.tar.bz2
 sudo rm android-ndk-r9-linux-x86.tar.bz2
-cd ~
-</pre>
+cd ~</pre>
 <li>Build the .so:
 <pre>
 cd ~/yaxx
 /usr/local/android-ndk-r9/ndk-build
 </pre>
 The ".so" files are created in <code>~/yaxx/libs/armeabi</code>.&nbsp;
-Later, these will be copied (or symbolicly linked) to the Eclipse Android project.
+Later, these will be symbolically linked from the Eclipse Android project.
 </ol>
 
 ####Create and run the "Rexxoid" project in Eclipse
+Before to start, you may want you get acquainted to Android debug mechanism at reading 
+<a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
+<br/>
 <ol>
-<li>Start Eclipse,  File -> New -> Android Application Project
-<br/><br/>In the "Creates a new Android Application" dialog, fill the fields:
-<pre>
-   Application Name:   <b>Rexxoid</b>
-   Project Name:       <b>rexxoid</b>
-   Package Name:       <b>com.jaxo.android.rexx</b>
-</pre>
-Press "Next".&nbsp; In the "Configure Project" dialog, 
+<li>Change 2 "hard-coded" values in the <i>.project</i> file.&nbsp; 
 <ul>
-<li>uncheck "Create Project in Workspace",
-<li>in the location field, enter <i>[$home]</i>/yaxx/android,<br/>where </i>[$home]</i> <b>must be replaced</b> by the fully qualified name of your home directory, e.g.: <code>/home/yourUserId</code>
+<li>edit <i>[$home]</i>/yaxx/android/.project
+<li>change (at the end of this file) <b>$HOME</b> for <b><i>[$home]</i></b>
+<pre>   &lt;linkedResources>
+      &lt;link>
+         &lt;name>jni&lt;/name>
+         &lt;type>2&lt;/type>
+         &lt;location><b>/home/pgr</b>/yaxx/jni&lt;/location>
+      &lt;/link>
+      &lt;link>
+         &lt;name>libs&lt;/name>
+         &lt;type>2&lt;/type>
+         &lt;location><b>/home/pgr</b>/yaxx/libs&lt;/location>
+      &lt;/link>
+   &lt;/linkedResources></pre></ul>
+<li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace.
+<br/>Android 2.1</i> is the SDK to be used (Android Preferences.)
 </ol>

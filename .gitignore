@@ -1,0 +1,5 @@
+/obj
+/libs
+android/.settings
+android/bin
+android/lint.xml
