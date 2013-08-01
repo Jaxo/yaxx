@@ -27,12 +27,12 @@ most people will understand YAXX.
 You say *"I don't want to build Rexxoid, I just want to install it on my device"*.<br/>
 OK, then get the already-built Rexxoid.apk
 <br/><br/>
-Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>, 
+Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>,
 <ol>
-<li>in the list above this README, find *Rexxoid.apk* and click on it;
-<li>in the page that appears, click the *Raw* tab;
-<li>this should open a dialog offering a *Save File* option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">‎Firefox</a> does it!)
-<li>Save the file and install it on your device.<br/>The easiest way is to mail the *Rexxoid.apk* file to your email account on your android device.  Then, you can install straight from the mail. 
+<li>in the list above this README, find <i>Rexxoid.apk</i> and click on it;
+<li>in the page that appears, click the <i>Raw</i> tab;
+<li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
+<li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
 
 
@@ -46,12 +46,11 @@ In 2010, REXX was ported to Android...
 
 ##Rexx on Android
 You need the appropriate android / eclipse project, and to build the .so libraries.
-
-The Android Eclipse project -- the GUI layer -- is named *Rexxoid*, and can be
-retrieved from [NOT YET DONE].
-
-YAXX (this GIT) only builds the .SO libraries, which represents 95% of the
+<ul>
+<li>The Android Eclipse project &mdash; the GUI layer &mdash; is named *Rexxoid*.
+<li>YAXX (this GIT) only builds the .SO libraries, which represents 95% of the
 whole edifice.
+</ul>
 
 ###Summary, only for experts
 <pre>
@@ -88,7 +87,7 @@ Ex: <i>[$home]</i> -> /home/myuserid
 
 #### Building the .so files
 <ol>
-<li>First is to get _yaxx_ from this git
+<li>First is to get <i>yaxx</i> from this git
 <pre>
 cd ~
 git clone https://github.com/Jaxo/yaxx.git
@@ -116,77 +115,79 @@ Later, these will be symbolically linked from the Eclipse Android project.
 </ol>
 
 ####Create and run the "Rexxoid" project in Eclipse
-Before to start, you may want you get acquainted to Android debug mechanism at reading 
+Before to start, you may want you get acquainted to Android debug mechanism at reading
 <a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
 <br/>
 <ol>
-<li>Change 2 "hard-coded" values in the *.project* file.&nbsp;
+<li>Change 2 "hard-coded" values in the <i>.project</i> file.&nbsp;
 <br>
 <ul>
-<li>edit *[$home]*/yaxx/android/.project
+<li>edit <i>[$home]</i>/yaxx/android/.project
 <br/>
-<li>at the end of this file: 
+<li>at the end of this file:
 <pre>   &lt;linkedResources>
       &lt;link>
          &lt;name>jni&lt;/name>
          &lt;type>2&lt;/type>
-         &lt;location>**/home/pgr**/yaxx/jni&lt;/location>
+         &lt;location><b>/home/pgr</b>/yaxx/jni&lt;/location>
       &lt;/link>
       &lt;link>
          &lt;name>libs&lt;/name>
          &lt;type>2&lt;/type>
-         &lt;location>**/home/pgr**/yaxx/libs&lt;/location>
+         &lt;location><b>/home/pgr</b>/yaxx/libs&lt;/location>
       &lt;/link>
    &lt;/linkedResources></pre>
-change **/home/pgr** for your own home directory, aka <b> *[$home]*</b></ul>
+change <b>/home/pgr</b> for your own home directory, aka <b><i>[$home]</i></b>
+</ul>
 <br/>
 <li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace -> Next
 <br/>
-<li>In the dialog *Import Projects*:
-<pre>  Root Directory:  <b>*[$home]*/yaxx/android</b>
-  *Copy projects into workspace* stays unchecked
-  *Add project to working sets* stays unchecked
+<li>In the dialog <i>Import Projects</i>:
+<pre>  Root Directory:  <b><i>[$home]</i>/yaxx/android</b>
+  <i>Copy projects into workspace</i> stays unchecked
+  <i>Add project to working sets</i> stays unchecked
 </pre>
-Press *Finish*.
+Press <i>Finish</i>.
 <br/>
 <li>Expand the project "rexxoid" and check that the "jni" and "libs" library are not empty. Otherwise you've missed a step, restart from scratch!
 <br/>
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Debug As -> Android Application.<br/>
-It is *Android Application*, do **not** choose *Android Native Application*
+It is <i>Android Application</i>, do <b>not</b> choose <i>Android Native Application</i>
 <br/>
-<li>You probably will fall on the *Android Device Chooser* dialog since you didn't tell what Android Virtual Device you wanted to run with.
+<li>You probably will fall on the <i>Android Device Chooser</i> dialog since you didn't tell what Android Virtual Device you wanted to run with.
 <ul>
-<li>check *Launch a new Android Virtual Device*
-<li>Press the *Manager&hellip;* button 
-<li>In the *Android Virtual Device Manager* dialog, press the *New&hellip;* button
-<li>In the *Create a new Android Virtual Device (AVD)* dialog, press the *New&hellip;* button, and enter:
+<li>check <i>Launch a new Android Virtual Device</i>
+<li>Press the <i>Manager&hellip;</i> button
+<li>In the <i>Android Virtual Device Manager</i> dialog, press the <i>New&hellip;</i> button
+<li>In the <i>Create a new Android Virtual Device (AVD)</i> dialog, press the <i>New&hellip;</i> button, and enter:
 <pre>
    AVD Name:    <b>RexxDevice</b>
    Device:      <b>3.2" QVGA (ADP2)</b>
    Target:      <b>Android 2.1 - API Level 7</b>
    SD Card:     <b>10MiB</b>
 </pre>
-The 3rd parameter (Target) is important: you **must** select a device with min API level 7!  For the other parameters, it's up to your taste.
-<li>Press *OK* and close the *Create a new Android Virtual Device (AVD)* dialog
-<li>Back to the *Android Device Chooser* dialog, press *Refresh*, select the newly created device, press OK
+The 3rd parameter (Target) is important: you <b>must</b> select a device with min API level 7!  For the other parameters, it's up to your taste.
+<li>Press <i>OK</i> and close the <i>Create a new Android Virtual Device (AVD)</i> dialog
+<li>Back to the <i>Android Device Chooser</i> dialog, press <i>Refresh</i>, select the newly created device, press OK
 <li>Wait 2 or 3 minutes until the Android device gets ready
 </ul><br/>
-<li>You must then see the Rexx *Android King*.  Run *qheure* to test that everything is OK.
+<li>You must then see the Rexx <i>Android King</i>.  Run <i>qheure</i> to test that everything is OK.
 </ol>
 ####Create the APK
 <ol>
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Android Tools -> Export Signed Application Package.
-<li>If you don't yet have a *keystore*, select *Create new keystore*
-<li>I suggest the the target directory of your *Rexxoid.apk* be *[$home]*/yaxx/bin
+<li>If you don't yet have a <i>keystore</i>, select <i>Create new keystore</i>
+<li>I suggest the target directory of your <i>Rexxoid.apk</i> be <i>[$home]</i>/yaxx/bin
 </ol>
 ####Install the APK on your device
-Use the Android *adb* tool, from your *[android sdk root]*/platform-tools directory.<br/>
+Use the Android <i>adb</i> tool, from your <i>[android sdk root]</i>/platform-tools directory.<br/>
 With your phone device adb-connected to your computer,
 <pre>
 cd ~/android-sdk-linux_x86/platform-tools
-cp ~/workspace/Rexxoid/bin/Rexxoid.apk .
+cp ~/yaxx/bin/Rexxoid.apk .
 adb install Rexxoid.apk
 rm Rexxoid.apk
 </pre>
+
