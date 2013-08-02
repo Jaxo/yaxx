@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2002-03-27 01:57:04 jlatone Exp $
+# $Id: Makefile,v 1.5 2013-08-02 06:38:58 pgr Exp $
 
 SOURCES= \
 	basio.c \
@@ -24,4 +24,4 @@ depend:
 	makedepend -- $(CFLAGS) -- *.[ch]
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-	
+
