@@ -1,32 +1,16 @@
-D/POL Lib////
 D/decnblib////
-D/dectest////
-D/drvcnf////
-D/giflib////
-D/inktomi////
-D/jaxo////
 D/jni////
-D/jpeglib////
-D/mwerks////
 D/palmiolib////
 D/palmlib////
-D/pnglib////
-D/regexplib////
 D/reslib////
 D/rexx////
 D/rexxlib////
 D/stdiolib////
-D/tests////
-D/testsLinux////
 D/toolslib////
 D/toolstest////
-D/website////
 D/yasp3////
 D/yasp3lib////
 D/yaxx////
-D/yaxx_x////
-D/yaxx_xy////
-D/zlib////
 D/androidlib////
 /J18PUB.pdf/1.1/Wed Apr  4 15:15:01 2012/-kb/
 /Makefile/1.14/Wed Apr  4 15:15:01 2012//
@@ -41,3 +25,4 @@ D/androidlib////
 /regtest.btm/1.3/Wed Apr  4 15:15:01 2012//
 /.gitignore/1.1/Thu Aug  1 11:06:15 2013//
 /README.md/1.1/Thu Aug  1 15:52:23 2013//
+D/android////
