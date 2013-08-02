@@ -3,4 +3,6 @@
 /bin
 android/.settings
 android/bin
+android/gen
+android/proguard
 android/lint.xml
