@@ -30,16 +30,4 @@
       <nature>com.android.ide.eclipse.adt.AndroidNature</nature>
       <nature>org.eclipse.jdt.core.javanature</nature>
    </natures>
-   <linkedResources>
-      <link>
-         <name>jni</name>
-         <type>2</type>
-         <location>/home/pgr/yaxx/jni</location>
-      </link>
-      <link>
-         <name>libs</name>
-         <type>2</type>
-         <location>/home/pgr/yaxx/libs</location>
-      </link>
-   </linkedResources>
 </projectDescription>

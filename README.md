@@ -35,8 +35,6 @@ Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target
 <li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
 
-
-
 #Building REXX
 The libraries have been tested in several OS environments, which ascertains
 their portability and robustness.
@@ -54,14 +52,14 @@ whole edifice.
 
 ###Summary, only for experts
 <pre>
-cd ~/yaxx
+cd ~/yaxx/android
 /path/to/android_ndk/ndk-build
 </pre>
-This produces the .SO files in <code>~/yaxx/libs/armeabi</code><br/>
+This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
 "libs/armeabi" needs to be <i>ln -s'ed</i> from your Android project directory.
 <br/>
 <br/><u>My Personal Cheatsheet</u>
-<ul><li>the ~/yaxx/jni directory contains the android makefiles;
+<ul><li>the ~/yaxx/android/jni directory contains the android makefiles;
 <br/>
 <li>to examine .so entries, do
 <pre>
@@ -107,10 +105,10 @@ sudo rm android-ndk-r9-linux-x86.tar.bz2
 cd ~</pre>
 <li>Build the .so:
 <pre>
-cd ~/yaxx
+cd ~/yaxx/android
 /usr/local/android-ndk-r9/ndk-build
 </pre>
-The ".so" files are created in <code>~/yaxx/libs/armeabi</code>.&nbsp;
+The ".so" files are created in <code>~/yaxx/android/libs/armeabi</code>.&nbsp;
 Later, these will be symbolically linked from the Eclipse Android project.
 </ol>
 
@@ -119,27 +117,6 @@ Before to start, you may want you get acquainted to Android debug mechanism at r
 <a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
 <br/>
 <ol>
-<li>Change 2 "hard-coded" values in the <i>.project</i> file.&nbsp;
-<br>
-<ul>
-<li>edit <i>[$home]</i>/yaxx/android/.project
-<br/>
-<li>at the end of this file:
-<pre>   &lt;linkedResources>
-      &lt;link>
-         &lt;name>jni&lt;/name>
-         &lt;type>2&lt;/type>
-         &lt;location><b>/home/pgr</b>/yaxx/jni&lt;/location>
-      &lt;/link>
-      &lt;link>
-         &lt;name>libs&lt;/name>
-         &lt;type>2&lt;/type>
-         &lt;location><b>/home/pgr</b>/yaxx/libs&lt;/location>
-      &lt;/link>
-   &lt;/linkedResources></pre>
-change <b>/home/pgr</b> for your own home directory, aka <b><i>[$home]</i></b>
-</ul>
-<br/>
 <li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace -> Next
 <br/>
 <li>In the dialog <i>Import Projects</i>:
@@ -148,8 +125,6 @@ change <b>/home/pgr</b> for your own home directory, aka <b><i>[$home]</i></b>
   <i>Add project to working sets</i> stays unchecked
 </pre>
 Press <i>Finish</i>.
-<br/>
-<li>Expand the project "rexxoid" and check that the "jni" and "libs" library are not empty. Otherwise you've missed a step, restart from scratch!
 <br/>
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Debug As -> Android Application.<br/>
@@ -164,10 +139,10 @@ It is <i>Android Application</i>, do <b>not</b> choose <i>Android Native Applica
 <pre>
    AVD Name:    <b>RexxDevice</b>
    Device:      <b>3.2" QVGA (ADP2)</b>
-   Target:      <b>Android 2.1 - API Level 7</b>
+   Target:      <b>Android 2.2 - API Level 8</b>
    SD Card:     <b>10MiB</b>
 </pre>
-The 3rd parameter (Target) is important: you <b>must</b> select a device with min API level 7!  For the other parameters, it's up to your taste.
+The 3rd parameter (Target) is important: you <b>must</b> select a device with min API level 8!  For the other parameters, it's up to your taste.
 <li>Press <i>OK</i> and close the <i>Create a new Android Virtual Device (AVD)</i> dialog
 <li>Back to the <i>Android Device Chooser</i> dialog, press <i>Refresh</i>, select the newly created device, press OK
 <li>Wait 2 or 3 minutes until the Android device gets ready

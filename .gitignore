@@ -1,8 +1,7 @@
-/obj
-/libs
-/bin
 android/.settings
 android/bin
 android/gen
-android/proguard
+android/libs
 android/lint.xml
+android/obj
+android/proguard
