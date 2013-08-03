@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  $Id: console.xml,v 1.1 2011-08-23 08:40:14 pgr Exp $
+  $Id: console.xml,v 1.2 2013-08-03 09:54:44 pgr Exp $
 
   (C) Copyright 2011 Jaxo.  All rights reserved.
   This work contains confidential trade secrets of Jaxo.
@@ -11,7 +11,7 @@
    xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
-   android:background="@color/bgdark"
+   android:background="@drawable/background"
    android:padding="3sp"
 >
    <EditText
