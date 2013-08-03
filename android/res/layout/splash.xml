@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  $Id: splash.xml,v 1.2 2013-08-03 09:54:45 pgr Exp $
+  $Id: splash.xml,v 1.1 2011-08-12 16:45:42 pgr Exp $
 
   (C) Copyright 2009 Jaxo Systems.  All rights reserved.
   This work contains confidential trade secrets of Jaxo Systems.
   Use, examination, copying, transfer and disclosure to others
   are prohibited, except with the express written agreement of Jaxo.
-   android:background="@drawable/background"
    android:background="@color/bgdark"
 -->
 <RelativeLayout
@@ -14,7 +13,7 @@
    android:orientation="vertical"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
-   android:background="@color/bgdark"
+   android:background="@drawable/background"
 >
    <ImageView
       android:id="@+id/logo"
