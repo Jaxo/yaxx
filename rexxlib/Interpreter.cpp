@@ -1,5 +1,5 @@
 /*
- * $Id: Interpreter.cpp,v 1.275 2011-08-31 08:09:48 pgr Exp $
+ * $Id: Interpreter.cpp,v 1.277 2013-08-03 07:34:23 pgr Exp $
  */
 
 #if defined _WIN32
@@ -21,6 +21,7 @@
 #include <assert.h>
 
 #include "../toolslib/SystemContext.h"
+#include "../reslib/DayMonth.h"
 #include "Clauses.h"
 #include "Label.h"
 #include "Exception.h"
@@ -1482,19 +1483,58 @@ int Interpreter::execCommand(
 +----------------------------------------------------------------------------*/
 RexxString Interpreter::getYaxxVersion()
 {
-   static char VERSION[] = "REXX-Jaxo-$Revision: 1.275 $";
-   static char rev[] = "$Revision: ";
-   static char rest[] = "4.03 5 Aug 2011";
+   // see the Rexx programming language p.58
+   static char const VERSION[] = "REXX-Jaxo-$Revision: 1.277 $ $Date: 2013-08-03 07:34:23 $";
+   static char const LEVEL[] = "4.04";
+   static char const REV[] = "$Revision: ";
+   static char const DATE[] = "$ $Date: ";
 
-   char buf[sizeof (VERSION) + sizeof (rest)];
+   char buf[sizeof VERSION];
+   char * beg;
+   char * src;
+   char * tgt;
 
-   int iLen = strlen(VERSION);
-   memcpy(buf, VERSION, iLen);
-   char * c_p = (char *)memchr(buf, '$', iLen);
-   char * d_p = (char *)memchr(c_p+1, '$', iLen);
-   *d_p = 0;
-   memcpy(c_p, c_p + sizeof rev-1, d_p - c_p);
-   strcat(buf, rest);
+   int iLen = sizeof VERSION - 1;
+   memcpy(buf, VERSION, iLen+1);
+   printf("\"%s\"\n", buf);
+
+   beg = buf;
+   tgt = (char *)memchr(beg, '$', iLen);
+   src = tgt + sizeof REV - 1;
+   iLen -= (src - beg);
+   memcpy(tgt, src, iLen+1);
+   // replace the revision period (no period may not be included)
+   tgt[1] = ':';
+
+   beg = tgt;
+   tgt = (char *)memchr(beg, '$', iLen);
+   src = tgt + sizeof DATE - 1;
+   // iLen -= (src - beg);
+   // memcpy(tgt, src, iLen+1);
+
+   // catenate the language level description
+   memcpy(tgt, LEVEL, sizeof LEVEL - 1);
+   tgt += sizeof LEVEL-1;
+   *(tgt++) = ' ';
+
+   // translate yyyy-mm-dd to DATE() in default format, as in 21 Feb 1985
+   {
+      char date[11];
+      int i = -1;
+      int monthNo = src[6] - '0';
+
+      if (src[5] == '1') monthNo += 10;
+      if (src[8] != '0') date[++i] = src[8]; // no leading zero
+      date[++i] = src[9];
+      date[++i] = ' ';
+      memcpy(date + ++i, ::getMonthName(monthNo-1), 3);
+      i += 3;
+      date[i] = ' ';
+      memcpy(date + ++i, src, 4);
+      i += 4;
+      memcpy(tgt, date, i);
+      tgt[i] = '\0';
+   }
    return RexxString(buf);
 }
 
