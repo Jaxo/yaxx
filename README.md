@@ -154,15 +154,15 @@ The 3rd parameter (Target) is important: you <b>must</b> select a device with mi
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Android Tools -> Export Signed Application Package.
 <li>If you don't yet have a <i>keystore</i>, select <i>Create new keystore</i>
-<li>I suggest the target directory of your <i>Rexxoid.apk</i> be <i>[$home]</i>/yaxx/bin
+<li>I suggest the target directory of your <i>rexxoid.apk</i> be <i>[$home]</i>/yaxx/android/bin
 </ol>
 ####Install the APK on your device
 Use the Android <i>adb</i> tool, from your <i>[android sdk root]</i>/platform-tools directory.<br/>
 With your phone device adb-connected to your computer,
 <pre>
-cd ~/android-sdk-linux_x86/platform-tools
-cp ~/yaxx/bin/Rexxoid.apk .
-adb install Rexxoid.apk
+cd ~/android-sdks/platform-tools
+cp ~/yaxx/android/bin/rexxoid.apk .
+adb install rexxoid.apk
 rm Rexxoid.apk
 </pre>
 
