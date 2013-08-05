@@ -14,7 +14,6 @@ package com.jaxo.android.rexx;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
