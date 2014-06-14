@@ -129,8 +129,19 @@ Press <i>Finish</i>.
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Debug As -> Android Application.<br/>
 It is <i>Android Application</i>, do <b>not</b> choose <i>Android Native Application</i>
-<br/>
-<li>You probably will fall on the <i>Android Device Chooser</i> dialog since you didn't tell what Android Virtual Device you wanted to run with.
+<li>
+If you get interrupted by this infamous message:
+<pre>Unable to execute dex: java.nio.BufferOverflowException.</pre>
+(from http://stackoverflow.com/questions/20778767)
+<ol>
+<li>Right click on project and go to properties
+<li>Go to Java Build Path Screen (from left menu)
+<li>Select Libraries Pane
+<li>Highlight Android dependencies
+<li>Click Remove
+<li>Click Ok and restart at previous step.
+</ol>
+<li>The <i>Android Device Chooser</i> dialog will probably show up, since you didn't tell what Android Virtual Device you wanted to run with.
 <ul>
 <li>check <i>Launch a new Android Virtual Device</i>
 <li>Press the <i>Manager&hellip;</i> button
