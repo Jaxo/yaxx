@@ -47,6 +47,7 @@ public class ScriptsList extends ListActivity
    private static final int EDIT_ID = Menu.FIRST + 3;
    private static final int RUN_ID = Menu.FIRST + 4;
    private static final int DELETE_ID = Menu.FIRST + 5;
+   private static final int IMPORT_ID = Menu.FIRST + 6;
 
    private RexxDatabase m_rexxDb;
 
@@ -81,10 +82,12 @@ public class ScriptsList extends ListActivity
    +-------------------------------------------------------------------------*/
    public boolean onCreateOptionsMenu(Menu menu) {
       super.onCreateOptionsMenu(menu);
-      menu.add(0, PREFERENCES_ID, 0, R.string.Preferences).
-      setIcon(android.R.drawable.ic_menu_preferences);
       menu.add(Menu.NONE, NEW_ID, Menu.NONE, R.string.NewScript).
       setIcon(android.R.drawable.ic_menu_add);
+      menu.add(Menu.NONE, IMPORT_ID, Menu.NONE, R.string.Import).
+      setIcon(android.R.drawable.ic_input_get);
+      menu.add(0, PREFERENCES_ID, 0, R.string.Preferences).
+      setIcon(android.R.drawable.ic_menu_preferences);
       menu.add(Menu.NONE, INFO_ID, Menu.NONE, R.string.Info).
       setIcon(android.R.drawable.ic_menu_info_details);
       return true;
@@ -103,6 +106,9 @@ public class ScriptsList extends ListActivity
          return true;
       case NEW_ID:
          createScript();
+         return true;
+      case IMPORT_ID:
+         startActivity(new Intent(this, FileChooser.class));
          return true;
       case INFO_ID:
          startActivity(new Intent(this, About.class));

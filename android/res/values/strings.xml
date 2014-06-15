@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Rexx</string>
     <string name="madeby">Engineered by Jaxo, Inc.</string>
-    <string name="copyright">© Jaxo, Inc. 2011-2013</string>
+    <string name="copyright">© Jaxo, Inc. 2011&#8211;2014</string>
     <string name="versionname">Silverheels</string>
     <string name="forandroid">for Android&#8482; %1$s and up</string>
     <string name="Edition">%1$s Edition"</string>
@@ -18,6 +18,7 @@
     <string name="Title">[Title]</string>
     <string name="ScriptBody">[Body of the Rexx Script]</string>
     <string name="Done">Quit</string>
+    <string name="Import">Import</string>
     <string name="Info">Info</string>
     <string name="Save">Save</string>
     <string name="SaveAs">Save\nCopy</string>
@@ -27,7 +28,8 @@
     <string name="SaveChanges">Changes have been made.\nAre you sure to quit?"</string>
     <string name="ReallyQuit">Yes, quit anyway</string>
     <string name="CancelQuit">No, don\'t quit!</string>
-    <string name="OnItemClicked">Item clicked action...</string>
+    <string name="OnItemClicked">Item clicked action&#8230;</string>
+    <string name="FileType">type</string>
     <string name="OnItemClickedSummary">When an item is clicked in the Scripts Gallery, interpret the script, if it is valid.  To rather edit it, use long press.</string>
     <!--
     <string name="ParseRexxml">Enable REXXML</string>

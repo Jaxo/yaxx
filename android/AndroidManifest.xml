@@ -9,6 +9,7 @@
       android:minSdkVersion="8"
       android:targetSdkVersion="8"
    />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
    <!--  android:debuggable="true" -->
    <application
       android:icon="@drawable/icon"
@@ -41,6 +42,9 @@
 |           <action android:name="android.intent.action.CREATE"/>
 |        </intent-filter>
 -->
+      </activity>
+
+      <activity android:name=".FileChooser">
       </activity>
 
       <activity android:name=".Rexx">
