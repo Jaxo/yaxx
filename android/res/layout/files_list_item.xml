@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  (C) Copyright 2014 Jaxo Inc.  All rights reserved.
+  This work contains confidential trade secrets of Jaxo.
+  Use, examination, copying, transfer and disclosure to others
+  are prohibited, except with the express written agreement of Jaxo.
+-->
+
 <LinearLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_height="wrap_content"
    android:layout_width="fill_parent"
-   android:padding="5dp" >
+   android:padding="3dp"
+>
    <ImageView
       android:id="@+id/icon"
       android:contentDescription="@string/FileType"
-      android:layout_width="30dp"
-      android:layout_height="30dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
       android:layout_marginLeft="5dp"
-      android:layout_marginRight="30dp"
-      android:layout_marginTop="5dp"
-      android:src="@drawable/file_icon" >
-    </ImageView>
+      android:layout_marginRight="10dp"
+      android:src="@drawable/file_icon"
+   >
+   </ImageView>
    <TextView
       android:id="@+id/label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:singleLine="true"
-      android:layout_marginTop="5dip"
-      android:layout_marginLeft="5dip"
-      android:textSize="22sp">
+   >
    </TextView>
 </LinearLayout>

@@ -40,6 +40,7 @@ public class FileChooser extends ListActivity {
    +-------------------------------------------------------------------------*/
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      getListView().setDividerHeight(0);
       m_dirs = new Stack<File>();
       push(
          Environment.getExternalStoragePublicDirectory(
@@ -95,7 +96,9 @@ public class FileChooser extends ListActivity {
                sb.append(m_dirs.elementAt(i).getName()).append("/");
             }
             Collections.sort(list);
-            m_adapter = new FileArrayAdapter(this, R.layout.filechooser, list);
+            m_adapter = new FileArrayAdapter(
+               this, R.layout.files_list_item, list
+            );
             setListAdapter(m_adapter);
             setTitle(sb.toString());
             sb = null;
@@ -145,7 +148,7 @@ public class FileChooser extends ListActivity {
          File file = getItem(position);
          if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(
-               R.layout.filechooser, parent, false
+               R.layout.files_list_item, parent, false
             );
          }
          ((TextView)view.findViewById(R.id.label)).setText(file.getName());
