@@ -1,5 +1,6 @@
 Note: this readme is far to be finished and I hope to complete it over time&hellip;
-
+![Image](../import_feature/docs/rexxdroid.png?raw=true)
+<a href="testRel/myLib/README.md">myLib/README.md</a>
 #What is YAXX?
 One could consider YAXX as a collection of many pieces of code that have been
 developed along a period of 20 years of fun at doing programming.
@@ -34,6 +35,10 @@ Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target
 <li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
 <li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
+###Any doc?
+https://github.com/Jaxo/yaxx/blob/master/yaxx/docs/foo.md
+https://github.com/Jaxo/yaxx/blob/master/docs/foo.md
+You will find <a href="../import_feature/docs/foo.md">here</a>
 
 #Building REXX
 The libraries have been tested in several OS environments, which ascertains
