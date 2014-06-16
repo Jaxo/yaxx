@@ -27,7 +27,7 @@ if 'green', the script was validated
 <tr>
 <td><img src="rexxoid06.png"/></td>
 <td><img src="rexxoid07.png"/></td>
-<td>&nbsp;></td>
+<td>&nbsp;</td>
 </tr>
 <tr>
 <td>Running the REXX script</td>
