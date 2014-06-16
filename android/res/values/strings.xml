@@ -31,9 +31,14 @@
     <string name="OnItemClicked">Item clicked action&#8230;</string>
     <string name="FileType">type</string>
     <string name="OnItemClickedSummary">When an item is clicked in the Scripts Gallery, interpret the script, if it is valid.  To rather edit it, use long press.</string>
+    <string name="ImportFile">Import this file into Rexx Galery?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
     <!--
     <string name="ParseRexxml">Enable REXXML</string>
     <string name="ParseRexxmlSummary">When REXXML tags are found in \"Say\" clauses, parse and act upon.</string>
     -->
     <string name="Preferences">Preferences</string>
+    <string name="NotDirectory">\"%1$s\" is not a directory</string>
+    <string name="EmptyDirectory">Directory \"%1$s\" is empty</string>
 </resources>

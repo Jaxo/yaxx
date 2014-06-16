@@ -11,6 +11,9 @@
 */
 package com.jaxo.android.rexx;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,16 +22,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /*-- class ScriptsList --+
 *//**
@@ -40,6 +43,7 @@ public class ScriptsList extends ListActivity
 {
    private static final int NEW_SCRIPT_REQCODE = 0;
    private static final int EDIT_SCRIPT_REQCODE = 1;
+   private static final int IMPORT_FILE_REQCODE = 2;
 
    private static final int PREFERENCES_ID = Menu.FIRST;
    private static final int NEW_ID = Menu.FIRST + 1;
@@ -108,7 +112,10 @@ public class ScriptsList extends ListActivity
          createScript();
          return true;
       case IMPORT_ID:
-         startActivity(new Intent(this, FileChooser.class));
+         startActivityForResult(
+            new Intent(this, FileChooser.class),
+            IMPORT_FILE_REQCODE
+         );
          return true;
       case INFO_ID:
          startActivity(new Intent(this, About.class));
@@ -269,6 +276,14 @@ public class ScriptsList extends ListActivity
       int requestCode, int resultCode, Intent intent
    ) {
       super.onActivityResult(requestCode, resultCode, intent);
+      if ((requestCode == IMPORT_FILE_REQCODE) && (resultCode == RESULT_OK)) {
+         try {
+            m_rexxDb.importScript(
+               new FileReader(new File(intent.getStringExtra("filepath")))
+            );
+         }catch (IOException e) {
+         }
+      }
       refreshList();
    }
 }

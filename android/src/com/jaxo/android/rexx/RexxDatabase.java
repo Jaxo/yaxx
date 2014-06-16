@@ -14,6 +14,7 @@ package com.jaxo.android.rexx;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -192,31 +193,38 @@ public class RexxDatabase extends SQLiteOpenHelper
       return m_db.delete(SCRIPTS_TABLE_NAME, _ID + "=" + id, null) > 0;
    }
 
+   /*------------------------------------------------------------importScript-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   public void importScript(Reader input) throws IOException {
+      ContentValues values = new ContentValues();
+      BufferedReader reader = new BufferedReader(input);
+      StringBuilder bodyBuffer = new StringBuilder();
+      String bodyLine;
+      String title = reader.readLine();
+      title = title.substring(2, title.length()-2).trim();
+      while (null != (bodyLine = reader.readLine())) {
+         bodyBuffer.append(bodyLine);
+         bodyBuffer.append('\n');
+      }
+      values.put(RexxDatabase.UPDATE_DATE, new Date().getTime());
+      values.put(RexxDatabase.TITLE, title);
+      values.put(RexxDatabase.BODY, bodyBuffer.toString());
+      saveScript(null, values);
+   }
+
    /*----------------------------------------------------populateDbFromAssets-+
    *//**
    *//*
    +-------------------------------------------------------------------------*/
    public void populateDbFromAssets() throws IOException {
       AssetManager manager = m_context.getAssets();
-      ContentValues values = new ContentValues();
       String[] names = manager.list(ASSET_PATH);
       for (int i=0; i < names.length; ++i) {
-         BufferedReader reader = new BufferedReader(
+         importScript(
             new InputStreamReader(manager.open(ASSET_PATH + '/' + names[i]))
          );
-         String title = reader.readLine();
-         title = title.substring(2, title.length()-2).trim();
-         StringBuffer bodyBuffer = new StringBuffer();
-         String bodyLine;
-         while (null != (bodyLine = reader.readLine())) {
-            bodyBuffer.append(bodyLine);
-            bodyBuffer.append('\n');
-         }
-         values.put(RexxDatabase.UPDATE_DATE, new Date().getTime());
-         values.put(RexxDatabase.TITLE, title);
-         values.put(RexxDatabase.BODY, bodyBuffer.toString());
-         saveScript(null, values);
-         values.clear();
       }
    }
 

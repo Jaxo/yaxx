@@ -16,8 +16,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -59,7 +62,8 @@ public class FileChooser extends ListActivity {
       if (m_dirs.size() > 0) {
          populate();
       }else {
-         super.onBackPressed();
+         setResult(RESULT_CANCELED, new Intent());
+         finish();
       }
    }
 
@@ -77,10 +81,10 @@ public class FileChooser extends ListActivity {
    *//*
    +-------------------------------------------------------------------------*/
    private void populate() {
-      StringBuilder sb = new StringBuilder();
+      String msg = null;
       File dir = m_dirs.peek();
       if (!dir.isDirectory()) {
-         sb.append('\"').append(dir.getName()).append("\" is not a directory");
+         msg = getResources().getString(R.string.NotDirectory, dir.getName());
       }else {
          List<File> list = Arrays.asList(
             dir.listFiles(
@@ -90,8 +94,9 @@ public class FileChooser extends ListActivity {
             )
          );
          if (list.isEmpty()) {
-            sb.append("Directory \"").append(dir.getName()).append("\" is empty");
+            msg = getResources().getString(R.string.EmptyDirectory, dir.getName());
          }else {
+            StringBuilder sb = new StringBuilder();
             for (int i=0, max=m_dirs.size(); i < max; ++i) {
                sb.append(m_dirs.elementAt(i).getName()).append("/");
             }
@@ -101,12 +106,9 @@ public class FileChooser extends ListActivity {
             );
             setListAdapter(m_adapter);
             setTitle(sb.toString());
-            sb = null;
          }
       }
-      if (sb != null) {
-         Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
-      }
+      if (msg != null) Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
    }
 
    @Override
@@ -128,11 +130,24 @@ public class FileChooser extends ListActivity {
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   private void onFileChosen(File file) {
-      Toast.makeText(
-         this, "chosen file: " + file.getName(),
-         Toast.LENGTH_SHORT
-      ).show();
+   private void onFileChosen(final File file) {
+      new AlertDialog.Builder(this).
+      setMessage(R.string.ImportFile).
+      setCancelable(false).
+      setPositiveButton(
+         R.string.Yes,
+         new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent();
+                intent.putExtra("filepath", file.getAbsolutePath());
+                setResult(RESULT_OK, intent);
+                dialog.cancel();
+                finish();
+             }
+         }
+      ).
+      setNegativeButton(R.string.No, null).
+      show();
    }
 
    /*------------------------------------------------ class FileArrayAdapter -+
