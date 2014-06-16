@@ -54,8 +54,9 @@ public class FileChooser extends ListActivity {
    *//*
    +-------------------------------------------------------------------------*/
    public void onBackPressed() {
-      if (m_dirs.size() > 1) {
-         populate(m_dirs.pop());
+      m_dirs.pop();
+      if (m_dirs.size() > 0) {
+         populate();
       }else {
          super.onBackPressed();
       }
@@ -66,34 +67,43 @@ public class FileChooser extends ListActivity {
    *//*
    +-------------------------------------------------------------------------*/
    private void push(File dir) {
-      populate(dir);
       m_dirs.push(dir);
+      populate();
    }
 
    /*----------------------------------------------------------------populate-+
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   private void populate(File dir) {
+   private void populate() {
+      StringBuilder sb = new StringBuilder();
+      File dir = m_dirs.peek();
       if (!dir.isDirectory()) {
-         return;
-      }
-//    setTitle("Current Dir: " + dir.getName());
-      List<File> list = Arrays.asList(
-         dir.listFiles(
-            new FileFilter() {
-               public boolean accept(File file) {
-                  return true;
+         sb.append('\"').append(dir.getName()).append("\" is not a directory");
+      }else {
+         List<File> list = Arrays.asList(
+            dir.listFiles(
+               new FileFilter() {
+                  public boolean accept(File file) { return true; }
                }
+            )
+         );
+         if (list.isEmpty()) {
+            sb.append("Directory \"").append(dir.getName()).append("\" is empty");
+         }else {
+            for (int i=0, max=m_dirs.size(); i < max; ++i) {
+               sb.append(m_dirs.elementAt(i).getName()).append("/");
             }
-         )
-      );
-      if (list.isEmpty()) {
-         return;
+            Collections.sort(list);
+            m_adapter = new FileArrayAdapter(this, R.layout.filechooser, list);
+            setListAdapter(m_adapter);
+            setTitle(sb.toString());
+            sb = null;
+         }
       }
-      Collections.sort(list);
-      m_adapter = new FileArrayAdapter(this, R.layout.filechooser, list);
-      setListAdapter(m_adapter);
+      if (sb != null) {
+         Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
+      }
    }
 
    @Override
