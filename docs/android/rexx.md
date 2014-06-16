@@ -32,8 +32,8 @@ if 'green', the script was validated
 <tr>
 <td>Running the REXX script</td>
 <td>From the options, "import" lets you<br/>
-get a REXX script you downloaded<br/>
-(using, for example, a mail attachment)
+import a REXX script you downloaded<br/>
+(for example, in a mail attachment)
 <td>&nbsp;</td>
 </tr>
 </table>
