@@ -21,7 +21,7 @@ if 'green', the script was validated
 <tr>
 <td>A long press on an item<br/>and the context menu pops up</td>
 <td>Press on the menu bar<br/>to show options</td>
-<td>Tap on an item</br/>to edit the script<br/>
+<td>Tap on an item<br/>to edit the script</td>
 </tr>
 <tr><td colspan="3"><hr/></td></tr>
 <tr>
