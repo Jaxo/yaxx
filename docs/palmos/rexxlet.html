@@ -1,0 +1,223 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Rexx for Palm OS Rexxlets(tm)</title>
+</head>
+
+<body>
+
+<p><a href="../index.html">back to Rexx for Palm OS</a></p>
+
+<h2><font face="Georgia">Rexxlets™</font></h2>
+
+<p><font face="Georgia">As <a href="../intro.html#rexxlets">mentioned in the
+introduction</a>, Rexxlets are <i>ordinary</i> Rexx scripts and procedures that you can
+be launched anytime, anywhere, at the
+  swipe of your pen, while not having to switch out of your currently running Palm
+  OS application.&nbsp; Combined with the expressive power of <a href="../intro.html#url">URL
+streams</a>, Rexxlets are intended as both popup utilities as well as a way to
+glue together and hyperlink thousands of existing Palm OS
+applications and databases, since Rexxlets can transfer, read, and write data
+among
+applications and databases.</font></p>
+
+<p><font face="Georgia">Rexxlets can be launched in a variety of ways.&nbsp;
+They're launched by way of either a system extension (&quot;hack&quot;) on Palm
+OS 3.x and 4.x, or system notifications on Palm OS 5.x, and allow you to assign custom pen strokes to Rexx
+scripts.&nbsp; In the future they
+can be launched from a menu or from application icons.</font></p>
+
+<p><font face="Georgia">The following section describes how to configure
+Rexxlets.&nbsp; Insiructions involving a system extension manager, such as
+X-Master, only apply to Palm OS 3.x and 4.x users.&nbsp; Palm OS 5.x users can
+simply start the Rexxlet application.&nbsp; The configuration instructions are
+then the same for both.</font></p>
+
+<p><font face="Georgia"> It is assumed that you are familiar with
+what was discussed in the <a href="../download.html#rexxlet">Rexxlet section</a>
+of the download and installation instructions page and that you already have a
+system extension manager installed.</font></p>
+
+<h3><font face="Georgia"><a name="Enabling">Enabling Rexxlets</a></font></h3>
+
+<p><font face="Georgia">To use Rexxlets, you will first need to make sure that the Rexxlet
+extension is enabled in whichever extension manager you are using.&nbsp; If you
+are using X-Master, then the main screen will look something like this, with the
+check in the checkbox next to &quot;RexxletHack 1.0&quot; indicating that the
+Rexxlet extension is enabled.</font></p>
+
+<div align="left">
+  <table border="1" width="168" height="163">
+    <tr>
+      <td width="168" height="163"><img border="0" src="../../images/rexxletx.gif" width="160" height="160"> </td>
+    </tr>
+  </table>
+</div>
+
+<h3><font face="Georgia"><a name="Configuring">Configuring Rexxlets</a></font></h3>
+
+<p><font face="Georgia">To configure Rexxlets, you need to use the &quot;configure&quot; command from
+whichever extension manager you are using.&nbsp; If you
+are using X-Master, then the configure command is on a button labelled <b>Configure</b>
+in X-Master's main screen, as just shown in the <a href="#Enabling">Enabling Rexxlets</a>
+section.&nbsp; Note that Rexxlets can be configured without the Rexxlet
+extension being enabled, and this is perfectly legitimate.</font></p>
+
+<p><font face="Georgia">The Rexxlet configuration screen looks like this.&nbsp;&nbsp;</font></p>
+
+<div align="left">
+  <table border="1" width="159" height="157">
+    <tr>
+      <td width="159" height="157"><img border="0" src="../../images/rexxletconfig.gif" width="160" height="160"></td>
+    </tr>
+  </table>
+</div>
+
+<p><font face="Georgia"> It is intended to be
+used by first selecting a pen stroke combination from the popup lists under the labels <b>From</b> and <b>To</b>, and then setting the Rexxlet options
+for that pen stroke.&nbsp; As you select a different <i> from</i> and <i> to</i> pen location,
+the options will indicate their corresponding current settings for that
+particular pen stroke.&nbsp; Please see the meaning of the <b>OK</b>, <b>Defaults</b>,
+and <b>Cancel</b> buttons below so that you understand: when any and all your
+settings are saved, how to revert them back to the factory defaults, and how to
+cancel and revert them back to the last saved settings.&nbsp;</font></p>
+
+<p><font face="Georgia">The Rexxlet configuration screen, titled
+RexxletHack Prefs by convention, contains the following items.</font></p>
+
+<ul>
+  <li><a href="#CustomStroke"><font face="Georgia">Custom Stroke</font></a></li>
+  <li><a href="#Isthecustomstrokeenabled"><font face="Georgia">Is the custom stroke enabled?</font></a></li>
+  <li><a href="#URL"><font face="Georgia">URL</font></a></li>
+  <li><a href="#Args"><font face="Georgia">Args</font></a></li>
+  <li><a href="#Copyandpasteresult"><font face="Georgia">Copy and paste result?</font></a></li>
+  <li><a href="#Pauseonreturn"><font face="Georgia">Pause on return?</font></a></li>
+  <li><a href="#OK"><font face="Georgia">OK</font></a></li>
+  <li><a href="#Defaults"><font face="Georgia">Defaults</font></a></li>
+  <li><a href="#Cancel"><font face="Georgia">Cancel</font></a></li>
+</ul>
+
+<h4 style="margin-bottom: 0"><a name="CustomStroke"><font face="Georgia">Custom Stroke</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you to select the custom pen stroke
+to associate with a Rexx script.&nbsp; There are currently eight (8) custom pen strokes
+supported, the four (4) &quot;soft&quot; buttons (<font color="#EE0518">red</font>
+ areas on the <a href="http://www.palmgear.com/software/showsoftware.cfm?sid=39595220020622050052&amp;prodID=2806">PacMan</a>
+screen below) labelled <b>App</b>, <b>Menu</b>, <b>Calc</b>, and <b>Find</b>, in
+combination with either the Graffiti area (<font color="#18F915">green</font>
+area) or the display area (<font color="#E807F6">purple</font> area).</font></p>
+<p><img border="0" src="../../images/screenareas.jpg" width="233" height="368"></p>
+<h4 style="margin-bottom: 0"><a name="Isthecustomstrokeenabled"><font face="Georgia">Is the custom stroke enabled?</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you selectively enable or disable certain
+pen strokes.&nbsp; Disabling a pen stroke is not only useful if have no Rexx
+script assigned to it, but is also useful if you don't want it to interfere with
+another application that might try to use the same pen stroke or if you simply
+want to disable it but keep its configuration settings.</font></p>
+<h4 style="margin-bottom: 0"><a name="URL"><font face="Georgia">URL?</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you to use a URL to specify which Rexx
+script is associated with the pen stroke.&nbsp; In addition to the <i><a href="urlio.html#dm">dm:</a></i>
+and <i><a href="urlio.html#file">file:</a></i> schemes, you can also use <i>
+console:in</i> and <i> clipboard:in</i> as discussed <a href="urlio.html#consolein">here</a>
+to refer to an input console (where you can enter a script) or the clipboard
+(where a script exists), respectively.&nbsp; And, as mentioned <a href="../download.html#defaults">here</a>, examples of some of these
+are preconfigured.</font></p>
+<p style="margin-top: 0"><font face="Georgia">A blank URL, or <b>?</b>, will cause a dialog to pop up
+that will allow you to enter a URL when you use the pen stroke .</font></p>
+<p style="margin-top: 0"><font face="Georgia">Although not yet implemented, or even fully designed,
+fragment identifiers on URLs can also be used in this context to denote a
+particular procedure within a Rexx script.&nbsp;&nbsp;</font></p>
+<ol>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia">Fragment identifiers on <i>file:</i> URLs can
+    possibly be useful if you want to create a single file as a repository for
+    Rexxlets procedures, where the file would be referenced like this, <i>file:///MyRexxlets</i>,
+    and the procedure within it like this, <i>file:///MyRexxlets#qt</i>.&nbsp;&nbsp;&nbsp;</font></li>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia">Fragment identifiers on <i>dm:</i> URLs can
+    possibly be useful if you want to reference scripts by some conventional
+    naming scheme, rather than by a record number, which can be hard to use and
+    prone to errors.&nbsp; For example, if you identify each script in MemoPad
+    by entering the first line of the script in a format like this,<br>
+    </font><font face="Courier New">
+    <font size="2">&nbsp;&nbsp;&nbsp;</font>  <font face="Courier New" size="2">/*<i>name</i>*/<br>
+    </font></font><font face="Georgia">then it may be possible to reference the script by name, <i>dm:///MemoDB/Rexx/#name</i>,
+    rather than by number, <i>dm:///MemoDB/Rexx/3</i>.</font></li>
+</ol>
+<h4 style="margin-bottom: 0"><a name="Args"><font face="Georgia">Args?</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you to specify the source arguments for the
+Rexx script, i.e., Rexx's PARSE ARG.&nbsp; You can specify one of the following.</font> </p>
+<ul>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia"><b>None</b> for no arguments.</font></li>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia"><b>Clipboard</b> to use the contents of the
+    clipboard at the time the Rexxlet is launched.</font></li>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia"><b>Popup</b> to pop up a dialog that will allow you
+    to enter the arguments at the time the Rexxlet is launched.</font></li>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia"><b>Selection</b> to use the current selection in
+    the current field in the currently running application at the time the
+    Rexxlet is launched.&nbsp; This is a key mechanism for hyperlinking Palm OS
+    applications and databases.</font></li>
+</ul>
+<h4 style="margin-bottom: 0"><a name="Copyandpasteresult"><font face="Georgia">Copy and paste result?</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you to specify whether or not you want to
+have the result that's returned from the Rexx script (<i>Rexx's RESULT, not the
+contents of the Rexxlet console</i>) automatically copied to the clipboard and
+then pasted into the current field in the currently running application at the
+time the Rexxlet is launched.&nbsp;&nbsp;</font> </p>
+<p style="margin-top: 0"><font face="Georgia">See <a href="../intro.html#expense">here</a> for an
+example of how effectively this can be utilized.</font> </p>
+<h4 style="margin-bottom: 0"><a name="Pauseonreturn"><font face="Georgia">Pause on return?</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">This allows you to specify whether or not you want to
+cause a pause when the Rexx script is done before returning to the application
+from which the Rexxlet was launched.&nbsp; Pausing on return will be done in own
+of two (2) ways, depending on whether or not the the Rexx script performs
+console I/O.</font> </p>
+<ol>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia">If the Rexx script performs console I/O—and
+    thus causes the Rexxlet console to be displayed when the Rexx script is
+    being run—then pausing on return
+    will be done by way of a <b>Return</b> button on the Rexxlet's console that
+    you will have to press to return to the launching application.&nbsp;&nbsp;</font></li>
+  <li>
+    <p style="margin-top: 0"><font face="Georgia">If the Rexx script performs no console I/O—and
+    thus no Rexxlet console will be displayed—then
+    pausing on return
+    will be done by way of a separate dialog box that pops up that you will
+    have to dismiss to return to the launching application.</font></li>
+</ol>
+<p style="margin-top: 0"><font face="Georgia">Note that if the Rexxlet does not pause on return or
+copy and paste its results, and your Rexx script performs no console I/O, you
+may have no indication that the Rexxlet was launched and the Rexx script
+ran.&nbsp;</font></p>
+<p style="margin-top: 0"><font face="Georgia">Also note that you can choose not to pause on return,
+but achieve the same behavior by performing a PARSE PULL in your Rexx script
+just before the script returns.</font></p>
+
+<h4 style="margin-bottom: 0"><a name="OK"><font face="Georgia">OK</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">The <b>OK</b> button will save <i>all</i> the current
+settings and exit back to the system extension manager's main screen.&nbsp; This
+is the only way to save any and all settings.&nbsp; As you make changes on the
+form, and switch among <i>from/to</i> pen stroke combinations, all of your
+changes are remembered until you save them.&nbsp; If you press Cancel, all the
+settings you made since the last time you saved them will be lost.</font> </p>
+<h4 style="margin-bottom: 0"><a name="Defaults"><font face="Georgia">Defaults</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">The <b>Defaults</b> button will make changes to all the
+settings so as to revert them back to their &quot;factory&quot; defaults, as set
+when you installed the Rexxlet extension.&nbsp; This button does not cause the
+RexxletHack Prefs dialog to exit because these defaults settings are not saved
+until you press OK.&nbsp; If you press Cancel, all these default settings as well as
+any additional ones you made will be lost.</font> </p>
+<h4 style="margin-bottom: 0"><a name="Cancel"><font face="Georgia">Cancel</font></a></h4>
+<p style="margin-top: 0"><font face="Georgia">The Cancel button will simply exit back to the system
+extension manager's main screen.&nbsp; All the changes you made since the last
+time you saved them will be lost.</font> </p>
+
+</body>
+
+</html>
