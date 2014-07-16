@@ -1,0 +1,7 @@
+This directory contains our internal tests.
+These are built using: MakeInternalPDB
+
+Note that all these test are quite close to what's in:
+../../../tests
+Not enough close, though.
+We plan to merge them... later.

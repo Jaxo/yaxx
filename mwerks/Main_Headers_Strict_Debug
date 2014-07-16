@@ -1,0 +1,48 @@
+/* $Id: Main_Headers_Strict_Debug,v 1.9 2002/11/25 18:09:45 jlatone Exp $ */
+
+#define __POLNew_H__  // To avoid POL's definitions of new().
+
+#include "POL40ExDL.pch++"
+
+#define YAXX_ALIGN_PCODE
+
+#define __MWERKS_NEEDS_REALLOC_FIX__
+#define __MWERKS_NEEDS_MEMCMP_FIX__
+#define __MWERKS_NEEDS_SPRINTF_FIX__
+
+#if (__MWERKS__ == 0x3003) 
+/* CW 9 */
+
+#elif (__MWERKS__ == 0x2407)
+/* CW 8 */
+#define __MWERKS_NEEDS_CTYPE_FIX__
+
+#else
+#error Unknown version of CW.
+#endif
+
+// needed for dcl of std::cin, etc...
+#define _MSL_NO_IO
+
+// for cw static array init bug (not clearing/reusing stack space)
+// define only one of these
+#define __MWERKS_NEEDS_STATICINIT_FIX1__        // uses a pragma
+#undef __MWERKS_NEEDS_STATICINIT_FIX2__         // uses a static init function
+
+#define COM_JAXO_YAXX_DENY_MATH
+#define COM_JAXO_DENY_UCS_TABLES
+
+#define COM_JAXO_YAXX_DENY_XML
+
+#define MWERKS_NEEDS_ADDR_FIX           /* ADDRESS 'PalmOS' */
+#define MWERKS_NEEDS_ENC_FIX            /* encodings & encoding-related */
+#define MWERKS_NEEDS_SIG_FIX           /* signal handling & raise */
+
+#ifdef COM_JAXO_YAXX_DENY_XML
+#define MWERKS_NEEDS_DTD_FIX          /* the cached html dtd */
+#define MWERKS_NEEDS_Q_FIX             /* not sure...seem to be related to output and op<< */
+#endif
+
+#pragma stack_cleanup on
+
+/*===========================================================================*/
