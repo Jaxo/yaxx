@@ -38,18 +38,14 @@ JConsole::JConsole(JNIEnv * env, jobject console)
       m_getMethod = env->GetMethodID(clazz, "get", "()I");
       m_systemMethod = env->GetMethodID(clazz, "system", "([Ljava/lang/String;)I");
       m_resultField = env->GetFieldID(clazz, "m_result", "Ljava/lang/String;");
-      m_errMessageField = env->GetFieldID(clazz, "m_errMessage", "Ljava/lang/String;");
-      if (
-         m_putMethod && m_getMethod && m_systemMethod &&
-         m_resultField && m_errMessageField
-      ) {
+      if (m_putMethod && m_getMethod && m_systemMethod && m_resultField) {
          m_console = console; // env->NewWeakGlobalRef(console);
          m_previousInStreambuf = SystemContext::cin().rdbuf();
          m_previousOutStreambuf = SystemContext::cout().rdbuf();
          m_previousErrStreambuf = SystemContext::cerr().rdbuf();
          SystemContext::cin().rdbuf(this);
          SystemContext::cout().rdbuf(this);
-         SystemContext::cerr().rdbuf(&m_errBuf);
+         SystemContext::cerr().rdbuf(this);
       }
       // env->DeleteLocalRef(clazz);
    }
@@ -63,17 +59,7 @@ JConsole::~JConsole() {
       // m_env->DeleteWeakGlobalRef(m_console);
       SystemContext::cin().rdbuf(m_previousInStreambuf);
       SystemContext::cout().rdbuf(m_previousOutStreambuf);
-      SystemContext::cerr() << (char)0;
       SystemContext::cerr().rdbuf(m_previousErrStreambuf);
-      char const * errMessage = m_errBuf.str();
-      if (errMessage) {
-         m_env->SetObjectField(
-            m_console,
-            m_errMessageField,
-            m_env->NewStringUTF(errMessage)
-         );
-         delete[] errMessage;
-      }
       m_console = 0;
    }
 }
@@ -177,7 +163,7 @@ void JConsole::setResult(char const * result) {
    if (result) {
       m_env->SetObjectField(
          m_console,
-         m_errMessageField,
+         m_resultField,
          m_env->NewStringUTF(result)
       );
    }

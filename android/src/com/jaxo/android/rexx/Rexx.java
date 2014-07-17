@@ -75,7 +75,6 @@ public class Rexx extends Activity
                   if (rc == 0) {
                      resultCode = RESULTCODE_OK;
                   }else {
-                     intent.putExtra(REXX_MESSAGE_KEY, m_console.m_errMessage);
                      intent.putExtra(REXX_ERRORCODE_KEY, rc);
                      if (rc == -1) {
                         resultCode = RESULTCODE_EXCEPTION_THROWN;
