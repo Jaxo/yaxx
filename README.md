@@ -34,7 +34,7 @@ Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target
 <li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
 <li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
-The name of the latest version is "*Hagerman Peak*".
+Code name of the latest version is "*Horseshoe*".
 
 ####Importing my beloved REXX scripts
 Insert a comment in the first line of each script, with a couple of words identifying the script.
