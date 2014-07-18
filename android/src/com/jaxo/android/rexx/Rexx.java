@@ -66,7 +66,13 @@ public class Rexx extends Activity
          new Thread(
             new Runnable() {
                public void run() {
-                  final int rc = interpret(content, m_console, m_speaker);
+                  final int rc = interpret(
+                     content,
+                     m_console,
+                     "file:///" +
+                     getBaseContext().getFilesDir().getAbsolutePath() + "/",
+                     m_speaker
+                  );
                   int resultCode;
                   m_speaker.close();
                   m_console.flush();
@@ -101,6 +107,7 @@ public class Rexx extends Activity
    public native int interpret(
       String script,
       RexxConsole console,
+      String baseUri,
       Speaker speaker
    );
 }

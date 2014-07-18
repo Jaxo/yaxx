@@ -49,6 +49,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    jobject thiz,
    jstring script,
    jobject console,
+   jstring baseUri,
    jobject speaker
 ) {
    LOGI("Starting interpret");
@@ -59,9 +60,11 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    | Extra SchemeHandler's can be added
    | see yaxx/yaxx/main.cpp and yaxx/mwerks/irexx2 for examples
    */
+   char const * pBaseUri = env->GetStringUTFChars(baseUri, 0);
    SystemContext context(
       android_system,
-      0, // "file://"
+      pBaseUri,
+      StdFileSchemeHandler(),
       SpeakerSchemeHandler(env, speaker)
    );
    JConsole jconsole(env, console);
@@ -93,6 +96,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       rc = -1;
    }
    env->ReleaseStringUTFChars(script, pScript);
+   env->ReleaseStringUTFChars(baseUri, pBaseUri);
    LOGI("Done interpreting. RC is %d", rc);
    return rc;
 }
