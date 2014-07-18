@@ -17,10 +17,15 @@ using std::filebuf;
 using std::iostream;
 using std::istream;
 using std::ostream;
+using std::ifstream;
+using std::ofstream;
 using std::streamoff;
 using std::streampos;
 using std::streamsize;
 using std::ios;
+using std::endl;
+using std::cout;
+using std::cin;
 using std::basic_istream;
 using std::basic_ostream;
 #define ios__openmode ios::openmode

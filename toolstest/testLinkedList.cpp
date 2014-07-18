@@ -1,8 +1,10 @@
 /* $Id: testLinkedList.cpp,v 1.2 2002-05-25 10:51:06 pgr Exp $ */
 
 // this sample shows a simple linked list
-#include <iostream.h>
+#include <iostream>
 #include <string.h>
+#define ISO_14882   // please, don't ask me why (string?)
+#include "../toolslib/migstream.h"
 #include "../toolslib/LinkedList.h"
 
 /*-------------------------------------------------------------- class Chose -+

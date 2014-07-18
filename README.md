@@ -34,6 +34,21 @@ Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target
 <li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
 <li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
+The name of the latest version is "*Hagerman Peak*".
+
+####Importing my beloved REXX scripts
+Insert a comment in the first line of each script, with a couple of words identifying the script.
+
+Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
+Start REXX and press to the (hardware) left button on your phone.  In the options menu, choose import.
+
+####Any doc?
+No real detailed documentation. After all, Rexx is &hellip; Rexx,
+a well documented programming language and the Rexxoid application
+should be enough intuitive to get you up and running quite immediately.
+Nevertheless, you will find <a href="docs/android/rexx.md">here</a>
+a series of screenshots describing in short how Rexx shows up
+on an Android device.
 
 #Building REXX
 The libraries have been tested in several OS environments, which ascertains

@@ -6,7 +6,7 @@
 
 
 #include <string.h>
-#include <fstream.h>
+#include <fstream>
 #include "../toolslib/SystemContext.h"
 #include "../toolslib/MemStream.h"
 #include "../toolslib/StringBuffer.h"

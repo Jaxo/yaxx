@@ -204,7 +204,7 @@ int MemStreamBuf::underflow()
       return myZapeof(*gptr());
 
    }
-   return EOF;
+   return -1; // EOF
 }
 
 /*-------------------------------------------------------MemStreamBuf::freeze-+
@@ -230,8 +230,8 @@ void MemStreamBuf::freeze(int iFreeze)
 +----------------------------------------------------------------------------*/
 int MemStreamBuf::overflow(int c)
 {
-   if (bFrozen || !reallocate(blen() + iExtend) || (c == EOF)) {
-      return EOF;
+   if (bFrozen || !reallocate(blen() + iExtend) || (c == -1)) { // EOF
+      return -1; // EOF
    }else {
       sputc(c);
       return myZapeof(c);
@@ -297,16 +297,14 @@ streampos MemStreamBuf::seekoff(
    ios::seekdir dir,
    ios__openmode om
 ) {
-   streampos ret = EOF;
+   streampos ret = -1; // EOF
    if (om & ios::in) {
       ret = seekIn(so, dir);
-//    if (ret == EOF) return EOF;      Unix chokes on this one
-      if (ret < 0) return EOF;
+      if (ret < 0) return -1; // EOF? -> EOF
    }
    if (om & ios::out) {
       ret = seekOut(so, dir);
-//    if (ret == EOF) return EOF;      Unix chokes on this one
-      if (ret < 0) return EOF;
+      if (ret < 0) return -1; // EOF? -> EOF
    }
    return ret;
 }
@@ -332,7 +330,7 @@ streampos MemStreamBuf::seekIn(streamoff so, ios::seekdir dir)
       setg(base(), newPtr, pptr());
       return newPtr - base();
    }
-   return EOF;
+   return -1; // EOF
 }
 
 /*------------------------------------------------------MemStreamBuf::seekOut-+
@@ -352,7 +350,7 @@ streampos MemStreamBuf::seekOut(streamoff so, ios::seekdir dir)
       }
       if (newPtr >= gptr()) {
          if (newPtr > ebuf()) {
-            if (!reallocate(newPtr - base())) return EOF;
+            if (!reallocate(newPtr - base())) return -1; // EOF
             newPtr = epptr();
          }
          setp(base(), ebuf());     // setp(newPtr, ebuf());
@@ -361,7 +359,7 @@ streampos MemStreamBuf::seekOut(streamoff so, ios::seekdir dir)
          return newPtr - base();
       }
    }
-   return EOF;
+   return -1; // EOF
 }
 
 /*------------------------------------------------------MemStreamBuf::seekpos-+

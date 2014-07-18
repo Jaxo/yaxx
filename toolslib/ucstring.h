@@ -648,7 +648,7 @@ public:
 private:
    int peek(int offset) {
       int peeked = ucs[offset + skipped];
-      if (!peeked) peeked = EOF;  // EOF_SIGNAL;
+      if (!peeked) peeked = -1;  // EOF_SIGNAL;
       return peeked;
    }
    int skip(int iToSkip) {

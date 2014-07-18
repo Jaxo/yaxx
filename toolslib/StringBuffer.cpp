@@ -45,7 +45,7 @@ void StringBuffer::append(streambuf & sb)
    do {
       ensureCapacity(m_count + INCRMT);
       m_count += sb.sgetn(m_value+m_count, INCRMT);
-   }while (sb.sgetc() != EOF);
+   }while (sb.sgetc() != -1); // EOF
 }
 
 /*-------------------------------------------------------StringBuffer::append-+
@@ -58,7 +58,7 @@ void StringBuffer::append(streambuf & sb, int ncount)
    ensureCapacity(ncount);
    do {
       m_count += sb.sgetn(m_value+m_count, ncount-m_count);
-   }while ((m_count < ncount) && (sb.sgetc() != EOF));
+   }while ((m_count < ncount) && (sb.sgetc() != -1)); // EOF
 }
 
 /*-------------------------------------------------------StringBuffer::append-+
@@ -67,7 +67,7 @@ void StringBuffer::append(streambuf & sb, int ncount)
 void StringBuffer::append(streambuf & sb, char delim)
 {
    int c;
-   while (EOF != (c=sb.sbumpc())) {
+   while (-1 != (c=sb.sbumpc())) { // EOF
       if (c == delim) {
          sb.sputbackc(c);
          break;
@@ -82,7 +82,7 @@ void StringBuffer::append(streambuf & sb, char delim)
 void StringBuffer::append(streambuf & sb, int ncount, char delim)
 {
    int c;
-   while (ncount-- && (EOF != (c=sb.sbumpc()))) {
+   while (ncount-- && (-1 != (c=sb.sbumpc()))) { // EOF
       if (c == delim) {
          sb.sputbackc(c);
          break;

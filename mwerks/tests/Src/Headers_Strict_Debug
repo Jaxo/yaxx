@@ -1,0 +1,2 @@
+#define _MSL_NO_IO
+#include "PalmOS_Headers_Strict_Debug"

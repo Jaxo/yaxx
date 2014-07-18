@@ -1,0 +1,1983 @@
+<html>
+<!-- $Id: filesAndDBs.html,v 1.1 2006-09-18 15:35:58 pgr Exp $ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Files, Databases, and Other Palm Resources</title>
+</head>
+
+<body>
+
+<p><a href="../index.html">back to Rexx for Palm OS</a></p>
+
+<p>
+<font color=blue><b>
+October 28th, 2002.&nbsp;&nbsp;This tutorial has been upgraded
+to include the series of new URL's that have been added since
+revision 0.1.256.&nbsp;
+This it is not totally finished.&nbsp;
+More explanations are needed -- such as for the TCP/IP scheme.&nbsp;
+We will complete it as soon as possible.
+</b></font>
+
+<h1><font face="Georgia">Files, Databases, and Other Resources</font></h1>
+
+<p><font face="Georgia">
+This tutorial is intended for <i>Rexx For Palm OS</i> developers
+that need to better understand how to deal with files, databases,
+and other resources of the Palm.&nbsp;
+However, to help Rexx beginners, short explanations follow each Rexx
+script so we hope no specific level in Rexx is required.
+<br>
+The distribution ZIP file contains the latest RexxDB.PDB in which you
+will find the source of all these examples, among many others.&nbsp;
+<br>
+If you notice any errors, please let us know.
+</font>
+
+<p><hr><p>
+<h2>Table of Contents</h2>
+<ul><font face="Georgia">
+<li><a name="TOC01" href="#SEC1">1.&nbsp;&nbsp;A Brief Reminder of Rexx IO</a>
+<li><a name="TOC02" href="#SEC2">2.&nbsp;&nbsp;Working with Databases</a>
+<ul>
+<li><a name="TOC03" href="#SEC21">2.1&nbsp;&nbsp;Displaying a Memo</a>
+<li><a name="TOC04" href="#SEC22">2.2&nbsp;&nbsp;Syntax of a Database URL</a>
+<li><a name="TOC05" href="#SEC23">2.3&nbsp;&nbsp;Accessing Database Records</a>
+<li><a name="TOC06" href="#SEC24">2.4&nbsp;&nbsp;Searching for a RexxDB Record</a>
+<ul>
+<li><a name="TOC07" href="#SEC241">2.4.1&nbsp;&nbsp;Format of RexxDB records</a>
+<li><a name="TOC08" href="#SEC242">2.4.2&nbsp;&nbsp;Search A Rexx</a>
+<li><a name="TOC09" href="#SEC243">2.4.3&nbsp;&nbsp;The "Stream" Built-In</a>
+</ul>
+<li><a name="TOC10" href="#SEC25">2.5&nbsp;&nbsp;Writing a MemoDB Record</a>
+<li><a name="TOC11" href="#SEC26">2.6&nbsp;&nbsp;From DB to DB</a>
+<li><a name="TOC12" href="#SEC27">2.7&nbsp;&nbsp;Run A Rexx</a>
+<li><a name="TOC13" href="#SEC28">2.8&nbsp;&nbsp;Writing to a new Database</a>
+</ul>
+<li><a name="TOC14" href="#SEC3">3.&nbsp;&nbsp;Working with Filestreams</a>
+<ul>
+<li><a name="TOC15" href="#SEC31">3.1&nbsp;&nbsp;Writing and Reading FileStreams</a>
+<li><a name="TOC16" href="#SEC32">3.2&nbsp;&nbsp;Syntax of a Filestream URL</a>
+<li><a name="TOC17" href="#SEC33">3.3&nbsp;&nbsp;Deleting a FileStream (or a Database record)</a>
+</ul>
+<li><a name="TOC18" href="#SEC4">4.&nbsp;&nbsp;Mixing Databases and Filestreams</a>
+<ul>
+<li><a name="TOC19" href="#SEC41">4.1&nbsp;&nbsp;Memo2File</a>
+<li><a name="TOC20" href="#SEC42">4.2&nbsp;&nbsp;File2Memo</a>
+<li><a name="TOC21" href="#SEC43">4.3.&nbsp;&nbsp;A Full Example</a>
+</ul>
+<li><a name="TOC22" href="#SEC5">5.&nbsp;&nbsp;Beaming (IrDA communication)</a>
+<ul>
+<li><a name="TOC23" href="#SEC51">5.1&nbsp;&nbsp;Syntax of the Beamer URL</a>
+<li><a name="TOC24" href="#SEC52">5.2&nbsp;&nbsp;Talk2Beamer Example</a>
+</ul>
+<li><a name="TOC25" href="#SEC6">6.&nbsp;&nbsp;Accessing a TCP/IP Port</a>
+<ul>
+<li><a name="TOC26" href="#SEC61">6.1&nbsp;&nbsp;Syntax of a TCP/IP URL</a>
+<li><a name="TOC27" href="#SEC62">6.2&nbsp;&nbsp;Talk2TcpIp Example</a>
+<ul>
+<li><a name="TOC28" href="#SEC621">6.2.1&nbsp;&nbsp;Setting up the Server</a>
+<li><a name="TOC29" href="#SEC622">6.2.2&nbsp;&nbsp;Setting up the Handheld Client</a>
+<li><a name="TOC31" href="#SEC623">6.2.3&nbsp;&nbsp;A TCP/IP PC Server Application Sample</a>
+<li><a name="TOC30" href="#SEC624">6.2.4&nbsp;&nbsp;Talk2TcpIp</a>
+</ul>
+</ul>
+<li><a name="TOC32" href="#SEC7">7.&nbsp;&nbsp;Accessing the Serial Interface</a>
+<ul>
+<li><a name="TOC33" href="#SEC71">7.1&nbsp;&nbsp;Syntax of the Serial URL</a>
+<li><a name="TOC34" href="#SEC72">7.2&nbsp;&nbsp;Talk2Serial Example</a>
+</ul>
+<li><a name="TOC35" href="#SEC8">8.&nbsp;&nbsp;Playing MIDI sounds</a>
+<ul>
+<li><a name="TOC36" href="#SEC81">8.1&nbsp;&nbsp;Syntax of the MIDI URL</a>
+<li><a name="TOC37" href="#SEC82">8.2&nbsp;&nbsp;PlayMidi Example</a>
+</ul>
+</ul>
+<HR>
+<p><font face="Georgia">
+We suggest you to install the latest RexxDB.PDB on your handheld,
+and experiment each example as the tutorial goes on.
+<p>
+<font color=red>
+These samples will *not* work with any release of
+<i>Rexx For Palm OS</i> before 0.1.266&nbsp;
+</b>
+</font>
+<p>
+<table>
+<tr>
+<td valign=top>
+<ul>
+<li><a href="#ShowFirstMemo">ShowFirstMemo</a>
+<li><a href="#ShowMemo">ShowMemo</a>
+<li><a href="#SearchARexx">SearchARexx</a>
+<li><a href="#WriteMemo">WriteMemo</a>
+<li><a href="#Rexx2Memo">Rexx2Memo</a>
+<li><a href="#GetARexx">GetARexx</a>
+<li><a href="#RunARexx">RunARexx</a>
+<li><a href="#LoadRexxDB">LoadRexxDB</a>
+</ul>
+</td>
+<td valign=top>
+<ul>
+<li><a href="#DeleteRecord">DeleteRecord</a>
+<li><a href="#ShowFile">ShowFile</a>
+<li><a href="#Append2File">Append2File</a>
+<li><a href="#DeleteFile">DeleteFile</a>
+<li><a href="#Memo2File">Memo2File</a>
+<li><a href="#File2Memo">File2Memo</a>
+<li><a href="#ReplaceWordsInFile">ReplaceWordsInFile</a>
+<li><a href="#Talk2Beamer">Talk2Beamer</a>
+</ul>
+</td>
+<td valign=top>
+<ul>
+<li><a href="#Talk2TcpIp">Talk2TcpIp</a>
+<li><a href="#Talk2Serial">Talk2Serial</a>
+<li><a href="#PlayMidi">PlayMidi</a>
+</ul>
+</td>
+</tr>
+</table>
+<p>
+Note that the code shown here may differ a bit from what the actual
+RexxDB on your Palm contains.&nbsp;
+For the sake of clarity, we have partly removed irrelevant code
+in this tutorial,
+and, possibly, there have been fixes made to the RexxDB,
+which have not yet been reflected in this tutorial.
+<p><font size="2">
+To make these examples more readable, we use the following conventions:
+<ul>
+<li>Each line is prefixed by a line number (so we can easily refer to it.)
+This line number is obviously not part of the code!
+<li>
+Comments are shown in green, like this:
+&nbsp;&nbsp;<font face="monospace" color="#007700" size=2><b>/* a comment */</b></font>
+<li>
+Rexx instructions are shown in blue, uppercased, like this:
+&nbsp;&nbsp;<font face="monospace" color="#0000BB" size=2><b>SAY</b></font>
+<li>
+Rexx functions (aka BuiltIn) are shown in blue, with the first character uppercased, like this:
+&nbsp;&nbsp;<font face="monospace" color="#0000BB" size=2><b>Linein</b></font>
+</ul>
+<p>
+Of course, these are just our conventions.&nbsp;
+Rexx is a language that has no feelings about uppercasing, or keywords
+(except in special cases.)&nbsp;
+Write Say, SAY, or saY.&nbsp;
+Rexx understands.
+</font>
+
+<h2><a name="SEC1" href="#TOC01">1.&nbsp;&nbsp;A Brief Reminder of Rexx IO</a></h2>
+<p>
+Out of the many ways to do IO in Rexx, we will essentially focuse on
+the following functions:
+<ul>
+<li><b>Charin</b> and <b>Linein</b> to read characters and lines
+<li><b>Charout</b> and <b>Lineout</b> to write characters and lines
+</ul>
+The prototypes for Charin and Charout are as follow:
+<pre>
+   <b>Charin(</b><i>filename</i><b>,</b><i> char_position</i><b>,</b><i> count</i><b>)</b>
+   <b>Charout(</b><i>filename</i><b>,</b><i> string</i><b>,</b><i> char_position</i><b>)</b>
+</pre>
+<table border=0 cellpadding=5>
+<tr>
+<td valign=top><i>filename</i></td>
+<td>is the name of the "file" to read or write.&nbsp;
+The form of the name is implementation dependent.
+<br>
+<i>Rexx For Palm OS</i> defined a specific form.
+<i>filename</i> takes the formal syntax of an "URL."
+</td></tr>
+<tr>
+<td>&nbsp;</td>
+<td>This is purpose of this tutorial: <u>learn how to write the
+proper URL</u> so to access to any "file" on the Palm.
+"file" meaning Database, FileStream, the Palm display (writing),
+or the Palm keyboard (reading), and... many others to come.
+</td></tr>
+<tr>
+<td valign=top><i><a name=rf3>char_position</a></i></td>
+<td>is the position within the "file" where to read, or write,
+<i>e.g.:</i> the distance, in bytes count, from the beginning of the "file".
+<br>The read position differs from the write position.
+These are 2 values that are separately maintained.
+The first time an existing "file" is accessed, the read position is at
+the beginning of the file, while the write position is at the end.
+</td></tr>
+<tr>
+<td valign=top><i>count</i></td>
+<td>(for CHARIN) is the number of characters to be read.
+</td></tr>
+<tr>
+<td valign=top><i>string</i></td>
+<td>(for CHAROUT) is the string to write.
+</td></tr>
+</table>
+<p>
+<b>Linein</b> and <b>Lineout</b> are identicals, except that they work
+on lines, rather than characters.&nbsp;
+The <i>char_position</i> is a <i>line_position</i>, and <i>count</i>
+can just be '0' or '1' (you cannot read more than 1 line.)&nbsp;
+<a name=rf7>Also,</a> when writing a <i>string</i>,
+a "linefeed" is added at the end.
+<p>
+Finally, note that these functions allow to reach any position in a file.
+<p>
+<a name=rf8>For example:</a>
+<p>
+<table border=0 cellspacing=5 cellpadding=0>
+
+<tr><td>&nbsp;&nbsp;&nbsp;</td>
+<td valign=top><pre><font face=monospace size="2"><b>Charin(path, 1, 0)
+</b></font></pre></td><td>&nbsp;&nbsp;</td><td valign=top>
+sets the read position at the beginning of the file
+</td></tr>
+
+<tr><td>&nbsp;</td>
+<td valign=top><pre><font face=monospace size="2"><b>Charout(path, '', 1)
+</b></font></pre></td><td>&nbsp;&nbsp;</td><td valign=top>
+sets the write position at the beginning of the file
+</td></tr>
+
+<tr><td>&nbsp;</td>
+<td valign=top><pre><font face=monospace size="2"><b>Charout(path, '', Chars(path))
+</b></font></pre>
+</td><td>&nbsp;&nbsp;</td><td valign=top>
+sets the write position at the end of the file
+</td></tr>
+</table>
+
+<h2><a name="SEC2" href="#TOC02"><font face="Georgia">2.&nbsp;&nbsp;Working with Databases</font></a></h2>
+
+<h3><a name="SEC21" href="#TOC03">2.1&nbsp;&nbsp;Displaying a Memo</a></h3>
+<p>
+This is our first example.&nbsp;
+It consists to simply display a record found in the Rexx database
+in the category "Personal".
+<pre>
+01    <font color="#007700"><b>/* <a name="ShowFirstMemo">ShowFirstMemo</a>      </b></font>
+02    <font color="#007700"><b>Displays the first Record in the category Personal</b></font>
+03    <font color="#007700"><b>*/                                    </b></font>
+04    <font color="#0000BB"><b>ShowFirstMemo:                         </b></font>
+05    <font color="#0000BB"><b>input = &quot;dm:///RexxDB/Personal&quot;       </b></font>
+06    <font color="#0000BB"><b>DO Lines(input)                       </b></font>
+07    <font color="#0000BB"><b>  SAY Linein(input)                   </b></font>
+08    <font color="#0000BB"><b>  END                                 </b></font>
+</pre>
+
+<p><font size=2>
+For those not yet familiar with REXX:
+<br>- lines 01, 02, 03 are comments
+<br>- at line 04 is a "label" that identifies the piece of code that follows
+<br>- at line 06, the instruction DO starts a loop that ends at line 08
+(the END instruction.)&nbsp;
+This form of DO is known as a Repetitive Loop.
+<br>- the number of times the loop is repeated is the value
+returned by the call to Lines(input).
+<br>- the function Lines(input) returns the number of lines
+in the "file" with the <i>filename</i> input
+<br>- at line 07, SAY is the Rexx instruction to display a string.&nbsp;
+Here, SAY displays the value
+returned by the call to the function Linein(input).
+<br>- the function Linein(input) reads the "file" input, and return
+the next line.&nbsp;
+We saw Linein before with 3 arguments.&nbsp;
+As it is usual in Rexx, most of the arguments are omissible.
+<br>
+</font>
+<p>
+When run, the Rexx Script above displays the Memo that is recorded
+the first on your Palm OS handheld, in the category "Personal".&nbsp;
+If you don't have such records, then nothing will be displayed!
+<p>
+You may notice that an extra character follows: it is a small rectangle.&nbsp;
+This is normal and is explained <a href="#rf6">later</a>.
+<p>
+The <i>filename</i>
+<font face="monospace" size="2.5"><b>dm:///RexxDB/Personal</b></font>
+is an URL -- more precisely, a <b>URI</b>
+that closely follows the syntax described in
+<a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396</a>.
+
+<p>
+This syntax explicitly tells Rexx IO to access such and such record.&nbsp;
+This is what we need to study now.
+
+<h3><a name="SEC22" href="#TOC04">2.2&nbsp;&nbsp;Syntax of a Database URL</a></h3>
+<p>
+The power of a URL partly comes from its rigorous syntax.&nbsp;
+<u>When you write a URL, re-read it at least twice.</u>&nbsp;
+We noticed that most errors are coming from typos in URLs.&nbsp;
+It's also important to note that Palm names are case-dependent
+(creator, type, database name, etc.)
+<p>
+The official syntax of <i>Rexx For Palm OS</i> URLs can be found
+<a href="urlio.html">here</a>.
+Below are less formal explanations on how it works.
+
+<p>
+The URL
+<font face="monospace" size=3><b>dm:///MemoDB/Personal</b></font>
+can be decomposed into the following 5 parts:
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=50>&nbsp;</td>
+<td bgcolor=#A0F6AA><font face="monospace"><b>
+<a name=rf4>dm://</a>
+</b></font></td>
+<td bgcolor=#f0ee3f>
+&nbsp;
+&nbsp;
+&nbsp;
+</td>
+<td bgcolor=#AAA0F6 colspan=2><font face="monospace"><b>
+/MemoDB
+</b></font></td>
+<td bgcolor=#A0fa80 width="10%"><font face="monospace"><b>
+/Personal
+</b></font></td>
+<td bgcolor=#F08080>
+&nbsp;
+</td><td>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+
+</tr><tr><td colspan=6 height=17></td></tr>
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1><font face="monospace"><b>dm://</b></font></td>
+<td colspan=3>&nbsp;</td>
+<td colspan=3>
+is the <b>scheme</b>.&nbsp;
+A scheme defines what kind of "file" you want to access on the Palm:
+a Database?  a FileStream?  the keyboard?  the Infrared device?
+Actually, <i>Rexx For PalmOS</i> defined 8 schemes:
+<font face=monospace><b>dm</b></font>,
+<font face=monospace><b>file</b></font>,
+<font face=monospace><b>clipboard</b></font>,
+<font face=monospace><b>beamer</b></font>,
+<font face=monospace><b>tcpip</b></font>,
+<font face=monospace><b>serial</b></font>,
+<font face=monospace><b>console</b></font>, and
+<font face=monospace><b>midi</b></font>.
+<br>
+<font face=monospace><b>dm</b></font> is the scheme that corresponds
+to all Palm Databases: AddressDB, MemoDB, MailDB, etc.&nbsp;
+This is the one which we study in this example,
+we will examine the other schemes later.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top width=5 bgcolor=#f0ee3f>&nbsp;</td>
+<td colspan=3>&nbsp;</td>
+<td colspan=3>
+This field (empty in our example) is where to enter the several
+"attributes" of most Palm Databases.&nbsp;
+Namely: the Creator, the Type, and the Palm card number.&nbsp;
+There is a fourth parameter: the handheld name,
+reserved for future use (communication between Palms.)
+<br>
+More details <a href="#rf5">here</a>.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top colspan=2 bgcolor=#AAA0F6><font face="monospace"><b>/MemoDB</b></font></td>
+<td colspan=2>&nbsp;</td>
+<td colspan=3>
+is the name of the database.&nbsp;
+For a
+<font face=monospace><b>dm</b></font> scheme, this field is required.
+<br>
+Ex: MemoDB, AddressDB, NetworkDB, or ... RexxDB!
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top colspan=3 bgcolor=#a0fa80><font face="monospace"><b>/Personal</b></font></td>
+<td colspan=1>&nbsp;</td>
+<td colspan=3>
+This field is where you should enter the category.&nbsp;
+For a MemoDB it is one of "Business", "Personal", "Unfiled", and
+any other categories you may have entered on your own.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top width=5 bgcolor=#f08080>&nbsp;</td>
+<td colspan=3>&nbsp;</td>
+<td colspan=3>
+<a name=rf1>
+Yet another field that is empty in our example: the record number.&nbsp;
+Normally, you need to enter this field.&nbsp;</a>
+By default -- as it is in the example <a href="#ShowFirstMemo">above</a> --
+the first record of the database is read.&nbsp;
+We will see <a href="#rf2">later</a>
+that writing a database when no record number is specified
+leads to different rules.
+<p>
+An implied consequence of the existence of this field is that,
+within the <font face=monospace><b>dm</b></font> scheme,
+<u>a "file" is a record</u>.&nbsp;
+<i>i.e.:</i> each record of a database is seen as an individual "file".
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</table>
+
+<p>
+Let's apply what we just learnt to the next example.
+
+
+<h3><a name="SEC23" href="#TOC05">2.3&nbsp;&nbsp;Accessing Database Records</a></h3>
+
+<pre>
+01    <font color="#007700"><b>/* <a name="ShowMemo">ShowMemo</a>              </b></font>
+02    <font color="#007700"><b>Display the 2nd memo of the Personal category   </b></font>
+03    <font color="#007700"><b>*/                                              </b></font>
+04    <font color="#0000BB"><b>ShowMemo:                                       </b></font>
+05    <font color="#0000BB"><b>input = &quot;dm:///RexxDB/Personal/2&quot;               </b></font>
+06    <font color="#0000BB"><b>DO Lines(input)                                 </b></font>
+07    <font color="#0000BB"><b>  SAY Linein(input)                             </b></font>
+08    <font color="#0000BB"><b>  END                                           </b></font>
+</pre>
+
+<p>
+This Rexx script is quite identical to the one that we just seen,
+except that we appended "/2" to the URL at line 05.
+<p>
+This simple change made our script now reads the 2nd record of the
+memo, rather than the -- defaulted -- first one.&nbsp;
+<p>
+This raises the question: "How do I know the record position?"&nbsp;
+Within a Palm OS Database, records are identified by category and
+their position.&nbsp;
+Other means for identifying a record are under the
+responsibility of the Database designer.&nbsp;
+<p>
+If you know what field to look for, then searching a particular
+record is an easy task.&nbsp;
+This is our next example.
+
+
+<h3><a name="SEC24" href="#TOC06">2.4&nbsp;&nbsp;Searching for a RexxDB Record</a></h3>
+
+<p>
+Since the revision 0.1.256, the Find button knows about Rexx Scripts
+and executes them if the line is tapped.&nbsp;
+Nevertheless, the code shown below
+is a good exercise and can be reused in many ways.
+
+<h4><a name="SEC241" href="#TOC07">2.4.1&nbsp;&nbsp;Format of RexxDB records</a></h4>
+<p>
+Records in our Jaxo RexxDB obey a few simple rules:
+<ul>
+<li>the first line starts with "/*&nbsp", followed by a name
+that identifies the script;
+<li>the lines that follow are a brief description of what the Rexx Script
+does; it ends with "*/"
+<li>the next line is a Rexx label, that reuses the same name entered
+on the first line.
+</ul>
+<p>
+This is just the way we designed our RexxDB for identifying each record
+while keeping it very simple and editable.
+
+<h4><a name="SEC242" href="#TOC08">2.4.2&nbsp;&nbsp;Search A Rexx</a></h4>
+<p>
+The script "Search A Rexx"
+looks into the RexxDB database for the RexxScript: "ShowMemo".
+<pre>
+01    <font color="#007700"><b>/* <a name="SearchARexx">SearchARexx</a>     </b></font>
+02    <font color="#007700"><b>Look for a Rexx in the RexxDB.               </b></font>
+03    <font color="#007700"><b>*/                                           </b></font>
+04    <font color="#0000BB"><b>SearchARexx:                                 </b></font>
+05    <font color="#0000BB"><b>input = &quot;dm:///RexxDB/REXX/&quot;                 </b></font>
+06    <font color="#0000BB"><b>DO i=1 BY 1                                  </b></font>
+07    <font color="#0000BB"><b>   path = input || i                         </b></font>
+08    <font color="#0000BB"><b>   IF Stream(path) \= 'READY' THEN DO        </b></font>
+09    <font color="#0000BB"><b>      SAY &quot;Sorry! ShowMemo was not found.&quot;   </b></font>
+10    <font color="#0000BB"><b>      LEAVE                                  </b></font>
+11    <font color="#0000BB"><b>      END                                    </b></font>
+12    <font color="#0000BB"><b>   IF Linein(path) = &quot;/* ShowMemo&quot; THEN DO   </b></font>
+13    <font color="#0000BB"><b>      SAY &quot;Yes: I know about ShowMemo&quot;       </b></font>
+14    <font color="#0000BB"><b>      LEAVE                                  </b></font>
+15    <font color="#0000BB"><b>      END                                    </b></font>
+16    <font color="#0000BB"><b>   END                                       </b></font>
+</pre>
+
+<p><font size=2>
+<br>- at line 06, the instruction DO starts a loop that ends at line 16.&nbsp;
+This form of DO is known as a Controlled Repetitive Loop.&nbsp;
+The variable
+<font face=monospace color="#0000BB"><b>i</b></font>
+is incremented by 1 at each iteration of the loop,
+taking the values 1, 2, 3, etc.
+<br>- the instruction at line 07 concatenates the variables
+<font face=monospace color="#0000BB"><b>input</b></font>
+and
+<font face=monospace color="#0000BB"><b>i</b></font>
+into the variable
+<font face=monospace color="#0000BB"><b>path</b></font>.&nbsp;
+Therefore, at each iteration, the variable <i>path</i> takes
+the values:
+<font face=monospace>dm:///RexxDB/REXX/1</font>,
+<font face=monospace>dm:///RexxDB/REXX/2</font>,
+etc.&nbsp;
+<br>- "\=" at line 08 means "not equal"
+<br>- the LEAVE instruction at line 10 terminates the loop
+when the conditions at line 8 evaluate to "true."&nbsp;
+Same remark for line 14, for the condition evaluated at line 12.
+<br>- note the syntax of an IF.&nbsp;
+The block inside the THEN DO ... END is the set of instructions which
+are executed when the IF condition is true.
+</font>
+
+<p>
+At each iteration of the DO loop, a new "file" is accessed.&nbsp;
+It corresponds to the next record traversing sequentially the database.&nbsp;
+The loop terminates either
+<ol>
+<li>when no more records ("files") are found, or;
+<li>when the first line of the current record contains "/* ShowMemo."
+</ol>
+<p>
+The Stream function (line 8) is what is used to test whether more
+records follow in the RexxDB.&nbsp;
+Assume, for example, that the RexxDB had only 5 records in it.
+<br><font face=monospace size="2.5"><b>
+&nbsp;&nbsp;Stream("dm:///RexxDB/REXX/5")
+</b></font>
+is READY; while
+<br><font face=monospace size="2.5"><b>
+&nbsp;&nbsp;Stream("dm:///RexxDB/REXX/6")
+</b></font> is UNKNOWN, so the test at line 8 is true,
+and the loop terminates.
+<p>
+
+<h4><a name="SEC243" href="#TOC09">2.4.3&nbsp;&nbsp;<a name="StreamCmd">The "Stream" Built-In</a></h4>
+
+The <b>Stream</b> function -- a Rexx built-in -- returns
+a description of the state of the "file."&nbsp;
+This is a classic usage, which is consistent among
+the operating systems.
+&nbsp;However, <b>Stream</b> has also a "System dependent" flavor:
+<table border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;
+</td><td>
+<font face=monospace size="2.5"><b>
+Stream(path, 'C', <i>Command</i>)</b></font>
+</td></tr>
+<tr><td>
+&nbsp;
+</td><td>
+where <b>Command</b> is any I/O operations which is
+defined by the implementation.
+</td></tr></table>
+<p>
+At Jaxo, we do not like too much implementation-defined "variants."&nbsp;
+This is why we have preferred to use well-documented URL rather than
+to use <b>Stream()</b> and create several <i>Command</i>s.&nbsp;
+Rexx is a language that just needs a few keywords to remember, and
+we want to keep it this way.
+<p>
+There is however a "Stream Command" that we could not avoid:
+<font size="2"><b>CLOSE</b></font>, and this requires a few
+technical explanations.
+<p>
+If you are cognizant of "files", then you must know
+what "open" and "close" is about.&nbsp;
+REXX doesn't require to open a "file", nor to "close" it.&nbsp;
+And, in the example above, we did not need it.
+<P>
+<u>Q & A</u>
+
+<table border=0 cellspacing=5 cellpadding=5>
+<tr><td valign=top colspan=2><hr>
+
+</td></tr><tr><td valign=top>
+Q: When is a file opened?
+</td><td valign=top>
+A: the first time it is accessed.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top>
+Q: When is this file closed?&nbsp;&nbsp;
+</td><td valign=top>
+A: when the Rexx script is ended.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top>
+Q: I have 10,000 records in my database.&nbsp;
+After the database traversal, would there be 10,000 files opened?
+</td><td valign=top>
+A: Yes.&nbsp;
+Virtually opened: the implementation of <i>Rexx For Palm OS</i> limits
+the number of files opened.&nbsp;
+But this is an implementation detail.&nbsp;
+>From a functional point of view, all files are opened.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top>
+Q: Then, why do we need <font size="2"><b>CLOSE</b></font>?
+</td><td valign=top>
+A: Because there are cases where you need to physically release "files"
+-- which are "resources" -- or to "flush" them.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top colspan=2>
+Back to our actual example.&nbsp;
+In there, we are just reading database's records.&nbsp;
+To read records doesn't require any "lock."&nbsp;
+To write records is another story.&nbsp;
+For obvious reasons (conflicts,) writing records requires exclusive access
+to the Database.&nbsp;
+It's a lock.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top>
+Q: When is the lock released?
+</td><td valign=top>
+A: By telling the "system" that you are done.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</td></tr><tr><td valign=top>
+Q: How to tell the "system" that I am done?
+</td><td valign=top>
+A: That is the whole purpose of:
+<br>
+<font face=monospace size="2.5"><b>
+Stream(path, 'C', 'CLOSE')</b></font><br>
+We will see an example <a href="#Rexx2Memo">later</a>.
+
+</td></tr><tr><td valign=top colspan=2><hr></td></tr>
+
+</table>
+
+<h3><a name="SEC25" href="#TOC10">2.5&nbsp;&nbsp;Writing a MemoDB Record</a></h3>
+
+<p>
+The next sample consists in adding a new record to the Memo database.
+
+<pre>
+01    <font color="#007700"><b>/* <a name="WriteMemo">WriteMemo</a>                 </b></font>
+02    <font color="#007700"><b>Add a new record with &quot;Hello World!&quot; in the Biz cat. </b></font>
+03    <font color="#007700"><b>*/                                                   </b></font>
+04    <font color="#0000BB"><b>WriteMemo:                                           </b></font>
+05    <font color="#0000BB"><b>output=&quot;dm:///MemoDB/Business&quot;                       </b></font>
+06    <font color="#0000BB"><b>CALL Lineout output, &quot;Hello World!&quot; </b></font>
+07    <font color="#0000BB"><b>CALL Charout output, '00'x          </b></font>
+</pre>
+
+<p><font size=2>
+<br>- at line 06, the CALL instruction is functionally equivalent to:
+<br><font face=monospace size="2.5"><b>
+result=Lineout(output, "Hello World!")
+</b></font>
+<br>"result" being a special Rexx variable which is automatically set
+to what a function or subroutine returns.&nbsp;
+CALL is somehow easier to read and write, but it is a matter of style.&nbsp;
+<br>- CALL is used for calling routines that do not return values:
+in this case, this is the only form that is permitted.
+<br>- <font face=monospace size="2.5"><b>'00'x</b></font> is the way
+to enter hexadecimal literals (here: zero)
+</font>
+
+<p>
+First is to remark that the URL in <font face=monospace size="2.5"><b>
+dm:///MemoDB/Business
+</b></font>(line 05) has no record number appended to it.
+<i>i.e.:</i> the record number is "defaulted."
+<p>
+In the absence of record number, we <a href=#rf1>already</a> know
+that the default read position is the first record that matches
+the category (here: Business).
+<p>
+<a name=rf2>In the absence of record number,
+the default write position is at the beginning of a new record,
+inserted after the last record in the category.&nbsp;
+</a>
+This is conforming to Rexx <a href="#rf3">rules</a>.
+<p>
+<a name=rf6>Second</a>, the line 07 adds a null byte -- a byte with a
+zero value --
+after the string "Hello World!".&nbsp;
+We noticed that each MemoDB record is always ended by a null byte,
+and so we did.&nbsp;
+<p>
+This is this ending zero byte that we saw displayed in the previous
+examples.&nbsp;
+Palm displays it in the form of a small empty rectangle.
+
+<h3><a name="SEC26" href="#TOC11">2.6&nbsp;&nbsp;From DB to DB</a></h3>
+
+<p>
+Next Rexx Script reads a RexxDB and writes it into a MemoDB.
+
+<pre>
+01    <font color="#007700"><b>/* <a name="Rexx2Memo">Rexx2Memo</a>                            </b></font>
+02    <font color="#007700"><b>Read the entire Rexx database into the Memo database.           </b></font>
+03    <font color="#007700"><b>*/                                                              </b></font>
+04
+05    <font color="#0000BB"><b>Rexx2Memo:                                                      </b></font>
+06    <font color="#0000BB"><b>output = &quot;dm:///MemoDB/REXX&quot;                                    </b></font>
+07    <font color="#0000BB"><b>DO i=1                                                          </b></font>
+08    <font color="#0000BB"><b>   input = &quot;dm:///RexxDB/REXX/&quot; || i                            </b></font>
+09    <font color="#0000BB"><b>   IF Stream(input) \= 'READY' THEN LEAVE </b></font><font color="#007700"><b>/* all done! */       </b></font>
+10    <font color="#0000BB"><b>   DO Lines(input)-1                                            </b></font>
+11    <font color="#0000BB"><b>      CALL Lineout output, Linein(input)                        </b></font>
+12    <font color="#0000BB"><b>      END                                                       </b></font>
+13    <font color="#0000BB"><b>   CALL Charout output, LineIn(input)     </b></font><font color="#007700"><b>/* write the last line */ </b></font>
+14    <font color="#0000BB"><b>   CALL Stream output, 'C', 'CLOSE'       </b></font><font color="#007700"><b>/* done with this record */ </b></font>
+15    <font color="#0000BB"><b>   END                                                          </b></font>
+</pre>
+
+<p>
+The output URL has the same syntax than the previous sample: no record
+number is appended, making that we will add a new "file"
+-- more exactly: a new database record after the last
+record of the REXX category in the database RexxDB.
+<p>
+Note, at line 14, the Stream Command
+that we introduced in an <a href="#StreamCmd">early chapter</a>.&nbsp;
+<p>
+What would happen, had this line been omitted?
+<p>
+Then, all the records read from the MemoDB, in the REXX category,
+would just be appended one to each other and make a one record
+on output.&nbsp;
+Because, the system has no clue finding that you are done and
+want to create a new record.
+<p>
+<font face=monospace size="2.5"><b>
+CALL Stream output, 'C', 'CLOSE'
+</b></font>
+finishes (flushes) the current record, so that the next
+<font face=monospace size="2.5"><b>Lineout</b></font>
+starts a brand new one.
+<p>
+Finally, the loop repeats for the number of input lines <u>minus 1</u>
+and we use <font face=monospace size="2.5"><b>Charout</b></font>
+for the last line.
+This is explained <a href="#rf9">later</a>.
+<p>&nbsp;
+<p>
+The example that follows selects a record in the Rexx database
+and copy it into the Memo database.&nbsp;
+This is the script you might want to use to access our Rexx scripts,
+and modify them using MemoPad.
+<p>
+<pre>
+01    <font color="#007700"><b>/* <a name="GetARexx">GetARexx</a>                      </b></font>
+02    <font color="#007700"><b>Look for a Rexx in the RexxDB and copy it to the MemoDB </b></font>
+03    <font color="#007700"><b>*/                                                      </b></font>
+04    <font color="#0000BB"><b>GetARexx:                                               </b></font>
+05    <font color="#0000BB"><b>output = &quot;dm:///MemoDB/REXX&quot;                            </b></font>
+06    <font color="#0000BB"><b>SAY &quot;Enter the name of a Rexx Script:&quot;                  </b></font>
+07    <font color="#0000BB"><b>PARSE UPPER PULL title                                  </b></font>
+08    <font color="#0000BB"><b>DO i=1 BY 1                                             </b></font>
+09    <font color="#0000BB"><b>   input = &quot;dm:///RexxDB/REXX/&quot; || i                    </b></font>
+10    <font color="#0000BB"><b>   IF Stream(input) \= 'READY' THEN DO                  </b></font>
+11    <font color="#0000BB"><b>      SAY &quot;Sorry!&quot; title &quot;was not found.&quot;               </b></font>
+12    <font color="#0000BB"><b>      LEAVE                                             </b></font>
+13    <font color="#0000BB"><b>      END                                               </b></font>
+14    <font color="#0000BB"><b>   line1 = Linein(input)                                </b></font>
+15    <font color="#0000BB"><b>   IF Translate(Word(line1,2)) = title THEN DO  </b></font><font color="#007700"><b>/* Title found! */        </b></font>
+16    <font color="#0000BB"><b>      CALL Lineout output, line1                        </b></font>
+17    <font color="#0000BB"><b>      DO Lines(input) - 1                               </b></font>
+18    <font color="#0000BB"><b>         CALL Lineout output, Linein(input)             </b></font>
+19    <font color="#0000BB"><b>         END                                            </b></font>
+20    <font color="#0000BB"><b>      CALL Charout output, Linein(input)        </b></font><font color="#007700"><b>/* write the last line */ </b></font>
+21    <font color="#0000BB"><b>      LEAVE                                             </b></font>
+22    <font color="#0000BB"><b>      END                                               </b></font>
+23    <font color="#0000BB"><b>   END                                                  </b></font>
+</pre>
+
+<p><font size=2>
+<br>- at line 07 is the Rexx PARSE instruction.
+It would be out of the frame of this tutorial to explain
+such an instruction.&nbsp;
+PARSE is one of the most powerful instructions in Rexx.&nbsp;
+Here, it is used to retrieve the user answer
+-- entered at the Palm Graffiti, or keyboard -- and uppercase it.
+<br>&nbsp;
+<br>- the Word function at line 15 extracts the 2nd word in line1,
+which is the first line of the current RexxDB record.&nbsp;
+A word is a space-delimited suite of characters.&nbsp;
+Hence, if the first line of the current RexxDB record is
+"/*&nbsp;ShowMemo",&nbsp;
+<font face=monospace size="2.5"><b>
+Word(line1,2)
+</b></font>
+returns "ShowMemo".
+<br>&nbsp;
+<br>- then Translate is called.&nbsp;
+It uppercases "ShowMemo" into "SHOWMEMO".&nbsp;
+This is the most trivial use of the Translate function,
+which has many more features.
+<br>&nbsp;
+<br>- finally, "SHOWMEMO" is compared to
+<font face=monospace size="2.5"><b>
+title
+</b></font>,
+that was also uppercased at line 07.&nbsp;
+If a match is found, then all records are copied to the output and
+the Rexx script is ended (LEAVE instruction, line 21)
+</font>
+
+<h3><a name="SEC27" href="#TOC12">2.7&nbsp;&nbsp;Run A Rexx</a></h3>
+
+<p>
+RunARexx is a variant of the previous sample.&nbsp;
+This script asks the user about what particular Rexx script
+he would like to run (out of the RexxDB database), and, if found,
+it calls the Rexx interpreter to run it.
+<p>
+The Find button does this, but this is a good sample.
+<p>
+<pre>
+01    <font color="#007700"><b>/* <a name="RunARexx">RunARexx</a>                      </b></font>
+02    <font color="#007700"><b>Look for a Rexx in the RexxDB and execute it            </b></font>
+03    <font color="#007700"><b>This requires that the Rexx to run starts with a label  </b></font>
+04    <font color="#007700"><b>that has the same value as its first word               </b></font>
+05    <font color="#007700"><b>(e.g &quot;RunARexx:&quot; for this script)                       </b></font>
+06    <font color="#007700"><b>*/                                                      </b></font>
+07    <font color="#0000BB"><b>RunARexx:                                               </b></font>
+08    <font color="#0000BB"><b>SAY &quot;Enter the name of a Rexx Script:&quot;                  </b></font>
+09    <font color="#0000BB"><b>PARSE UPPER PULL title                                  </b></font>
+10    <font color="#0000BB"><b>DO i=1 BY 1                                             </b></font>
+11    <font color="#0000BB"><b>   input = &quot;dm:///RexxDB/REXX/&quot; || i                    </b></font>
+12    <font color="#0000BB"><b>   IF Stream(input) \= &quot;READY&quot; THEN DO                  </b></font>
+13    <font color="#0000BB"><b>      SAY &quot;Sorry!&quot; title &quot;was not found.&quot;               </b></font>
+14    <font color="#0000BB"><b>      LEAVE                                             </b></font>
+15    <font color="#0000BB"><b>      END                                               </b></font>
+16    <font color="#0000BB"><b>   line1 = Linein(input)                                </b></font>
+17    <font color="#0000BB"><b>   IF Translate(Word(line1,2)) = title THEN DO          </b></font>
+18    <font color="#0000BB"><b>      SAY &quot;Yes: I know about &quot; title                    </b></font>
+19    <font color="#0000BB"><b>      SAY &quot;Do you want it run? (Y/N)&quot;                   </b></font>
+20    <font color="#0000BB"><b>      PULL answer                                       </b></font>
+21    <font color="#0000BB"><b>      IF answer \= 'N' THEN DO                          </b></font>
+22    <font color="#0000BB"><b>         CALL Load input                                </b></font>
+23    <font color="#0000BB"><b>         INTERPRET &quot;call &quot; title                        </b></font>
+24    <font color="#0000BB"><b>         END                                            </b></font>
+25    <font color="#0000BB"><b>      LEAVE                                             </b></font>
+26    <font color="#0000BB"><b>      END                                               </b></font>
+27    <font color="#0000BB"><b>   END                                                  </b></font>
+</pre>
+
+<p><font size=2>
+<br>- at line 22 is the "Load" function.&nbsp;.
+This is not a classic Rexx Built-In, so it will be discussed below.
+<br>- the INTERPRET instruction, at line 23, calls the Rexx Interpreter
+to "execute" the string passed by argument.&nbsp;
+This is what is named "dynamic scripting."&nbsp;
+It brings to the Rexx language a lot of power!
+</font>
+
+<p>
+The "Load" function -- at line 22 -- is Jaxo's proprietary extension.&nbsp;
+We tried to avoid such things, but many Rexx implementations have
+this built-in, and we thought it was worth.&nbsp;
+One can consider it as a "dynamic include" of a Rexx Script.
+<p>
+Hence, this code "includes" the specified Rexx Script and calls it.
+
+<h3><a name="SEC28" href="#TOC13">2.8&nbsp;&nbsp;Writing to a new Database</a></h3>
+
+<p>
+Below is the script that we use to create the RexxDB database from
+our internal MemoDB.  It is our "RexxDB loader".
+<pre>
+01    <font color="#007700"><b>/* <a name="LoadRexxDB">LoadRexxDB</a>                                       </b></font>
+02    <font color="#007700"><b>Load the Rexx database from the REXX category in Jaxo's MemoDB               </b></font>
+03    <font color="#007700"><b>*/                                                                           </b></font>
+04    <font color="#0000BB"><b>LoadRexxDB:                                                                  </b></font>
+05    <font color="#0000BB"><b>output = &quot;dm://Jaxo@/RexxDB/REXX&quot;                                            </b></font>
+06    <font color="#0000BB"><b>DO i=1                                                                       </b></font>
+07    <font color="#0000BB"><b>   input = &quot;dm:///MemoDB/REXX/&quot; || i                                         </b></font>
+08    <font color="#0000BB"><b>   IF Stream(input) \= 'READY' THEN LEAVE /* all done! */                    </b></font>
+09    <font color="#0000BB"><b>   linesCount = Lines(input)                                                 </b></font>
+10    <font color="#0000BB"><b>   IF linesCount=0 THEN ITERATE                                              </b></font>
+11    <font color="#0000BB"><b>   SAY &quot;loading&quot; input &quot;(&quot; chars(input) &quot;bytes in&quot; linesCount &quot;lines.) ...&quot;  </b></font>
+12    <font color="#0000BB"><b>   DO linesCount-1                                                           </b></font>
+13    <font color="#0000BB"><b>      CALL Lineout output, Linein(input)                                     </b></font>
+14    <font color="#0000BB"><b>      END                                                                    </b></font>
+15    <font color="#0000BB"><b>   CALL Charout output, Linein(input)                                        </b></font>
+16    <font color="#0000BB"><b>   CALL Stream output, 'C', 'CLOSE' /* done with this record */              </b></font>
+17    <font color="#0000BB"><b>   END                                                                       </b></font>
+</pre>
+
+<p><font size=2>
+<br>- at line 10, the ITERATE instruction starts another iteration
+of the current DO ... END loop (lines 06 to 17.)
+</font>
+
+<P>
+<a name="rf5">
+Because we are creating a new database, we need to tell PalmOS the name
+of the Creator.&nbsp;
+</a>
+For this purpose, we use the second field of the URI, as described
+<a href="#rf4">earlier</a>:
+<font face=monospace size="2.5"><b>
+dm://<font color="#0000BB">Jaxo@</font>/RexxDB/REXX
+</b></font>, meaning "Jaxo was the Creator."
+<p>
+Do not forget the '@' character!
+If we had written all the parameters of this second field,
+it would have been something such as:
+<br>&nbsp
+<br>
+<font face=monospace size="2.5"><b>
+&nbsp;&nbsp;dm://<font color="#0000BB">Jaxo.data@localhost:0</font>/RexxDB/REXX
+</b></font>
+<ul>
+<li><font face=monospace size="2.5"><b>data</b></font> is the Type of the database
+<li><font face=monospace size="2.5"><b>localhost</b></font> is reserved for future use
+<li><font face=monospace size="2.5"><b>0</b></font> is the Palm Card Number.
+</ul>
+All these values are the default values, why we omitted them.
+<P>
+<b><a name=rf9>Last, but not least,</a></b>
+the DO loop at line 12 is repeated the number of lines <b>minus one</b>,
+and is followed by a CALL to Charout for writing the last line.&nbsp;
+<P>
+Weird? Here is why.&nbsp;
+Remember <a href="#rf6">when</a> we said that
+a binary zero always ends a Memo record?
+A two lines file looks something like:
+<pre>
+       Hello
+       World!
+       X
+</pre>
+The 'X' represents the extraneous binary zero.&nbsp;
+Rexx does process all bytes, from 0 to 255, and does not behave
+differently for a character that is a binary zero.
+<p>
+And the consequence is that a 2 lines file is seen as... 3 lines.&nbsp;
+Using the same code that we used <a href="#GetARexx">earlier</a>
+would lead to write the binary zero followed by a "linefeed"
+(see <a href="#rf7">here</a>.)&nbsp;
+<p>
+We noticed that most Palm code doesn't cope very well with binary zeroes
+followed by "something."&nbsp;
+Indeed, they crash.
+<p>
+At the difference with
+<font face=monospace size="2.5"><b>Lineout</b></font>,
+<font face=monospace size="2.5"><b>Charout</b></font>
+doesn't add any linefeed.&nbsp;
+And this explains why we had to do it this way.
+<p>
+<b>Morality:</b>
+when writing to an existing DB, be aware of any peculiarities
+in the way the records have been designed.&nbsp;
+Palm OS explains the format of their databases
+<a href=http://www.palmos.com/dev/support/docs/fileformats/FileFormatsTOC.html>
+here</a>.&nbsp;
+Also, we found <a href=http://www.nosleep.net/software.asp>FileZ</a>
+a nice developer tool for quickly examining the content of any "file."
+
+<h2><a name="SEC3" href="#TOC14"><font face="Georgia">3.&nbsp;&nbsp;Working with Filestreams</font></a></h2>
+
+<p>
+Filestream (<i>i.e.:</i> the <font face="monospace"><b>file</b></font>
+scheme of <i>Rexx For Palm OS</i>) are ideal to store "internal / sequential"
+information,
+to be used by a Rexx Script (for instance.)
+
+<p>
+At the difference with databases:
+<ul>
+<li>Filestreams are not split into multiple records;
+<li>Filestreams are not "visible," <i>e.g.</i>
+the classical Palm applications do not typically use Filestreams.&nbsp;
+However, these "files" have a real existence.&nbsp;
+<li>Filestreams have no size limitations
+</ul>
+
+
+<h3><a name="SEC31" href="#TOC15">3.1&nbsp;&nbsp;Writing and Reading FileStreams</a></h3>
+<p>
+Here are two basic Rexx scripts dealing with Filestreams.
+
+<p>
+First example appends a line with "Hello World!" to the Filestream
+named "TempFile":
+
+<pre>
+01    <font color="#007700"><b>/* <a name="Append2File">Append2File</a>            </b></font>
+02    <font color="#007700"><b>Append &quot;Hello World!&quot; to the FileStream &quot;TempFile&quot;. </b></font>
+03    <font color="#007700"><b>*/                                                  </b></font>
+04    <font color="#0000BB"><b>Append2File:                                        </b></font>
+05    <font color="#0000BB"><b>output=&quot;file:///TempFile&quot;                           </b></font>
+06    <font color="#0000BB"><b>CALL Lineout output, &quot;Hello World!&quot;                 </b></font>
+</pre>
+
+<p>
+This other example reads the FileStream we just created and display it:
+
+<pre>
+01    <font color="#007700"><b>/* <a name="ShowFile">ShowFile</a> </b></font>
+02    <font color="#007700"><b>Display a File                     </b></font>
+03    <font color="#007700"><b>*/                                 </b></font>
+04    <font color="#0000BB"><b>ShowFile:                          </b></font>
+05    <font color="#0000BB"><b>input = &quot;file:///TempFile&quot;         </b></font>
+06    <font color="#0000BB"><b>DO Lines(input)                    </b></font>
+07    <font color="#0000BB"><b>  SAY Linein(input)                </b></font>
+08    <font color="#0000BB"><b>  END                              </b></font>
+</pre>
+
+When applied to FileStreams,
+the Rexx <a href="#rf3">rules</a> for read and write position
+makes:
+<ul>
+<li>the read position is at the beginning of the FileStream
+<li>the write position is at the end of the FileStream
+</ul>
+
+<p>
+Therefore, if you run "Append2File" twice, "ShowFile"
+displays 2 lines, each of it saying "Hello&nbsp;World!"&nbsp;
+
+<p>
+The URL for Filestreams makes use of the "file://" scheme.&nbsp;
+Here is its syntax.
+
+<h3><a name="SEC32" href="#TOC16">3.2&nbsp;&nbsp;Syntax of a Filestream URL</a></h3>
+<p>
+As said before, the reference of the formal syntax for
+<i>Rexx For Palm OS</i> URLs
+can be found <a href="urlio.html">here</a>.
+<p>
+The URL
+<font face="monospace" size=3><b>file:///TempFile</b></font>
+can be decomposed into the following 3 parts:
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width="10%">&nbsp;</td>
+<td bgcolor=#A0F6AA><font face="monospace"><b>
+<a name=rf4>file://</a>
+</b></font></td>
+<td bgcolor=#f0ee3f>
+&nbsp;
+&nbsp;
+&nbsp;
+</td>
+<td bgcolor=#AAA0F6 colspan=2 width="10%"><font face="monospace"><b>
+/TempFile
+</b></font></td>
+<td width="80%">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+</tr><tr><td colspan=6 height=17></td></tr>
+
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>file://</b></font></td>
+<td colspan=2>&nbsp;</td>
+<td colspan=2>
+<font face=monospace><b>file</b></font> is the scheme that corresponds
+to Palm Filestreams.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top width=5 bgcolor=#f0ee3f>&nbsp;</td>
+<td colspan=2>&nbsp;</td>
+<td colspan=2>
+This field (empty in our example) is where to enter the
+"attributes" of the FileStream.&nbsp;
+This is the same field
+-- <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> names it
+<i>authority</i> --
+as in the URI describing
+a Palm Database.&nbsp;
+The Creator, the Type,
+the Palm card number,
+and the handheld name (future use)
+are found in this field.&nbsp;
+<br>
+It uses the same syntax as for Palm Database
+(example <a href="#rf5">here</a>).
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top colspan=2 bgcolor=#AAA0F6><font face="monospace"><b>/TempFile</b></font></td>
+<td colspan=1>&nbsp;</td>
+<td colspan=3>
+is the name of the file.&nbsp;
+This field is required.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</table>
+
+<p>
+If you are aware of URLs -- yes: I should say URI,
+this is just legacy -- then you may know about
+relative references and Base URL.&nbsp;
+The default Base URI in <i>Rexx For Palm OS</i> is
+<font face="monospace" size=2><b>file://</b></font>.&nbsp;
+Consequently, <font face="monospace" size=2><b>file:///TempFile</b></font>
+can be "abbreviated" just as:
+<font face="monospace" size=2><b>TempFile</b></font>
+
+<h3><a name="SEC33" href="#TOC17">3.3&nbsp;&nbsp;Deleting a FileStream (or a Database record)</a></h3>
+
+To delete a FileStream is just one instruction:
+
+<pre>
+01    <font color="#007700"><b>/* <a name="DeleteFile">DeleteFile</a> </b></font>
+02    <font color="#007700"><b>Delete the Filestream &quot;TempFile&quot;   </b></font>
+03    <font color="#007700"><b>*/                                 </b></font>
+04    <font color="#0000BB"><b>DeleteFile:                        </b></font>
+05    <font color="#0000BB"><b>CALL Charout &quot;TempFile&quot;, &quot;&quot;, 1     </b></font>
+</pre>
+
+<p>
+How does it work?
+<p>
+The instruction at line 05 sets the write position
+at the beginning of the file, as seen <a href="#rf8">earlier</a>.&nbsp
+Nothing is really written, the second argument being an empty string.&nbsp;
+Then the script ends.
+<p>
+When all operations on a FileStream are done
+-- and this is the case because the Script ended --
+the End-Of-File is deemed to be at the actual write position.&nbsp;
+Here, this position is the beginning of the FileStream,
+making the FileStream contains no bytes.&nbsp;
+<i>Rexx For Palm OS</i> simply removes the FileStream.
+
+<p>
+To do the same for a Record in a MemoDB:
+
+<pre>
+01    <font color="#007700"><b>/* <a name="DeleteRecord">DeleteRecord</a>     </b></font>
+02    <font color="#007700"><b>Delete a Record in the MemoDB                  </b></font>
+03    <font color="#007700"><b>*/                                             </b></font>
+04    <font color="#0000BB"><b>DeleteRecord:                                  </b></font>
+05    <font color="#0000BB"><b>CALL Charout &quot;dm:///MemoDB/Persunal/2&quot;, &quot;&quot;, 1  </b></font>
+</pre>
+
+<p>
+Nothing has changed, except the URL.&nbsp;
+To apply code to other schemes consists in only one change: the URL.&nbsp;
+Most of your scripts could easily be adapted
+to work as well with Database records, or FileStreams,
+or other schemes to come.&nbsp;
+This is where this design gets all its sense.&nbsp;
+
+<p><font size="2">
+<b>Note:</b> "Persunal" at line 05 is a voluntary typo.&nbsp;
+I don't want you to blame me for having erased your precious 2nd
+record in the Personal category!
+</font>
+
+<h2><a name="SEC4" href="#TOC18"><font face="Georgia">4.&nbsp;&nbsp;Mixing Databases and Filestreams</a></h2>
+
+<p>
+This shows a couple of useful examples, but does not
+bring anything fundamental that was not already examined.&nbsp;
+
+<h3><a name="SEC41" href="#TOC19">4.1&nbsp;&nbsp;Memo2File</a></h3>
+
+<p>
+Write the 2nd record in the category Personal of the Memo database
+to a temporary file: MemoPers2.&nbsp;
+Do not rewrite the ending binary zero -- aka "sentinel".
+
+<pre>
+01    <font color="#007700"><b>/* <a name="Memo2File">Memo2File</a>                           </b></font>
+02    <font color="#007700"><b>Read a memo and write it to a file.                            </b></font>
+03    <font color="#007700"><b>*/                                                             </b></font>
+04    <font color="#0000BB"><b>Memo2File:                                                     </b></font>
+05    <font color="#0000BB"><b>input = &quot;dm:///RexxDB/Personal/2&quot;                              </b></font>
+06    <font color="#0000BB"><b>output = &quot;file:///MemoPers2&quot;                                   </b></font>
+07    <font color="#0000BB"><b>CALL Charout output, '', 1 </b></font><font color="#007700"><b> /* technique to reset output */  </b></font>
+08    <font color="#0000BB"><b>linesCount = Lines(input)                                      </b></font>
+09    <font color="#0000BB"><b>SAY input &quot;has&quot; Chars(input) &quot;bytes in&quot; linesCount &quot;lines.&quot;    </b></font>
+10    <font color="#0000BB"><b>DO linesCount-1 </b></font><font color="#007700"><b>            /* forget the sentinel! */      </b></font>
+11    <font color="#0000BB"><b>   CALL Lineout output, Linein(input)                          </b></font>
+12    <font color="#0000BB"><b>   END                                                         </b></font>
+</pre>
+
+
+<h3><a name="SEC42" href="#TOC20">4.2&nbsp;&nbsp;File2Memo</a></h3>
+
+<p>
+Now read the file and write it back to the same memo.
+Restore the binary zero sentinel.
+
+<pre>
+01    <font color="#007700"><b>/* <a name="Memo2File">File2Memo</a>                            </b></font>
+02    <font color="#007700"><b>Read a file and write it to a memo.                             </b></font>
+03    <font color="#007700"><b>*/                                                              </b></font>
+04    <font color="#0000BB"><b>File2Memo:                                                      </b></font>
+05    <font color="#0000BB"><b>input = &quot;file:///MemoPers2&quot;                                      </b></font>
+06    <font color="#0000BB"><b>output = &quot;dm:///RexxDB/Personal/2&quot;                              </b></font>
+07    <font color="#0000BB"><b>linesCount = Lines(input)                                       </b></font>
+08    <font color="#0000BB"><b>SAY input &quot;has&quot; chars(input) &quot;bytes in&quot; linesCount &quot;lines.&quot;     </b></font>
+09    <font color="#0000BB"><b>CALL Charout output, '', 1    </b></font><font color="#007700"><b>/* technique to reset output */  </b></font>
+10    <font color="#0000BB"><b>DO linesCount                                                   </b></font>
+11    <font color="#0000BB"><b>   CALL lineout output, linein(input)                           </b></font>
+12    <font color="#0000BB"><b>   END                                                          </b></font>
+13    <font color="#0000BB"><b>CALL Charout output, '00'x    </b></font><font color="#007700"><b>/* append the sentinel */        </b></font>
+14    <font color="#0000BB"><b>CALL Charout input, '', 1     </b></font><font color="#007700"><b>/* technique to delete input */  </b></font>
+</pre>
+
+
+<h3><a name="SEC43" href="#TOC21"><font face="Georgia">4.3.&nbsp;&nbsp;A Full Example</a></h3>
+
+<p>
+This example is a complete Rexx script that changes words in a Memo
+record.  It requires some more knowledge of Rexx, but we added a few
+explanations.
+
+<p>
+In the RexxDB, there is a script named: "ReplaceString"
+to replace words in a string.&nbsp;
+This script has nothing to do with "files" or I/O, while
+it is not part of this tutorial.
+
+<p>
+The only important thing to know is how to use it.&nbsp;
+The comments in this script says:
+<pre>
+01    <font color="#007700"><b>/* ReplaceString                                                              </b></font>
+02    <font color="#007700"><b>Ex: result = ReplaceString(myString, replaced, replacement, caseInsensitive)  </b></font>
+03    <font color="#007700"><b>    a 5th argument may follow which is the name of a variable                 </b></font>
+04    <font color="#007700"><b>    in which the actual change count will be cumulated.                       </b></font>
+05    <font color="#007700"><b>*/                                                                            </b></font>
+</pre>
+which is enough information.&nbsp;
+We then look for this routine, the same way "RunARex" does, and load it.
+
+<p>To do the replacement, an intermediate file is needed.&nbsp;
+We use a FileStream: "TempFile".
+The input Memo record is read, and the transformation is written
+to "TempFile."&nbsp;
+We then tell the user how many changes were done, and ask for
+confirmation.&nbsp;
+If the user acknowledges, TempFile is written to the MemoDB record.
+
+<pre>
+01    <font color="#007700"><b>/* <a name="ReplaceWordsInFile">ReplaceWordsInFile</a>                             </b></font>
+02    <font color="#007700"><b>Replace words within a &quot;file&quot; (FileStream, Memo record, etc.)                      </b></font>
+03    <font color="#007700"><b>*/                                                                                 </b></font>
+04    <font color="#0000BB"><b>ReplaceWordsInFile:                                                                </b></font>
+05    <font color="#007700"><b>   /* find ReplaceString in the RexxDB - and load it */                            </b></font>
+06    <font color="#0000BB"><b>   DO i=1 BY 1                                                                     </b></font>
+07    <font color="#0000BB"><b>      input = &quot;dm:///RexxDB/REXX/&quot; || i                                            </b></font>
+08    <font color="#0000BB"><b>      IF Stream(input) \= &quot;READY&quot; THEN DO                                          </b></font>
+09    <font color="#0000BB"><b>         SAY &quot;Sorry! ReplaceString was not found within the RexxDB.&quot;               </b></font>
+10    <font color="#0000BB"><b>         EXIT                                                                      </b></font>
+11    <font color="#0000BB"><b>         END                                                                       </b></font>
+12    <font color="#0000BB"><b>      IF Word(Linein(input), 2) = &quot;ReplaceString&quot; THEN DO                          </b></font>
+13    <font color="#0000BB"><b>         CALL Load input                                                           </b></font>
+14    <font color="#0000BB"><b>         LEAVE                                                                     </b></font>
+15    <font color="#0000BB"><b>         END                                                                       </b></font>
+16    <font color="#0000BB"><b>      END                                                                          </b></font>
+17    <font color="#0000BB"><b>                                                                                   </b></font>
+18    <font color="#007700"><b>   /* check for a valid input file */                                              </b></font>
+19    <font color="#0000BB"><b>   SAY &quot;What file? (URL, please)&quot;                                                  </b></font>
+20    <font color="#0000BB"><b>   PARSE PULL file                                                                 </b></font>
+21    <font color="#0000BB"><b>   IF file = &quot;&quot; | Stream(file) \= &quot;READY&quot; THEN DO                                  </b></font>
+22    <font color="#0000BB"><b>      SAY &quot;Sorry!&quot; file &quot;was not found.&quot;                                           </b></font>
+23    <font color="#0000BB"><b>      EXIT                                                                         </b></font>
+24    <font color="#0000BB"><b>      END                                                                          </b></font>
+25    <font color="#0000BB"><b>                                                                                   </b></font>
+26    <font color="#007700"><b>   /* replaced, replacement? case? */                                              </b></font>
+27    <font color="#0000BB"><b>   SAY &quot;Replace what?&quot;                                                             </b></font>
+28    <font color="#0000BB"><b>   PARSE PULL from                                                                 </b></font>
+29    <font color="#0000BB"><b>   SAY &quot;To?&quot;                                                                       </b></font>
+30    <font color="#0000BB"><b>   PARSE PULL to                                                                   </b></font>
+31    <font color="#0000BB"><b>   SAY &quot;Case dependent? (Y / N)?&quot;                                                  </b></font>
+32    <font color="#0000BB"><b>   PULL casei                                                                      </b></font>
+33    <font color="#0000BB"><b>   casei = (casei == 'Y')                                                          </b></font>
+34    <font color="#0000BB"><b>                                                                                   </b></font>
+35    <font color="#007700"><b>   /* Now, replace... */                                                           </b></font>
+36    <font color="#0000BB"><b>   temp = &quot;TempFile&quot;                                                               </b></font>
+37    <font color="#0000BB"><b>   CALL Charout temp, '', 1                                                        </b></font>
+38    <font color="#0000BB"><b>   cnt = 0;                                                                        </b></font>
+39    <font color="#0000BB"><b>   DO Lines(file)-1                                                                </b></font>
+40    <font color="#0000BB"><b>      CALL Lineout temp, ReplaceString(Linein(file), from, to, casei, &quot;cnt&quot;)       </b></font>
+41    <font color="#0000BB"><b>      END                                                                          </b></font>
+42    <font color="#0000BB"><b>   IF (cnt = 0) THEN DO                                                            </b></font>
+43    <font color="#0000BB"><b>      SAY &quot;Nothing was changed!&quot;                                                   </b></font>
+44    <font color="#0000BB"><b>      END                                                                          </b></font>
+45    <font color="#0000BB"><b>   ELSE DO                                                                         </b></font>
+46    <font color="#0000BB"><b>      SAY cnt &quot;replacements pending: do you confirm (Y / N)&quot;                       </b></font>
+47    <font color="#0000BB"><b>      PULL answer                                                                  </b></font>
+48    <font color="#0000BB"><b>      IF answer = 'Y' THEN DO                                                      </b></font>
+59    <font color="#0000BB"><b>         CALL Charout file, '', 1                                                  </b></font>
+50    <font color="#0000BB"><b>         DO Lines(temp)                                                            </b></font>
+51    <font color="#0000BB"><b>            CALL lineout file, linein(temp)                                        </b></font>
+52    <font color="#0000BB"><b>            END                                                                    </b></font>
+53    <font color="#0000BB"><b>         END                                                                       </b></font>
+54    <font color="#0000BB"><b>      END                                                                          </b></font>
+55    <font color="#0000BB"><b>   CALL Charout temp, '', 1   </b></font><font color="#007700"><b>/* Remove the temporary file */</b></font>
+</pre>
+
+<font size="2">
+<br>- at line 20, the instruction PARSE PULL gets an answer from the Palm
+console into the variable file
+<br>- the instruction at line 32 (PULL) is a shorthand for PARSE
+UPPER PULL.&nbsp;
+Same as PARSE PULL, except the answer is uppercased.
+<br>- at line 21, the vertical bar
+(<font face="monospace" size=3><b>|</b></font>)
+is a logical OR.&nbsp;
+Hence, this IF means: <i>if the variable "file" is an empty string, OR
+if the file doesn't exist, then...</i>
+</font>
+
+<h2><a name="SEC5" href="#TOC22"><font face="Georgia">5.&nbsp;&nbsp;Beaming (IrDA communication)</a></h2>
+<h3><a name="SEC51" href="#TOC23">5.1&nbsp;&nbsp;Syntax of the Beamer URL</a></h3>
+The syntax of a Beamer URL is pretty simple:
+<font face="monospace" size=3><b>beamer://</b></font>
+and can even be abbreviated to
+<font face="monospace" size=3><b>beamer:</b></font>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>beamer://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+is the scheme that corresponds
+to Beamer, <i>e.g.</i> the Infrared device.&nbsp;
+No URL path component is needed, because PalmOS has only one beamer.&nbsp;
+In this case, the URI syntax allows the last two slashes to be omitted.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</table>
+<p><b>Important Note:</b><br>The data sent by the Beamer is
+encapsulated into a file named&nbsp;
+"<font face="monospace" size=3><b>RexxData.REX</b></font>".&nbsp;
+In return, the Beamer reads any file that has the extension
+"<font face="monospace" size=3><b>REX</b></font>".&nbsp;
+For example:
+<font face="monospace" size=3>Answer.REX</b></font>&nbsp;
+Files that are received on the infrared
+<i>with a different extension</i>
+are processed by the other applications,
+<i>outside of the running REXX Script</i>.
+
+<h3><a name="SEC52" href="#TOC24">5.2&nbsp;&nbsp;Talk2Beamer Example</a></h3>
+<p>
+This example doesn't bring anything that we haven't seen before,
+except the use of the Beamer URL.&nbsp;
+<pre>
+01    <font color="#007700"><b>/* <a name="Talk2Beamer">Talk2Beamer</a>                             </b></font>
+02    <font color="#007700"><b>Simple demo of the beamer (aka IrDA / exg) stream                    </b></font>
+03    <font color="#007700"><b>*/                                                                   </b></font>
+04    <font color="#0000BB"><b>Talk2Beamer:                                                         </b></font>
+05    <font color="#0000BB"><b>   beamer = &quot;beamer:&quot;                                      </b></font>
+06    <font color="#0000BB"><b>   IF Stream(beamer) \= &quot;READY&quot; THEN DO                    </b></font>
+07    <font color="#0000BB"><b>      SAY &quot;Cannot access the Beamer port&quot;                  </b></font>
+08    <font color="#0000BB"><b>      EXIT                                                           </b></font>
+09    <font color="#0000BB"><b>      END                                                            </b></font>
+10    <font color="#0000BB"><b>   CALL Lineout beamer, &quot;Hello Beamer! Say something...&quot;   </b></font>
+11    <font color="#0000BB"><b>   SAY &quot;Beamer said:&quot; Linein(beamer)                       </b></font>
+12    <font color="#0000BB"><b>   EXIT                                                              </b></font>
+</pre>
+
+<font size="2">
+<br>- at line 10, the beamer sends a message using the infrareds.
+<br>- at line 11, the beamer reads files sent from any infrared source.&nbsp;
+Again, these files must have the extension
+<font face="monospace"><b>REX</b></font>
+</font>
+
+<h2><a name="SEC6" href="#TOC25"><font face="Georgia">6.&nbsp;&nbsp;Accessing a TCP/IP Port</a></h2>
+<h3><a name="SEC61" href="#TOC26">6.1&nbsp;&nbsp;Syntax of a TCP/IP URL</a></h3>
+<p>
+The TCPIP URL&nbsp;
+<font face="monospace" size=3><b>tcpip://10.11.1.2:6100</b></font>
+can be decomposed into the following 3 parts:
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=50>&nbsp;</td>
+<td bgcolor=#A0F6AA><font face="monospace"><b>
+tcpip://
+</b></font></td>
+<td colspan=2 width="10%" bgcolor=#f0ee3f><font face="monospace"><b>
+10.11.1.2
+</b></font></td>
+<td bgcolor=#AAA0F6 width="5%"><font face="monospace"><b>
+:6100
+</b></font></td><td>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+
+</tr><tr><td colspan=6 height=17></td></tr>
+</tr><tr><td>&nbsp;</td><td colspan=5 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1><font face="monospace"><b>tcpip://</b></font></td>
+<td>&nbsp;</td>
+<td colspan=3>
+is the <b>scheme</b> corresponding to a TCP/IP connection.&nbsp;
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=5 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top width=5 bgcolor=#f0ee3f><font face="monospace"><b>10.11.1.2</b></font></td>
+<td>&nbsp;</td>
+<td colspan=3>
+This field is the TCP/IP address of the host to be connected to.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=5 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#AAA0F6><font face="monospace"><b>:6100</b></font></td>
+<td>&nbsp;</td>
+<td colspan=3>
+is the particular port number on the host that is to be accessed.
+</td>
+
+</tr><tr><td>&nbsp;</td><td colspan=7 height=8><hr></td></tr>
+</table>
+<p>
+<table cellpadding=5>
+<tr>
+<td valign=top><b>Note:&nbsp;</b></td>
+<td>
+Our TCPIP URL is generic.&nbsp;
+In the future, we could add specific TCP schemes (ftp, telnet, smtp, ...),
+but this would just consist in a mapping to the appropriate port,
+for convenience, <i>e.g.</i>:
+21 for ftp, 23 for telnet, 25 for smtp, ...&nbsp;
+The handling of the protocol itself is outside of
+<i>Rexx For Palm OS</i> duties.&nbsp;
+REXX has all what is needed -- including production of binary data --
+in order to implement any particular protocol.
+</td>
+</tr>
+</table>
+
+<h3><a name="SEC62" href="#TOC27">6.2&nbsp;&nbsp;Talk2TcpIp Example</a></h3>
+<p>
+To demo this example requires first to setup both of the participants
+at the talk <i>e.g.</i>, the "client" and the "server".&nbsp;
+This example assumes a Palm OS handheld client talking to a laptop server
+running Microsoft Windows 2000.&nbsp;
+For the sake of completeness, we will first describe
+how we setup the laptop and the handheld in order to run this example.&nbsp;
+<p>
+It is assumed that the laptop has a TCP/IP address
+-- is connected to a LAN -- and has an infrared device
+to talk to the handheld.
+<h4><a name="SEC621" href="#TOC28">6.2.1&nbsp;&nbsp;Setting up the Server (Windows 2000)</a></h4>
+<h5>First, install IrCOMM2k.</h5>
+<p>
+Written by Jan Kiszka, this well renowned software
+(<a href="http://www.ircomm2k.de/">download</a>)
+sets up a
+link from your PC Infrared device to a virtual COM Port --
+<i>Virtual Infrared COM Port for Windows 2000/XP</i>.&nbsp;
+Yes, Jan's site has English pages and the installation process is
+very well described.
+<table cellpadding=5>
+<tr>
+<td valign=top><u>Please,&nbsp;note:&nbsp;</u></td>
+<td>
+We installed IrCOMM2k on <b>COM4</b>, and that is what we recommend.&nbsp;
+It may work as well on other COM ports, though we didn't test it.&nbsp;
+<i>The instructions below assume IrCOMM2k be listening on COM4.</i>
+</td>
+</tr>
+</table>
+
+<h5>Then, you need to configure Windows properly.</h5>
+<p>
+The following info was found in an excellent
+<a href="http://www.users.globalnet.co.uk/~echobase/network/win2k/">
+article of Graeme Davison</a>.&nbsp;
+Please refer to this link if you need more details.
+<ul>
+<li>From the "Phone and Modem Options", in the "Control Panel",
+install the null modem
+"Communications Cable between two computers."
+<ul>
+<li>Set the speed to 19,200
+<li>The Phone Dialing Rules preferences (Location Information) are irrelevant
+<li>Attach this modem to COM4
+</ul>
+<li>From the "Network and Dial-Up Connections" in the "Control Panel",
+select "Make New Connection".
+<ul>
+<li>Select "Accept incoming connections",
+<li>Select "Communications Cable between two computers (COM4)".&nbsp;
+<li>In the properties, set:
+<ul>
+<li>Port speed to 19,200
+<li>Flow control to "Hardware"
+<li>Data bits to 8
+<li>Parity to None
+<li>Stop bits to 1
+</ul>
+<li>Select "Do not allow virtual private connections."
+<li>In the "Incoming Connections TCP/IP Properties, check:
+<ul>
+<li>"Allow callers to access my local area network."
+<li>"Specify TCP/IP addresses".&nbsp;
+Set "From" at 198.168.2.20 and "To" at 198.168.2.21
+</ul>
+</ul>
+<li>From the "Network and Dial-Up Connections" in the "Control Panel",
+go back to the Users tab in the "Incoming Connections Properties" that
+you just created.&nbsp;
+There, check:
+"Always allow directly connected devices such as palmtop computers
+to connect without providing a password".
+<li>From the "Administrative Tools" in the "Control Panel",
+select "Services".&nbsp;
+Start "Remote Access Connection Manager" and "Routing and Remote Access".&nbsp;
+Also make sure that "Virtual IR COM Port, Service Program" is started.
+</ul>
+<p>That should be it.&nbsp;
+If you are in troubles, please refer to the two web sites quoted above:
+they contain lot of useful information.
+<h4><a name="SEC622" href="#TOC29">6.2.2&nbsp;&nbsp;Setting up the Handheld Client</a></h4>
+<p>
+These settings have been verified on a Palm m515 device.
+<ul>
+<li>Tap: "Network" from "Prefs".&nbsp;
+Select:
+<ul>
+<li>Services: Windows RAS
+<li>Username: (your windows userid? -- don't think it matters)
+<li>Password: -Prompt-
+<li>Connection: IR to PC/Handheld
+</ul>
+<li>Tap: "Details" in the lower left corner.&nbsp;
+Select:
+<ul>
+<li>Connection type: PPP
+<li>Idle timeout: 2 minutes
+<li>Query DNS: (checked)
+<li>IP Address: Automatic (checked)
+</ul>
+<li>Tap: "Script" in the lower right corner.&nbsp;
+This is what you should obtain (tap on "End"):
+<br><font face="monospace">
+&nbsp;&nbsp;&nbsp;&nbsp;Send: CLIENT<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Send: CLIENT<br>
+Wait&nbsp;for:&nbsp;CLIENTSERVER<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End:<br>
+</font>
+<li>Enter "Connection" from "Prefs".&nbsp;
+Select: "IR to PC/Handheld", and tap "Edit".&nbsp;
+Select:
+<ul>
+<li>Connect to: PC
+<li>Via: Infrared
+</ul>
+</ul>
+<p>In theory, you are now all set for establishing a successful IP connection
+with your preferred PC application!
+But, we need first to define the application (port) that will answer to
+the handheld request.
+<h4><a name="SEC623" href="#TOC30">6.2.3&nbsp;&nbsp;A TCP/IP PC Server Application Sample (Java)</a></h4>
+<p>
+We hope that <i>Rexx For Palm OS</i> developers will create applications that
+are more useful than this one.&nbsp;
+However, starting with this basic Java sample,
+you will be able to put your creativity at work.&nbsp;
+This program listens to port 6416.
+<pre>
+/* $Id: filesAndDBs.html,v 1.1 2006-09-18 15:35:58 pgr Exp $ */
+
+import java.net.*;
+import java.io.*;
+
+public class PalmServer
+{
+   private Socket socket;
+   boolean alive;
+   Receiver rcvr;
+   Sender sndr;
+   /*--------------------------------------------------------------PalmServer-+
+   *
+   +-------------------------------------------------------------------------*/
+   public PalmServer(ServerSocket serverSocket) throws IOException
+   {
+      System.out.println(
+         "PalmServer waiting on port " + serverSocket.getLocalPort()
+      );
+      socket = serverSocket.accept();
+      System.out.println(
+         "Connected to " + socket.getInetAddress() + ':' + socket.getPort()
+      );
+      rcvr = new Receiver();
+      sndr = new Sender();
+   }
+
+   /*-------------------------------------------------------------------start-+
+   *
+   +-------------------------------------------------------------------------*/
+   public void start() throws IOException
+   {
+      alive = true;
+      rcvr.start();
+      sndr.start();
+      while (rcvr.isAlive()) {
+         try {
+            Thread.currentThread().sleep(500);
+         }catch (InterruptedException e) {}
+      }
+      alive = false;
+      if (sndr.isAlive()) sndr.interrupt();
+      try { socket.close(); }catch (IOException e) {}
+      System.out.println("Connection closed.");
+   }
+
+   /*----------------------------------------------------------class Receiver-+
+   *
+   +-------------------------------------------------------------------------*/
+   class Receiver extends Thread
+   {
+      private InputStream input;
+
+      Receiver() throws IOException {
+         input = socket.getInputStream();
+      }
+
+      public void run()
+      {
+         // print received data
+         try {
+            while (alive) {
+               int c = input.read();
+               if (c == -1) break;
+               System.out.print((char)c);
+            }
+         }catch (IOException e) {
+            System.out.println(e);
+         }
+         System.out.println("Receiver ended.");
+      }
+   }
+
+   /*------------------------------------------------------------class Sender-+
+   *
+   +-------------------------------------------------------------------------*/
+   class Sender extends Thread
+   {
+      BufferedReader input;
+      PrintWriter output;
+
+      Sender() throws IOException {
+         input = new BufferedReader(new InputStreamReader(System.in));
+         output = new PrintWriter(socket.getOutputStream(), true);
+      }
+
+      public void run()
+      {
+         // get user input and transmit it
+         try {
+            while (alive) {
+               if (0 == System.in.available()) {
+                  try { sleep(300); }catch (InterruptedException e) {}
+                  continue;
+               }
+               String lineToSend = input.readLine();
+               // stop if input line is "."
+               if (lineToSend.equals(".")) break;
+               output.println(lineToSend);
+            }
+         }catch (IOException e) {
+             System.out.println(e);
+         }
+         System.out.println("Sender ended...");
+      }
+   }
+
+   /*--------------------------------------------------------------------main-+
+   *
+   +-------------------------------------------------------------------------*/
+   public static void main(String args[])
+   {
+      int port;
+
+      try {
+         port = Integer.parseInt(args[0]);
+      }catch (Exception e) {
+         port = 6416;
+      }
+
+      try {
+         ServerSocket serverSocket = new ServerSocket(port);
+         for (;;) {
+            new PalmServer(serverSocket).start();
+         }
+      }catch (IOException e) {
+         System.out.println(e);
+      }
+   }
+}
+
+/*===========================================================================*/
+</pre>
+<h4><a name="SEC624" href="#TOC31">6.2.4&nbsp;&nbsp;Talk2TcpIp</a></h4>
+<pre>
+01    <font color="#007700"><b>/* <a name="Talk2TcpIp">Talk2TcpIp</a>                            </b></font>
+02    <font color="#007700"><b>Simple demo of the tcpip (aka net) stream                         </b></font>
+03    <font color="#007700"><b>*/                                                                </b></font>
+04    <font color="#0000BB"><b>Talk2TcpIP:                                                       </b></font>
+05    <font color="#0000BB"><b>   SAY &quot;What host do you want to talk to?&quot;              </b></font>
+06    <font color="#0000BB"><b>   PULL host                                                      </b></font>
+07    <font color="#0000BB"><b>   IF host == &quot;&quot; THEN host = &quot;10.110.2.36&quot;    </b></font>
+08    <font color="#0000BB"><b>   SAY &quot;And on what port?&quot;                              </b></font>
+09    <font color="#0000BB"><b>   PULL port                                                      </b></font>
+10    <font color="#0000BB"><b>   IF port == &quot;&quot; THEN port = &quot;6416&quot;           </b></font>
+11    <font color="#0000BB"><b>   tcpip = &quot;tcpip://&quot; || host || &quot;:&quot; || port  </b></font>
+12    <font color="#0000BB"><b>   IF Stream(tcpip) \= &quot;READY&quot; THEN DO                  </b></font>
+13    <font color="#0000BB"><b>      SAY &quot;Cannot access to &quot; tcpip                     </b></font>
+14    <font color="#0000BB"><b>      EXIT                                                        </b></font>
+15    <font color="#0000BB"><b>      END                                                         </b></font>
+16    <font color="#0000BB"><b>   CALL Lineout tcpip, &quot;Hello TcpIP! Say something...&quot;  </b></font>
+17    <font color="#0000BB"><b>   SAY &quot;TcpIP said:&quot; Linein(tcpip)                      </b></font>
+18    <font color="#0000BB"><b>   EXIT                                                           </b></font>
+</pre>
+
+<!-- == SERIAL == -->
+
+<h2><a name="SEC7" href="#TOC32"><font face="Georgia">7.&nbsp;&nbsp;Accessing the Serial Interface</a></h2>
+
+<h3><a name="SEC71" href="#TOC33">7.1&nbsp;&nbsp;Syntax of the Serial URL</a></h3>
+The "Serial URL" groups, in fact, 4 schemes:
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>serial://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+is the scheme that corresponds
+to a generic serial port: either the USB port, or the "classic"
+serial port (aka RS 232.)
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>cradle://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+is a synonym of the previous scheme.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>rs232://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+explicitly designates the RS 232 port.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>usb://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+explicitly designates the USB port.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</table>
+
+<p>The URI may be followed by a "<i>query part</i>" to specify the speed
+(bauds rate) of the serial port.&nbsp;
+In the URL syntax, a <i>query</i> follows the URL and is introduced
+by a question mark.
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr>
+<td width=50>Ex:</td>
+<td width=10 bgcolor=#A0F6AA><font face="monospace"><b>cradle://</b></font></td>
+<td bgcolor=#f0ee3f><font face="monospace"><b>?bauds=9600</b></font></td>
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>cradle://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>is the serial scheme.</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#f0ee3f colspan=1>
+<font face="monospace"><b>?bauds=9600//</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+is the bauds rate assigned to the serial device.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</table>
+
+<table cellpadding=5>
+<tr>
+<td valign=top><b>Note:&nbsp;</b></td>
+<td>
+As seen before, the URI syntax allows the last two slashes to be omitted.&nbsp;
+All the following URL(s) are valid:
+<br><font face="monospace">serial:</font>
+<br><font face="monospace">serial://</font>
+<br><font face="monospace">serial:?bauds=115200</font>
+<br><font face="monospace">serial://?bauds=115200</font>
+</td>
+</tr>
+</table>
+
+<h3><a name="SEC72" href="#TOC34">7.2&nbsp;&nbsp;Talk2Serial Example</a></h3>
+
+<pre>
+01    <font color="#007700"><b>/* <a name="Talk2Serial">Talk2Serial</a>                       </b></font>
+02    <font color="#007700"><b>Simple demo of the serial (aka rs232) stream                   </b></font>
+03    <font color="#007700"><b>*/                                                             </b></font>
+04    <font color="#0000BB"><b>Talk2Serial:                                                   </b></font>
+05    <font color="#0000BB"><b>   serial = &quot;serial:?bauds=19200&quot;                    </b></font>
+06    <font color="#0000BB"><b>   IF Stream(serial) \= &quot;READY&quot; THEN DO              </b></font>
+07    <font color="#0000BB"><b>      SAY &quot;Cannot access the Serial port&quot;            </b></font>
+08    <font color="#0000BB"><b>      EXIT                                                     </b></font>
+09    <font color="#0000BB"><b>      END                                                      </b></font>
+10    <font color="#0000BB"><b>   CALL Lineout serial, &quot;Hello Serial! Say something..."  </b></font>
+11    <font color="#0000BB"><b>   SAY &quot;Serial said:&quot; Linein(serial)                 </b></font>
+12    <font color="#0000BB"><b>   EXIT                                                        </b></font>
+</pre>
+
+<!-- == MIDI == -->
+
+<h2><a name="SEC8" href="#TOC35"><font face="Georgia">8.&nbsp;&nbsp;Playing MIDI sounds</a></h2>
+
+<h3><a name="SEC81" href="#TOC36">8.1&nbsp;&nbsp;Syntax of the MIDI URL</a></h3>
+The syntax of a Midi URL is pretty simple:
+<font face="monospace" size=3><b>midi://</b></font>
+and can even be abbreviated to
+<font face="monospace" size=3><b>midi:</b></font>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</tr><tr><td>&nbsp;</td>
+<td valign=top bgcolor=#A0F6AA colspan=1>
+<font face="monospace"><b>midi://</b></font></td>
+<td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td colspan=2>
+is the scheme that corresponds
+to a MIDI output.&nbsp;
+Nothing more is needed, and
+the URI syntax allows the last two slashes to be omitted.
+</td>
+</tr><tr><td>&nbsp;</td><td colspan=6 height=8><hr></td></tr>
+</table>
+<p>
+<table cellpadding=5>
+<tr>
+<td valign=top><b>Note:&nbsp;</b></td>
+<td>
+At the difference with the precedent streams, MIDI is only for
+output.&nbsp;
+Therefore, <font face="monospace"><b>CALL Charin "midi:" ...</b></font>
+is irrelevant.
+</td>
+</tr>
+</table>
+
+<h3><a name="SEC82" href="#TOC37">8.2&nbsp;&nbsp;PlayMidi Example</a></h3>
+<pre>
+01    <font color="#007700"><b>/* <a name="PlayMidi">PlayMidi</a>                                         </b></font>
+02    <font color="#007700"><b>Play a Standard Midi FIle (SMF) out of a MIDI sound DB                     </b></font>
+03    <font color="#007700"><b>*/                                                                         </b></font>
+04    <font color="#0000BB"><b>PlayMidi:                                                                  </b></font>
+05    <font color="#0000BB"><b>PARSE ARG dbName songNumber                                                </b></font>
+06    <font color="#0000BB"><b>if dbName == &quot;&quot; THEN DO                                          </b></font>
+07    <font color="#0000BB"><b>  SAY &quot;Name the MIDI Database: (default System MIDI Sounds)&quot;     </b></font>
+08    <font color="#0000BB"><b>  PARSE PULL dbName rest                                                   </b></font>
+09    <font color="#0000BB"><b>END                                                                        </b></font>
+10    <font color="#0000BB"><b>IF dbName == &quot;&quot; THEN dbName = &quot;System MIDI Sounds&quot;     </b></font>
+11    <font color="#0000BB"><b>if songNumber == &quot;&quot; THEN DO                                      </b></font>
+12    <font color="#0000BB"><b>  SAY &quot;What song number? (default gives a list)&quot;                 </b></font>
+13    <font color="#0000BB"><b>  PARSE PULL songNumber rest                                               </b></font>
+14    <font color="#0000BB"><b>END                                                                        </b></font>
+15    <font color="#0000BB"><b>                                                                           </b></font>
+16    <font color="#0000BB"><b>IF songNumber &lt;> &quot;&quot; THEN DO                                      </b></font>
+17    <font color="#0000BB"><b>   maxSong = 1                                                             </b></font>
+18    <font color="#0000BB"><b>   input = &quot;dm:///&quot; || dbName || &quot;//&quot; || songNumber    </b></font>
+19    <font color="#0000BB"><b>   IF Stream(input) == &quot;READY&quot; THEN maxSong = songNumber + 1     </b></font>
+20    <font color="#0000BB"><b>   CALL PlayASong                                                          </b></font>
+21    <font color="#0000BB"><b>   END                                                                     </b></font>
+22    <font color="#0000BB"><b>ELSE DO                                                                    </b></font>
+23    <font color="#0000BB"><b>   /* Collect titles */                                                    </b></font>
+24    <font color="#0000BB"><b>   DO maxSong=1                                                            </b></font>
+25    <font color="#0000BB"><b>      input = &quot;dm:///&quot; || dbName || &quot;//&quot; || maxSong    </b></font>
+26    <font color="#0000BB"><b>      IF Stream(input) \= &quot;READY&quot; THEN LEAVE                     </b></font>
+27    <font color="#0000BB"><b>      SAY maxSong &quot;->&quot; GetTitle()                                </b></font>
+28    <font color="#0000BB"><b>      END                                                                  </b></font>
+29    <font color="#0000BB"><b>                                                                           </b></font>
+30    <font color="#0000BB"><b>   DO UNTIL answer &lt;> 'Y'                                                  </b></font>
+31    <font color="#0000BB"><b>      SAY &quot;Please, choose a title number:&quot;                       </b></font>
+32    <font color="#0000BB"><b>      PULL songNumber                                                      </b></font>
+33    <font color="#0000BB"><b>      CALL PlayASong                                                       </b></font>
+34    <font color="#0000BB"><b>      SAY &quot;Play another? (Y/N)&quot;                                  </b></font>
+35    <font color="#0000BB"><b>      PULL answer                                                          </b></font>
+36    <font color="#0000BB"><b>      END                                                                  </b></font>
+37    <font color="#0000BB"><b>   END                                                                     </b></font>
+38    <font color="#0000BB"><b>                                                                           </b></font>
+39    <font color="#0000BB"><b>RETURN                                                                     </b></font>
+40    <font color="#0000BB"><b>                                                                           </b></font>
+41    <font color="#0000BB"><b>PlayASong: PROCEDURE EXPOSE dbName songNumber input                        </b></font>
+42    <font color="#0000BB"><b>   IF Datatype(songNumber) &lt;> 'NUM' |,                                     </b></font>
+43    <font color="#0000BB"><b>      songNumber &lt; 1 | songNumber >= maxSong THEN DO                       </b></font>
+44    <font color="#0000BB"><b>      SAY songNumber &quot;is not valid.&quot;                             </b></font>
+45    <font color="#0000BB"><b>      EXIT                                                                 </b></font>
+46    <font color="#0000BB"><b>      END                                                                  </b></font>
+47    <font color="#0000BB"><b>   input = &quot;dm:///&quot; || dbName || &quot;//&quot; || songNumber    </b></font>
+48    <font color="#0000BB"><b>   SAY &quot;Now playing...&quot; GetTitle()                               </b></font>
+49    <font color="#0000BB"><b>   CALL Charin input, 1+C2d(Charin(input,5)), 0  /* start of the Midi rec */ </b></font>
+50    <font color="#0000BB"><b>   CALL Charout &quot;midi:&quot;, Charin(input,,Chars(input)) /* play it */ </b></font>
+51    <font color="#0000BB"><b>   RETURN                                                                  </b></font>
+52    <font color="#0000BB"><b>                                                                           </b></font>
+53    <font color="#0000BB"><b>GetTitle: PROCEDURE EXPOSE input                                           </b></font>
+54    <font color="#0000BB"><b>   IF Charin(Input, 1, 4) &lt;> &quot;PMrc&quot; THEN DO                      </b></font>
+55    <font color="#0000BB"><b>      SAY dbName &quot;doesn't appear to be a Midi Database.&quot;         </b></font>
+56    <font color="#0000BB"><b>      EXIT                                                                 </b></font>
+57    <font color="#0000BB"><b>      END                                                                  </b></font>
+58    <font color="#0000BB"><b>   CALL Charin input, 7, 0                                                 </b></font>
+59    <font color="#0000BB"><b>   DO titleLen = 0 WHILE Charin(input) \= '00'x; END                       </b></font>
+60    <font color="#0000BB"><b>   RETURN Charin(input, 7, titleLen)                                       </b></font>
+</pre>
+
+<p>&nbsp;
+<p align="CENTER"><b>o&nbsp;&nbsp;o<br>o
+<p align="CENTER"><font color=blue><b>(Actual End of Document)</font>
+
+</body>
+
+</html>

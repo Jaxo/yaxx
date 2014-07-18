@@ -66,7 +66,13 @@ public class Rexx extends Activity
          new Thread(
             new Runnable() {
                public void run() {
-                  final int rc = interpret(content, m_console, m_speaker);
+                  final int rc = interpret(
+                     content,
+                     m_console,
+                     "file:///" +
+                     getBaseContext().getFilesDir().getAbsolutePath() + "/",
+                     m_speaker
+                  );
                   int resultCode;
                   m_speaker.close();
                   m_console.flush();
@@ -75,7 +81,6 @@ public class Rexx extends Activity
                   if (rc == 0) {
                      resultCode = RESULTCODE_OK;
                   }else {
-                     intent.putExtra(REXX_MESSAGE_KEY, m_console.m_errMessage);
                      intent.putExtra(REXX_ERRORCODE_KEY, rc);
                      if (rc == -1) {
                         resultCode = RESULTCODE_EXCEPTION_THROWN;
@@ -102,6 +107,7 @@ public class Rexx extends Activity
    public native int interpret(
       String script,
       RexxConsole console,
+      String baseUri,
       Speaker speaker
    );
 }

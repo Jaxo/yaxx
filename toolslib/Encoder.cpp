@@ -223,12 +223,12 @@ EncodingModule::Id Encoder::interpretByteMark(
    }bom;                       // Byte Order Mark
 
    int i = pSb->sbumpc();      // read 1st byte
-   if (i == EOF) {
+   if (i == -1) {  // EOF
       return EncodingModule::ISO_8859; // empty file: who cares of the encoding?
    }
    bom.c[0] = i;
    i = pSb->sgetc();           // peek 2nd byte
-   if (i == EOF) {
+   if (i == -1) {  // EOF
       ((Hacked_Streambuf *)pSb)->ungetc();  // unread 1st byte
       return EncodingModule::ISO_8859;
    }

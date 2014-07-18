@@ -11,6 +11,9 @@
 */
 package com.jaxo.android.rexx;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,16 +22,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /*-- class ScriptsList --+
 *//**
@@ -40,6 +43,7 @@ public class ScriptsList extends ListActivity
 {
    private static final int NEW_SCRIPT_REQCODE = 0;
    private static final int EDIT_SCRIPT_REQCODE = 1;
+   private static final int IMPORT_FILE_REQCODE = 2;
 
    private static final int PREFERENCES_ID = Menu.FIRST;
    private static final int NEW_ID = Menu.FIRST + 1;
@@ -47,6 +51,7 @@ public class ScriptsList extends ListActivity
    private static final int EDIT_ID = Menu.FIRST + 3;
    private static final int RUN_ID = Menu.FIRST + 4;
    private static final int DELETE_ID = Menu.FIRST + 5;
+   private static final int IMPORT_ID = Menu.FIRST + 6;
 
    private RexxDatabase m_rexxDb;
 
@@ -81,10 +86,12 @@ public class ScriptsList extends ListActivity
    +-------------------------------------------------------------------------*/
    public boolean onCreateOptionsMenu(Menu menu) {
       super.onCreateOptionsMenu(menu);
-      menu.add(0, PREFERENCES_ID, 0, R.string.Preferences).
-      setIcon(android.R.drawable.ic_menu_preferences);
       menu.add(Menu.NONE, NEW_ID, Menu.NONE, R.string.NewScript).
       setIcon(android.R.drawable.ic_menu_add);
+      menu.add(Menu.NONE, IMPORT_ID, Menu.NONE, R.string.Import).
+      setIcon(android.R.drawable.ic_input_get);
+      menu.add(0, PREFERENCES_ID, 0, R.string.Preferences).
+      setIcon(android.R.drawable.ic_menu_preferences);
       menu.add(Menu.NONE, INFO_ID, Menu.NONE, R.string.Info).
       setIcon(android.R.drawable.ic_menu_info_details);
       return true;
@@ -103,6 +110,12 @@ public class ScriptsList extends ListActivity
          return true;
       case NEW_ID:
          createScript();
+         return true;
+      case IMPORT_ID:
+         startActivityForResult(
+            new Intent(this, FileChooser.class),
+            IMPORT_FILE_REQCODE
+         );
          return true;
       case INFO_ID:
          startActivity(new Intent(this, About.class));
@@ -263,6 +276,14 @@ public class ScriptsList extends ListActivity
       int requestCode, int resultCode, Intent intent
    ) {
       super.onActivityResult(requestCode, resultCode, intent);
+      if ((requestCode == IMPORT_FILE_REQCODE) && (resultCode == RESULT_OK)) {
+         try {
+            m_rexxDb.importScript(
+               new FileReader(new File(intent.getStringExtra("filepath")))
+            );
+         }catch (IOException e) {
+         }
+      }
       refreshList();
    }
 }

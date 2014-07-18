@@ -9,7 +9,9 @@
 */
 
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
+#define ISO_14882   // please, don't ask me why (string?)
+#include "../toolslib/migstream.h"
 #include "../toolslib/RefdItem.h"
 
 /*--------------------------------------------------------------- Transition -+

@@ -1,0 +1,207 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Rexx for Palm OS URL Stream I/O</title>
+</head>
+
+<body>
+
+<p><a href="../index.html">back to Rexx for Palm OS</a></p>
+
+<h2><font face="Georgia">URL Stream I/O</font></h2>
+
+<p><font face="Georgia">Rexx for Palm OS makes I/O streams available under a
+variety of naming schemes and access methods using URL's.&nbsp; The syntax of
+these URL's conforms to the rules of <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396</a>,
+&quot;Uniform Resource Identifiers (URI): Generic Syntax.&quot;</font></p>
+
+<p><font face="Georgia">These are the addressing schemes currently support by
+Rexx for Palm OS.</font></p>
+<ul>
+  <li><font face="Georgia"><i><a href="#dm">dm:</a>&nbsp;</i></font></li>
+  <li><font face="Georgia"><i><a href="#file">file:</a></i></font></li>
+  <li><font face="Georgia"><i><a href="#consolein">console:</a></i></font></li>
+  <li><font face="Georgia"><i><a href="#clipboardin">clipboard:</a></i></font></li>
+</ul>
+<p><font face="Georgia">The following sections outline the syntax and semantics
+of these naming <a href="#Schemes">schemes</a>
+and how the corresponding access methods
+interact with Rexx's stream I/O built-ins.</font></p>
+<p><font face="Georgia">If you're looking for a quick tutorial on I/O with
+example, you
+can <a href="filesAndDBs.html">follow this link</a> instead.</font></p>
+<h3><font face="Georgia"><a name="Schemes">Schemes</a></font></h3>
+<blockquote>
+<p>
+  <font color="darkcyan" face="Georgia"><b><a name="dm">dm:</a><br>
+  </b></font><font face="Georgia">The <i>dm:</i> scheme is used to access record-oriented databases on the
+  Palm, and is named for and corresponds to the Palm OS Database Manager
+  API.&nbsp; These types of databases are used by most Palm applications, such
+  as MemoPad, Expense, ToDo List, etcetera.&nbsp; If you read or write databases
+that belong to other applications such as these, then you must understand the
+format of the data in the records.&nbsp; For example, MemoPad appends an ending
+zero ('00'x) to the end of each record, so your Rexx script must deal with this
+appropriately.</font>
+  </p>
+<table border="1" cellpadding=8><tr><td height="269"><font color=green>
+<pre><font size="2" face="Courier New"><b>dm://</b> [ <i>creator</i> [ <b>.</b><i> type</i> ] <b>@</b> ] [ <i>host</i> ] [ <b>:</b> <i>cardNo</i> ]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>/</b> <i>dbName</i> [ <b>/</b> [ <i>category</i> ] [ <b>/</b> recordNo ]]</font></pre>
+<pre><i><b><font size="2" face="Courier New">Where:</font></b></i></pre>
+<ul type="circle">
+  <li><font face="Georgia"><i><font size="2" color="green">creator</font></i><font size="2" color="green" face="Georgia">
+    is the optional creator id (default is <b>Rexx</b>).</font></font></li>
+  <li><font face="Georgia"><i><font size="2" color="green">type</font></i> <font size="2" color="green" face="Georgia">
+    is the optional type (default is <b>data</b>).</font></font></li>
+  <li>
+  <font face="Georgia">
+  <i><font size="2" color="green">host</font></i> <font size="2" color="green" face="Georgia">
+    is optional and reserved for future use (default is <b>localhost</b>).</font></font></li>
+  <li><font face="Georgia"><i>
+  <font size="2" color="green">cardNo </font> </i><font size="2" color="green" face="Georgia">is
+    the optional card number (default is zero, <b>0</b>).</font></font></li>
+  <li><font face="Georgia"><i>
+  <font size="2" color="green">dbName </font></i><font size="2" color="green" face="Georgia">is
+    the <b>required case-sensitive</b> database name (required).</font></font></li>
+  <li><font face="Georgia"><i>
+  <font size="2" color="green">category </font> </i><font size="2" color="green" face="Georgia">is
+    the optional <b>case-sensitive</b> category name (no default).</font>
+    </font>
+      </font></li>
+<font color=green>
+<li><font face="Georgia"><i>
+  <font size="2" color="green">recordNo </font> </i><font size="2" color="green" face="Georgia">is
+  the record number relative to the category (default is one, <b>1</b>, for read
+  and the last record for write).</font></font></li>
+</ul>
+<pre><b><i><font size="2" face="Courier New">Special notes:</font></i></b></pre>
+<ol>
+  <li><font face="Georgia" size="2" color="green">If you do not specify a record
+    number for operations on record-oriented databases, the default record
+    number for a read operation is the first (number 1) record, and the record
+    number for a write operation is the last record since data is
+    appended.&nbsp;</font></li>
+  <li><font face="Georgia" size="2">When a previously-existing database is
+    opened for writing, it is always updated and not first truncated to zero and
+    overwritten.</font></li>
+  <li><font face="Georgia" size="2" color="green">The record number is always
+    relative to the specified category.</font></li>
+  <li><font face="Georgia" size="2" color="green">If the category is not
+    specified for an existing database, then the record number is relative to
+    the</font></font><font color="#008000"><font face="Georgia" size="2"> whole database, i.e., records in all categories.&nbsp;
+  In addition, if the </font></font><font face="Georgia" size="2" color="green">category is not
+    specified and </font><font face="Georgia" size="2" color="#008000">this is a
+  write operation, then newly created records within the already existing
+  database become part of no specific </font><font face="Georgia" size="2" color="green">category</font><font face="Georgia" size="2" color="#008000">.</font></li>
+<font color=green>
+<li><font face="Georgia" size="2" color="green">If the category is not specified
+  for a new database, then there is no default category for records created in this new
+  database, and the records are uncategorized (or, what some Palm OS
+  applications by convention named the <b>Unfiled</b> category).</font></li>
+<li><font face="Georgia"><font size="2">There is no explicit “close” operation on streams in
+  Rexx, except as provided by the STREAM() built-in, which you should try to avoid
+  in Rexx for Palm OS<span style="mso-spacerun:
+yes">.&nbsp; A Rexx stream </span><span style="mso-spacerun: yes">is closed </span>when
+  the Rexx script ends.&nbsp; </font><font face="Georgia" size="2" color="green">When
+  a Rexx stream that was being updated is closed,&nbsp; it is truncated at the
+  most recently written position.</font></font></li>
+<li><font face="Georgia" size="2" color="green">Names are case sensitive, as
+  they are in the corresponding Palm OS API.</font></li>
+</ol>
+<pre><b><i><font face="Courier New" size="2" color="green">Examples:</font></i></b></pre>
+<ul>
+  <li><font face="Courier New" size="2" color="green"><b>dm://Rexx.data@localhost:0/MemoDB//1<br>
+    </b></font><font size="2" face="Georgia">The first record of the MemoDB database (MemoPad's).</font></li>
+  <li><b><font size="2" face="Courier New">dm:///MemoDB//1</font><br>
+    </b><font size="2" face="Georgia">The same as the previous example.</font></li>
+  <li><font size="2" face="Courier New"><b>dm:///MemoDB<br>
+    </b></font><font size="2" face="Georgia">The record depends on whether it's a read or write
+    operation: it's the first record for a read and the last record (append) for
+    a write.</font></li>
+  <li><font face="Courier New" size="2" color="green"><b>dm:///MemoDB//REXX/5<br>
+    </b></font><font size="2" face="Georgia">The fifth Rexx script.</font></li>
+</ul>
+      </font></td></tr></table>
+
+
+<p><font color="darkcyan" face="Georgia"><b><a name="file">file:</a><br>
+  </b></font><font face="Georgia">The <i>file:</i> scheme is used to access file streams on the Palm, and is
+  named for and corresponds to the Palm OS File Stream API.&nbsp; Palm OS
+  applications do not typically use file streams because most Palm OS
+  applications are forms-oriented, and forms-oriented applications work
+  naturally well with corresponding record-oriented databases.&nbsp; However,
+  file streams can be very useful for Rexx programmers, and unlike
+record-oriented databases on Palm OS, do not have any size limitations.</font></p>
+<table border="1" cellpadding=8><tr><td height="269"><font color=green>
+<pre><font size="2" face="Courier New"><b>file://</b> [ <i>creator</i> [ <b>.</b><i> type</i> ] <b>@</b> ] [ <i>host</i> ] [ <b>:</b> <i>cardNo</i> ]
+&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;<b>/</b> <i>fileName</i></font></pre>
+<pre><i><b><font size="2" face="Courier New">Where:</font></b></i></pre>
+<ul type="circle">
+  <li><font size="2" face="Georgia"><i>creator</i> is the optional creator id (default is <b>Rexx</b>)</font></li>
+  <li><font size="2" face="Georgia"><i>type</i>  is the optional type (default is <b>data</b>)</font></li>
+  <li><font size="2" face="Georgia"><i>host</i>  is optional and reserved for future use (default is <b>localhost</b>)</font></li>
+  <li><font size="2" face="Georgia"><i>
+  cardNo </i>is the optional card number (default is zero, <b>0</b>)</font></li>
+  <li><font size="2" face="Georgia"><i>fileName </i>is the <b>required case-sensitive</b> file name (required)</font></li>
+</ul>
+<pre><b><i>Special notes:</i></b></pre>
+<ol>
+  <li><font face="Georgia" size="2">When a previously-existing file stream is
+    opened for writing, it is always updated and not first truncated to zero and
+    overwritten.&nbsp; If you expect it to be empty for writing and you want it
+    to be truncated to zero and overwritten, simply perform
+    the following as your first write operation.<br>
+    </font><b><font face="Courier New" size="2">call
+    charout &quot;file:///foo&quot;,'',1</font></b></li>
+  <li><font face="Georgia"><font size="2">There is no explicit “close” operation on streams in
+  Rexx, except as provided by the STREAM() built-in, which you should try to avoid
+  in Rexx for Palm OS<span style="mso-spacerun:
+yes">.&nbsp; A Rexx stream </span><span style="mso-spacerun: yes">is closed </span>when
+  the Rexx script ends.&nbsp; </font><font face="Georgia" size="2" color="green">When
+  a Rexx stream that was being updated is closed,&nbsp; it is truncated at the
+  most recently written position.</font></font></li>
+<li><font face="Georgia" size="2" color="green">Names are case sensitive, as
+  they are in the corresponding Palm OS API.</font></li>
+</ol>
+<pre>E<b><i>xamples:</i></b></pre>
+<ul>
+  <li><font face="Courier New" size="2" color="green"><b>file://Rexx.data@localhost:0/foo<br>
+    </b></font><font size="2" face="Georgia">The file named foo.</font></li>
+  <li><font face="Courier New" size="2"><b>file</b></font><font face="Courier New" size="2" color="green"><b>:///foo<br>
+    </b></font><font size="2" face="Georgia">The same as the previous example,
+    since it uses defaults.</font></li>
+  <li><font face="Courier New" size="2"><b>foo</b><br>
+    </font>
+    <font size="2" face="Georgia">The same as the previous example, since the default base URL
+    is <b>file://</b>.</font></li>
+</ul>
+      </font></td></tr></table>
+
+
+    <p><font color="darkcyan" face="Georgia"><b><a name="consolein">console:in</a><br>
+console:out<br>
+  </b></font><font face="Georgia">The <i>console:</i> scheme has only two (2)
+absolute forms, <b>console:in</b> and <b>console:out</b>.&nbsp;&nbsp;</font></p>
+
+
+    <p><font face="Georgia">The <b>console:in</b>   form can also currently be used to configure Rexxlets, since a way of addressing
+    an input console
+is needed in order to use it as the source of a Rexxlet script.&nbsp; In fact,
+    this is the <a href="../download.html#app2graffiti">default configuration for
+    the <b>App-to-Graffiti</b> pen stroke</a>.</font></p>
+    <p><font color="darkcyan" face="Georgia"><b><a name="clipboardin">clipboard:in</a><br>
+clipboard:out<br>
+</b></font><font face="Georgia">The <i>clipboard:</i> scheme has only two (2)
+absolute forms, <b>clipboard:in</b> and <b>clipboard:out</b>.&nbsp; It is <i> not yet fully implemented
+    </i> as
+  part of Rexx's stream I/O built-ins, but when it is it will provide a way to read and write the contents of the Palm OS clipboard.</font></p>
+<p><font face="Georgia"> However, <b>clipboard:in</b>  <i> can currently be
+used</i> to configure Rexxlets, since a way of addressing the clipboard is needed in
+order to use it as the source of a Rexxlet script.</font></p>
+</blockquote>
+
+</body>
+
+</html>

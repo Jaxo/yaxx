@@ -27,7 +27,7 @@ void Writer::setWidth(int w) {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 Writer & Writer::seekp(streamoff so, ios::seekdir dir) {
-   if (EOF == rdbuf()->pubseekoff(so, ios::beg, ios::out)) {
+   if (-1 == rdbuf()->pubseekoff(so, ios::beg, ios::out)) { // EOF
       clear(rdstate() | ios::failbit);
    }
    return *this;

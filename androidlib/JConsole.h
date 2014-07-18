@@ -21,7 +21,6 @@
 
 #include "../toolslib/toolsgendef.h"
 #include "../toolslib/migstream.h"
-#include "../toolslib/MemStream.h"
 
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
@@ -54,8 +53,6 @@ private:
    jmethodID m_putMethod;
    jmethodID m_systemMethod;
    jfieldID m_resultField;
-   jfieldID m_errMessageField;
-   MemStreamBuf m_errBuf;
    streambuf * m_previousInStreambuf;
    streambuf * m_previousOutStreambuf;
    streambuf * m_previousErrStreambuf;

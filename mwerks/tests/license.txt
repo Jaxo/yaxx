@@ -1,0 +1,88 @@
+Rexx for Palm OS Evaluation License
+
+
+This license applies to the evaluation version of Rexx for Palm OS.
+The evaluation version of Rexx for Palm OS must not be used and
+must be destroyed by the time of the first non-evaluation
+version of Rexx for Palm OS.
+
+REXX FOR PALM OS LICENSE
+EVALUATION VERSION
+
+YOUR AGREEMENT TO THIS LICENSE
+
+By using, copying, transmitting, distributing or installing
+Rexx for Palm OS ("Rexx for Palm OS"), you agree to all of the terms of this
+agreement ("License").
+
+Please read the license terms below.  If you do not agree to all
+of the terms of this License, then do not use, copy, transmit,
+distribute, or install Rexx for Palm OS.
+
+SCOPE OF LICENSE
+
+You may:
+
+    a)  give exact copies of this evaluation version of Rexx for Palm OS
+        personally to anyone;
+    b)  distribute exact copies of this evaluation version of
+        Rexx for Palm OS, if done exclusively through electronic channels;
+        and
+    c)  make as many exact copies of this evaluation version of
+        Rexx for Palm OS as you wish, for purposes of distribution as
+        described in (a) and (b) above.
+
+YOU ARE SPECIFICALLY PROHIBITED FROM CHARGING, OR REQUESTING
+DONATIONS, FOR ANY COPIES, HOWEVER MADE, AND FROM DISTRIBUTING
+SUCH COPIES WITH OTHER PRODUCTS OF ANY KIND, COMMERCIAL OR
+OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION.
+All rights of any kind in Rexx for Palm OS which are not expressly granted
+in this License are entirely and exclusively reserved.
+You may not rent, lease, modify, translate, reverse
+engineer, decompile, disassemble, or create derivative works
+based on, Rexx for Palm OS. You may not make access to Rexx for Palm OS available to
+others in connection with a service bureau, application service
+provider, or similar business.
+
+
+WARRANTY DISCLAIMERS AND LIABILITY LIMITATIONS
+
+REXX FOR PALM OS, AND ANY AND ALL ACCOMPANYING SOFTWARE, FILES, DATA AND
+MATERIALS, ARE DISTRIBUTED AND PROVIDED "AS IS" AND WITH NO
+WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED. You
+acknowledge that good data processing procedure dictates that any
+program, including Rexx for Palm OS, must be thoroughly tested with
+non-critical data before you rely on it, and you hereby assume
+the entire risk of using the program.  THIS DISCLAIMER OF
+WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS LICENSE.
+
+ANY LIABILITY WILL BE LIMITED EXCLUSIVELY TO REFUND OF
+PURCHASE PRICE, IF ANY.  IN ADDITION, IN NO EVENT SHALL WE, OR
+OUR PRINCIPALS, SHAREHOLDERS, OFFICERS, EMPLOYEES, AFFILIATES,
+CONTRACTORS, SUBSIDIARIES, OR PARENT ORGANIZATIONS, BE LIABLE FOR
+ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES
+WHATSOEVER RELATING TO THE USE OF REXX FOR PALM OS.
+
+IN ADDITION, IN NO EVENT ARE YOU AUTHORIZED TO USE REXX FOR PALM OS IN
+APPLICATIONS OR SYSTEMS WHERE THE FAILURE OF REXX FOR PALM OS TO PERFORM CAN
+REASONABLY BE EXPECTED TO RESULT IN A SIGNIFICANT PHYSICAL
+INJURY, OR IN LOSS OF LIFE.  ANY SUCH USE BY YOU IS ENTIRELY AT
+YOUR OWN RISK, AND YOU AGREE TO HOLD HARMLESS FROM ANY AND
+ALL CLAIMS OR LOSSES RELATING TO SUCH UNAUTHORIZED USE.
+
+GENERAL
+
+This License is the complete statement of the agreement between
+the parties on the subject matter, and merges and supersedes all
+other or prior understandings, purchase orders, agreements and
+arrangements.  This License shall be governed by the laws of the
+State of California, without regard to California choice-of-law
+rules.  Exclusive jurisdiction and venue for all matters relating
+to this License shall be in courts and fora located in the State
+of California, and you consent to such jurisdiction and venue.
+There are no third party beneficiaries of any promises,
+obligations or representations made herein.  Any waiver
+of any violation of this License by you shall not constitute
+or contribute to a waiver of any other or future violation by you
+of the same provision, or any other provision, of this License.
+

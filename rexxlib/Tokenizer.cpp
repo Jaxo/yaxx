@@ -244,9 +244,9 @@ Token Tokenizer::next(ReservedKeywords rsvd)
         }
         return TK_NOT;
 
-   case EOF:
+   case -1: // EOF
       m_startPos = 1 + m_startPos;         // b/c EOF is not 'real'
-      								// and b/c gcc doesn't like operator++ or operator+ !!!
+                              // and b/c gcc doesn't like operator++ or operator+ !!!
       return TK_EOF;
 
    default:
@@ -323,7 +323,7 @@ Token Tokenizer::getSymbol()
          m_lenToken = pCur - m_tokenBuf;
          return TK_FUNCTION;
 
-      case EOF:
+      case -1: // EOF
          break;     // end of symbol
 
       default:
@@ -362,7 +362,7 @@ Token Tokenizer::getQuoted()
    ) {
       m_in.sbumpc();
       switch (m_cur) {
-      case EOF:
+      case -1: // EOF
       case '\n':
          m_erh << ECE__ERROR << (quote=='\''? _REX__6_2 : _REX__6_3) << endm;
          return TK_EOF;
@@ -466,7 +466,7 @@ inline int Tokenizer::nextChar()
             m_in.sbumpc();       // skip over '*' in "/*"
             for (;;) {
                switch (m_in.sbumpc()) {
-               case EOF:
+               case -1: // EOF
                   m_erh << ECE__ERROR << _REX__6_1 << endm;
                   st=0;
                   level=0;
@@ -497,7 +497,7 @@ inline int Tokenizer::nextChar()
          break;
       }
       if (markPos) {
-         if ((int)m_in.pubseekoff(markPos, ios::beg, ios::in) == EOF) {
+         if ((int)m_in.pubseekoff(markPos, ios::beg, ios::in) == -1) { // EOF
             m_erh << _REX__30_0 << endm;
          }
          m_cur = ',';

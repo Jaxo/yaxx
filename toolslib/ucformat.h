@@ -66,7 +66,7 @@ public:
    int  eof()  const    { return state & ios::eofbit; }
    int  good() const    { return state == 0; }
 
-   virtual int peek(int) { return EOF; }     // EOF_SIGNAL
+   virtual int peek(int) { return -1; }     // EOF_SIGNAL
    virtual int skip(int) { return 0; }
 
    // valid for ASCII 7bits only: this is a format operation.

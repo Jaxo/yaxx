@@ -37,7 +37,6 @@ public class RexxConsole implements OnKeyListener
    Editable m_outBuf;
    StringBuilder m_inBuf;
    public String m_result;     // JNI assumes public access to this field
-   public String m_errMessage; // JNI assumes public access to this field
 
    private static final int TMP_BUFSIZE = 1024;
    private byte[] m_tmpBuf;
@@ -55,7 +54,6 @@ public class RexxConsole implements OnKeyListener
       m_inBuf = new StringBuilder(100);
       m_tmpBuf = new byte[TMP_BUFSIZE];
       m_result = "";
-      m_errMessage = "";
    }
 
    /*------------------------------------------------------------------system-+
