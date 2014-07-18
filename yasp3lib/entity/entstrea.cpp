@@ -41,7 +41,7 @@ int BracketedStreamBuf::underflow()
 {
    /*---
    | Visual C++ has bad manners, like:
-   | 1) calling undeflow for no reason (gptr < egptr); or,
+   | 1) calling underflow for no reason (gptr < egptr); or,
    | 2) calling underflow for good, but with gptr() > egptr().
    | The first case is caught by next if.  To avoid the second
    | case, no assumption is made on how much gptr() is > egptr().
@@ -57,7 +57,7 @@ int BracketedStreamBuf::underflow()
       init((char const *)pUcSuffix, iLenSuffix, MemStreamBuf::Constant);
       return sgetc();
    }
-   return EOF;
+   return -1; // EOF
 }
 
 /*-----------------------------------------------BracketedStreamBuf::in_avail-+
@@ -113,7 +113,7 @@ streampos BracketedStreamBuf::seekoff(
    default:
       break;
    }
-   return EOF;
+   return -1; // EOF
 }
 
 /*------------------------------------------------BracketedStreamBuf::seekpos-+

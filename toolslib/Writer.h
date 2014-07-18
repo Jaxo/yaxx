@@ -55,7 +55,7 @@ namespace TOOLS_NAMESPACE {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 class TOOLS_API Writer :
-   protected TpManipInt::Set, public ::ios {
+   protected TpManipInt::Set, public ios {
    friend class UnicodeWriter;
    friend class MultibyteWriter;
 public:
@@ -310,7 +310,7 @@ public:
       return operator<<(UcStringFlash(&uc, 1));
    }
    Writer & operator<<(char c) {
-      if (rdbuf()->sputc((unsigned char)c) == EOF) {
+      if (rdbuf()->sputc((unsigned char)c) == -1) { // EOF
          clear(rdstate() | ios::eofbit | ios::failbit);
       }
       return *this;

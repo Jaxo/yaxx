@@ -256,7 +256,7 @@ int UnicodeRWBuffer::sync()
                      ios::in
                   )
                #else
-                  EOF == pSbProd->pubseekoff(
+                  -1 == pSbProd->pubseekoff( // EOF
                      -iBytesCount,
                      ios::cur,
                      ios::in
@@ -568,7 +568,7 @@ int MultibyteRWBuffer::sync()
                      ios::in
                   )
                #else
-                  EOF == pSbProd->pubseekoff(
+                  -1 == pSbProd->pubseekoff( // EOF
                      -iBytesCount,
                      ios::cur,
                      ios::in

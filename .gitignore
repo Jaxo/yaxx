@@ -5,4 +5,7 @@ android/libs
 android/lint.xml
 android/obj
 android/proguard
+yaxx/yaxx
+lib
+*.o
 CVS

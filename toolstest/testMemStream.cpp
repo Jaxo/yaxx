@@ -3,7 +3,6 @@
 // simple memstream test
 
 #include "../toolslib/MemStream.h"
-#include <iomanip.h>
 
 /*--------------------------------------------------------------testMemStream-+
 |                                                                             |

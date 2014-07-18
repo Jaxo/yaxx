@@ -213,11 +213,11 @@ private:
 | This class is internal: reserved for invalid streams                        |
 +----------------------------------------------------------------------------*/
 class TOOLS_API NullStreamBuf : public streambuf {
-   int overflow(int)     { return EOF; }
-   int underflow()       { return EOF; }
+   int overflow(int)     { return -1; }   // EOF
+   int underflow()       { return -1; }   // EOF
    int sync()            { return 0; }
-   streampos seekoff(streamoff, ios::seekdir, ios__openmode) { return EOF; }
-   streampos seekpos(streampos sp, ios__openmode om)         { return EOF; }
+   streampos seekoff(streamoff, ios::seekdir, ios__openmode) { return -1; } // EOF
+   streampos seekpos(streampos sp, ios__openmode om)         { return -1; } // EOF
 };
 
 class TOOLS_API NullStream : public iostream {

@@ -316,7 +316,7 @@ RexxString IOMgr::readLine(bool & isEof, streambuf & sb)
 {
    StringBuffer buf(100);
    buf.append(sb, '\n');
-   isEof = (sb.sbumpc() == EOF); // also, this skips the ending delimiter
+   isEof = (sb.sbumpc() == -1); // EOF also, this skips the ending delimiter
    if (buf.length() && ('\r' == buf.charAt(buf.length()-1))) {
       buf.setLength(buf.length() - 1);
    }
@@ -359,7 +359,7 @@ RexxString IOMgr::streamCmnd(
       UriEntry * entry = findEntry(name);
       if (!entry) {
          sig = SIG_NOTREADY;
-      }else if (EOF == entry->getBuf()->pubsync()) {
+      }else if (-1 == entry->getBuf()->pubsync()) { // EOF
          sig = SIG_NOTREADY;
       }else {
          sig = SIG_NONE;
@@ -419,11 +419,11 @@ int IOMgr::chars(RexxString & name, Signaled & sig)
    }else {
       streambuf * pSb = entry->getBuf();
       long curPos = pSb->pubseekoff(0, ios::cur, ios::in);
-      if (curPos != EOF) {
+      if (curPos != -1) { // EOF
          long endPos = pSb->pubseekoff(0, ios::end, ios::in);
          if (
-            (EOF != pSb->pubseekoff(curPos, ios::beg, ios::in)) &&
-            (EOF != endPos)
+            (-1 != pSb->pubseekoff(curPos, ios::beg, ios::in)) && // EOF
+            (-1 != endPos) // EOF
          ) {
             sig = SIG_NONE;
             return endPos - curPos;
@@ -447,7 +447,7 @@ RexxString IOMgr::charin(
       streambuf * pSb = entry->getBuf();
       if (
          (start > 0) &&
-         (EOF == pSb->pubseekoff(start-1, ios::beg, ios::in))
+         (-1 == pSb->pubseekoff(start-1, ios::beg, ios::in)) // EOF
       ) {
          sig = SIG_ERROR;
       }else {
@@ -458,7 +458,7 @@ RexxString IOMgr::charin(
          case 1:
             {
                int c = pSb->sbumpc();
-               if (c != EOF) return RexxString((char)c);
+               if (c != -1) return RexxString((char)c); // EOF
             }
          default:
             {
@@ -486,7 +486,7 @@ int IOMgr::charout(
       streambuf * pSb = entry->getBuf();
       if (
          (start > 0) &&
-         (EOF == pSb->pubseekoff(start-1, ios::beg, ios::out))
+         (-1 == pSb->pubseekoff(start-1, ios::beg, ios::out)) // EOF
       ) {
          sig = SIG_ERROR;
       }else {
@@ -510,12 +510,12 @@ int IOMgr::gotoLine(streambuf * pSb, int from, int to, ios__openmode om)
    int c;
    if (from > to) {
       from = 1;
-      if (EOF == pSb->pubseekoff(0, ios::beg, om)) {
+      if (-1 == pSb->pubseekoff(0, ios::beg, om)) { // EOF
          return -1;
       }
    }
    while (from < to) {
-      if (c = pSb->sbumpc(), c == EOF) {
+      if (c = pSb->sbumpc(), c == -1) { // EOF
          if (!isCrBefore) ++from;
          break;
       }
@@ -537,9 +537,9 @@ int IOMgr::lines(RexxString & name, Signaled & sig)
    }else {
       streambuf * pSb = entry->getBuf();
       long curPos = pSb->pubseekoff(0, ios::cur, ios::in);
-      if (curPos != EOF) {
+      if (curPos != -1) { // EOF
          int res = gotoLine(pSb, 0, INT_MAX, ios::in);
-         if (EOF != pSb->pubseekoff(curPos, ios::beg, ios::in)) {
+         if (-1 != pSb->pubseekoff(curPos, ios::beg, ios::in)) { // EOF
             sig = SIG_NONE;
             return res;
          }
@@ -564,7 +564,7 @@ RexxString IOMgr::linein(
       sig = SIG_NONE;
       if (startLine > 0) {
          entry->m_line = gotoLine(pSb, entry->m_line, startLine, ios::in);
-         if (EOF == pSb->sgetc()) {
+         if (-1 == pSb->sgetc()) { // EOF
             return RexxString::Nil;
          }
       }

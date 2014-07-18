@@ -10,6 +10,7 @@ MISC = \
 	"LIBDIR = $(HERE)/lib"
 
 all clean:
+	mkdir -p $(HERE)/lib
 	@cd decnblib          ; $(MAKE) $@ "LIBNAME = decnb"  $(MISC)
 	@cd reslib            ; $(MAKE) $@ "LIBNAME = res"  $(MISC)
 	@cd toolslib          ; $(MAKE) $@ "LIBNAME = tools"  $(MISC)

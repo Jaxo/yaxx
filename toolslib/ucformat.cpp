@@ -33,14 +33,14 @@ UnicodeExtractor & UnicodeExtractor::operator>>(UCS_2 * pUc)
          while ((iLen < iLenMax) && k && isSpace(k)) {
             *pUc++ = k;
             int peeked = peek(++iLen);
-            if (peeked == EOF) break;
+            if (peeked == -1) break; // EOF
             k = peeked;
          }
       }
       while ((iLen < iLenMax) && k && !isSpace(k)) {
          *pUc++ = k;
          int peeked = peek(++iLen);
-         if (peeked == EOF) break;
+         if (peeked == -1) break; // EOF
          k = peeked;
       }
       *pUc = 0;
@@ -62,12 +62,12 @@ UCS_2 UnicodeExtractor::eatWhiteSpace()
       int iOffset = -1;
       do {
          k = peeked = peek(++iOffset);
-      }while ((peeked != EOF) && isSpace(k));
+      }while ((peeked != -1) && isSpace(k)); // EOF
       if (iOffset) skip(iOffset);
    }else {
       k = peeked = peek(0);
    }
-   if (peeked == EOF) return 0; else return k;
+   if (peeked == -1) return 0; else return k; // EOF
 }
 
 /*STATIC------------------------------------------UnicodeExtractor::ucToDigit-+

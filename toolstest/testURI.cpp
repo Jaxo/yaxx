@@ -2,8 +2,8 @@
 * $Id: testURI.cpp,v 1.12 2003-01-11 11:31:08 pgr Exp $
 */
 
-#include <iostream.h>
-#include <fstream.h>
+#include <iostream>
+#include <fstream>
 #include <string.h>
 #include <memory.h>
 #include "../toolslib/RegisteredURI.h"
