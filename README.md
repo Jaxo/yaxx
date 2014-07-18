@@ -189,6 +189,6 @@ With your phone device adb-connected to your computer,
 cd ~/android-sdks/platform-tools
 cp ~/yaxx/android/bin/rexxoid.apk .
 adb install rexxoid.apk
-rm Rexxoid.apk
+rm rexxoid.apk
 </pre>
 
