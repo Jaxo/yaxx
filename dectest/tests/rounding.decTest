@@ -1,0 +1,1507 @@
+------------------------------------------------------------------------
+-- rounding.decTest -- decimal rounding modes testcases               --
+-- Copyright (c) IBM Corporation, 1981, 2001.  All rights reserved.   --
+------------------------------------------------------------------------
+-- Please see the document "Standard Decimal Arithmetic Testcases"    --
+-- at http://www2.hursley.ibm.com/decimal for the description of      --
+-- these testcases.                                                   --
+--                                                                    --
+-- These testcases are experimental ('beta' versions), and they       --
+-- may contain errors.  They are offered on an as-is basis.  In       --
+-- particular, achieving the same results as the tests here is not    --
+-- a guarantee that an implementation complies with any Standard      --
+-- or specification.  The tests are not exhaustive.                   --
+--                                                                    --
+-- Please send comments, suggestions, and corrections to the author:  --
+--   Mike Cowlishaw, IBM Fellow                                       --
+--   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         --
+--   mfc@uk.ibm.com                                                   --
+------------------------------------------------------------------------
+version: 1.03
+
+-- These tests require that implementations take account of residues in
+-- order to get correct results for some rounding modes.  Rather than
+-- single rounding tests we therefore need tests for most operators.
+-- [We do assume add/minus/plus/subtract are common paths, however, as
+-- is rounding of negatives (if the latter works for addition, assume it
+-- works for the others, too).]
+--
+-- Underflow and overflow behaviours are tested under the individual
+-- operators.
+
+precision:   5           -- for easier visual inspection
+maxExponent: 999
+
+-- Addition operators -------------------------------------------------
+rounding: down
+
+rad100  add 12345 -0.1       -> 12344 Inexact Rounded
+rad101  add 12345 -0.01      -> 12344 Inexact Rounded
+rad102  add 12345 -0.001     -> 12344 Inexact Rounded
+rad103  add 12345 -0.00001   -> 12344 Inexact Rounded
+rad104  add 12345 -0.000001  -> 12344 Inexact Rounded
+rad105  add 12345 -0.0000001 -> 12344 Inexact Rounded
+rad106  add 12345  0         -> 12345
+rad107  add 12345  0.0000001 -> 12345 Inexact Rounded
+rad108  add 12345  0.000001  -> 12345 Inexact Rounded
+rad109  add 12345  0.00001   -> 12345 Inexact Rounded
+rad110  add 12345  0.0001    -> 12345 Inexact Rounded
+rad111  add 12345  0.001     -> 12345 Inexact Rounded
+rad112  add 12345  0.01      -> 12345 Inexact Rounded
+rad113  add 12345  0.1       -> 12345 Inexact Rounded
+
+rad115  add 12346  0.49999   -> 12346 Inexact Rounded
+rad116  add 12346  0.5       -> 12346 Inexact Rounded
+rad117  add 12346  0.50001   -> 12346 Inexact Rounded
+
+rad120  add 12345  0.4       -> 12345 Inexact Rounded
+rad121  add 12345  0.49      -> 12345 Inexact Rounded
+rad122  add 12345  0.499     -> 12345 Inexact Rounded
+rad123  add 12345  0.49999   -> 12345 Inexact Rounded
+rad124  add 12345  0.5       -> 12345 Inexact Rounded
+rad125  add 12345  0.50001   -> 12345 Inexact Rounded
+rad126  add 12345  0.5001    -> 12345 Inexact Rounded
+rad127  add 12345  0.501     -> 12345 Inexact Rounded
+rad128  add 12345  0.51      -> 12345 Inexact Rounded
+rad129  add 12345  0.6       -> 12345 Inexact Rounded
+
+rounding: half_down
+
+rad140  add 12345 -0.1       -> 12345 Inexact Rounded
+rad141  add 12345 -0.01      -> 12345 Inexact Rounded
+rad142  add 12345 -0.001     -> 12345 Inexact Rounded
+rad143  add 12345 -0.00001   -> 12345 Inexact Rounded
+rad144  add 12345 -0.000001  -> 12345 Inexact Rounded
+rad145  add 12345 -0.0000001 -> 12345 Inexact Rounded
+rad146  add 12345  0         -> 12345
+rad147  add 12345  0.0000001 -> 12345 Inexact Rounded
+rad148  add 12345  0.000001  -> 12345 Inexact Rounded
+rad149  add 12345  0.00001   -> 12345 Inexact Rounded
+rad150  add 12345  0.0001    -> 12345 Inexact Rounded
+rad151  add 12345  0.001     -> 12345 Inexact Rounded
+rad152  add 12345  0.01      -> 12345 Inexact Rounded
+rad153  add 12345  0.1       -> 12345 Inexact Rounded
+
+rad155  add 12346  0.49999   -> 12346 Inexact Rounded
+rad156  add 12346  0.5       -> 12346 Inexact Rounded
+rad157  add 12346  0.50001   -> 12347 Inexact Rounded
+
+rad160  add 12345  0.4       -> 12345 Inexact Rounded
+rad161  add 12345  0.49      -> 12345 Inexact Rounded
+rad162  add 12345  0.499     -> 12345 Inexact Rounded
+rad163  add 12345  0.49999   -> 12345 Inexact Rounded
+rad164  add 12345  0.5       -> 12345 Inexact Rounded
+rad165  add 12345  0.50001   -> 12346 Inexact Rounded
+rad166  add 12345  0.5001    -> 12346 Inexact Rounded
+rad167  add 12345  0.501     -> 12346 Inexact Rounded
+rad168  add 12345  0.51      -> 12346 Inexact Rounded
+rad169  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: half_even
+
+rad170  add 12345 -0.1       -> 12345 Inexact Rounded
+rad171  add 12345 -0.01      -> 12345 Inexact Rounded
+rad172  add 12345 -0.001     -> 12345 Inexact Rounded
+rad173  add 12345 -0.00001   -> 12345 Inexact Rounded
+rad174  add 12345 -0.000001  -> 12345 Inexact Rounded
+rad175  add 12345 -0.0000001 -> 12345 Inexact Rounded
+rad176  add 12345  0         -> 12345
+rad177  add 12345  0.0000001 -> 12345 Inexact Rounded
+rad178  add 12345  0.000001  -> 12345 Inexact Rounded
+rad179  add 12345  0.00001   -> 12345 Inexact Rounded
+rad180  add 12345  0.0001    -> 12345 Inexact Rounded
+rad181  add 12345  0.001     -> 12345 Inexact Rounded
+rad182  add 12345  0.01      -> 12345 Inexact Rounded
+rad183  add 12345  0.1       -> 12345 Inexact Rounded
+
+rad185  add 12346  0.49999   -> 12346 Inexact Rounded
+rad186  add 12346  0.5       -> 12346 Inexact Rounded
+rad187  add 12346  0.50001   -> 12347 Inexact Rounded
+
+rad190  add 12345  0.4       -> 12345 Inexact Rounded
+rad191  add 12345  0.49      -> 12345 Inexact Rounded
+rad192  add 12345  0.499     -> 12345 Inexact Rounded
+rad193  add 12345  0.49999   -> 12345 Inexact Rounded
+rad194  add 12345  0.5       -> 12346 Inexact Rounded
+rad195  add 12345  0.50001   -> 12346 Inexact Rounded
+rad196  add 12345  0.5001    -> 12346 Inexact Rounded
+rad197  add 12345  0.501     -> 12346 Inexact Rounded
+rad198  add 12345  0.51      -> 12346 Inexact Rounded
+rad199  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: half_up
+
+rad200  add 12345 -0.1       -> 12345 Inexact Rounded
+rad201  add 12345 -0.01      -> 12345 Inexact Rounded
+rad202  add 12345 -0.001     -> 12345 Inexact Rounded
+rad203  add 12345 -0.00001   -> 12345 Inexact Rounded
+rad204  add 12345 -0.000001  -> 12345 Inexact Rounded
+rad205  add 12345 -0.0000001 -> 12345 Inexact Rounded
+rad206  add 12345  0         -> 12345
+rad207  add 12345  0.0000001 -> 12345 Inexact Rounded
+rad208  add 12345  0.000001  -> 12345 Inexact Rounded
+rad209  add 12345  0.00001   -> 12345 Inexact Rounded
+rad210  add 12345  0.0001    -> 12345 Inexact Rounded
+rad211  add 12345  0.001     -> 12345 Inexact Rounded
+rad212  add 12345  0.01      -> 12345 Inexact Rounded
+rad213  add 12345  0.1       -> 12345 Inexact Rounded
+
+rad215  add 12346  0.49999   -> 12346 Inexact Rounded
+rad216  add 12346  0.5       -> 12347 Inexact Rounded
+rad217  add 12346  0.50001   -> 12347 Inexact Rounded
+
+rad220  add 12345  0.4       -> 12345 Inexact Rounded
+rad221  add 12345  0.49      -> 12345 Inexact Rounded
+rad222  add 12345  0.499     -> 12345 Inexact Rounded
+rad223  add 12345  0.49999   -> 12345 Inexact Rounded
+rad224  add 12345  0.5       -> 12346 Inexact Rounded
+rad225  add 12345  0.50001   -> 12346 Inexact Rounded
+rad226  add 12345  0.5001    -> 12346 Inexact Rounded
+rad227  add 12345  0.501     -> 12346 Inexact Rounded
+rad228  add 12345  0.51      -> 12346 Inexact Rounded
+rad229  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: up
+
+rad230  add 12345 -0.1       -> 12345 Inexact Rounded
+rad231  add 12345 -0.01      -> 12345 Inexact Rounded
+rad232  add 12345 -0.001     -> 12345 Inexact Rounded
+rad233  add 12345 -0.00001   -> 12345 Inexact Rounded
+rad234  add 12345 -0.000001  -> 12345 Inexact Rounded
+rad235  add 12345 -0.0000001 -> 12345 Inexact Rounded
+rad236  add 12345  0         -> 12345
+rad237  add 12345  0.0000001 -> 12346 Inexact Rounded
+rad238  add 12345  0.000001  -> 12346 Inexact Rounded
+rad239  add 12345  0.00001   -> 12346 Inexact Rounded
+rad240  add 12345  0.0001    -> 12346 Inexact Rounded
+rad241  add 12345  0.001     -> 12346 Inexact Rounded
+rad242  add 12345  0.01      -> 12346 Inexact Rounded
+rad243  add 12345  0.1       -> 12346 Inexact Rounded
+
+rad245  add 12346  0.49999   -> 12347 Inexact Rounded
+rad246  add 12346  0.5       -> 12347 Inexact Rounded
+rad247  add 12346  0.50001   -> 12347 Inexact Rounded
+
+rad250  add 12345  0.4       -> 12346 Inexact Rounded
+rad251  add 12345  0.49      -> 12346 Inexact Rounded
+rad252  add 12345  0.499     -> 12346 Inexact Rounded
+rad253  add 12345  0.49999   -> 12346 Inexact Rounded
+rad254  add 12345  0.5       -> 12346 Inexact Rounded
+rad255  add 12345  0.50001   -> 12346 Inexact Rounded
+rad256  add 12345  0.5001    -> 12346 Inexact Rounded
+rad257  add 12345  0.501     -> 12346 Inexact Rounded
+rad258  add 12345  0.51      -> 12346 Inexact Rounded
+rad259  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: floor
+
+rad300  add 12345 -0.1       -> 12344 Inexact Rounded
+rad301  add 12345 -0.01      -> 12344 Inexact Rounded
+rad302  add 12345 -0.001     -> 12344 Inexact Rounded
+rad303  add 12345 -0.00001   -> 12344 Inexact Rounded
+rad304  add 12345 -0.000001  -> 12344 Inexact Rounded
+rad305  add 12345 -0.0000001 -> 12344 Inexact Rounded
+rad306  add 12345  0         -> 12345
+rad307  add 12345  0.0000001 -> 12345 Inexact Rounded
+rad308  add 12345  0.000001  -> 12345 Inexact Rounded
+rad309  add 12345  0.00001   -> 12345 Inexact Rounded
+rad310  add 12345  0.0001    -> 12345 Inexact Rounded
+rad311  add 12345  0.001     -> 12345 Inexact Rounded
+rad312  add 12345  0.01      -> 12345 Inexact Rounded
+rad313  add 12345  0.1       -> 12345 Inexact Rounded
+
+rad315  add 12346  0.49999   -> 12346 Inexact Rounded
+rad316  add 12346  0.5       -> 12346 Inexact Rounded
+rad317  add 12346  0.50001   -> 12346 Inexact Rounded
+
+rad320  add 12345  0.4       -> 12345 Inexact Rounded
+rad321  add 12345  0.49      -> 12345 Inexact Rounded
+rad322  add 12345  0.499     -> 12345 Inexact Rounded
+rad323  add 12345  0.49999   -> 12345 Inexact Rounded
+rad324  add 12345  0.5       -> 12345 Inexact Rounded
+rad325  add 12345  0.50001   -> 12345 Inexact Rounded
+rad326  add 12345  0.5001    -> 12345 Inexact Rounded
+rad327  add 12345  0.501     -> 12345 Inexact Rounded
+rad328  add 12345  0.51      -> 12345 Inexact Rounded
+rad329  add 12345  0.6       -> 12345 Inexact Rounded
+
+rounding: ceiling
+
+rad330  add 12345 -0.1       -> 12345 Inexact Rounded
+rad331  add 12345 -0.01      -> 12345 Inexact Rounded
+rad332  add 12345 -0.001     -> 12345 Inexact Rounded
+rad333  add 12345 -0.00001   -> 12345 Inexact Rounded
+rad334  add 12345 -0.000001  -> 12345 Inexact Rounded
+rad335  add 12345 -0.0000001 -> 12345 Inexact Rounded
+rad336  add 12345  0         -> 12345
+rad337  add 12345  0.0000001 -> 12346 Inexact Rounded
+rad338  add 12345  0.000001  -> 12346 Inexact Rounded
+rad339  add 12345  0.00001   -> 12346 Inexact Rounded
+rad340  add 12345  0.0001    -> 12346 Inexact Rounded
+rad341  add 12345  0.001     -> 12346 Inexact Rounded
+rad342  add 12345  0.01      -> 12346 Inexact Rounded
+rad343  add 12345  0.1       -> 12346 Inexact Rounded
+
+rad345  add 12346  0.49999   -> 12347 Inexact Rounded
+rad346  add 12346  0.5       -> 12347 Inexact Rounded
+rad347  add 12346  0.50001   -> 12347 Inexact Rounded
+
+rad350  add 12345  0.4       -> 12346 Inexact Rounded
+rad351  add 12345  0.49      -> 12346 Inexact Rounded
+rad352  add 12345  0.499     -> 12346 Inexact Rounded
+rad353  add 12345  0.49999   -> 12346 Inexact Rounded
+rad354  add 12345  0.5       -> 12346 Inexact Rounded
+rad355  add 12345  0.50001   -> 12346 Inexact Rounded
+rad356  add 12345  0.5001    -> 12346 Inexact Rounded
+rad357  add 12345  0.501     -> 12346 Inexact Rounded
+rad358  add 12345  0.51      -> 12346 Inexact Rounded
+rad359  add 12345  0.6       -> 12346 Inexact Rounded
+
+-- negatives...
+
+rounding: down
+
+rsu100  add -12345 -0.1       -> -12345 Inexact Rounded
+rsu101  add -12345 -0.01      -> -12345 Inexact Rounded
+rsu102  add -12345 -0.001     -> -12345 Inexact Rounded
+rsu103  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsu104  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsu105  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsu106  add -12345  0         -> -12345
+rsu107  add -12345  0.0000001 -> -12344 Inexact Rounded
+rsu108  add -12345  0.000001  -> -12344 Inexact Rounded
+rsu109  add -12345  0.00001   -> -12344 Inexact Rounded
+rsu110  add -12345  0.0001    -> -12344 Inexact Rounded
+rsu111  add -12345  0.001     -> -12344 Inexact Rounded
+rsu112  add -12345  0.01      -> -12344 Inexact Rounded
+rsu113  add -12345  0.1       -> -12344 Inexact Rounded
+
+rsu115  add -12346  0.49999   -> -12345 Inexact Rounded
+rsu116  add -12346  0.5       -> -12345 Inexact Rounded
+rsu117  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsu120  add -12345  0.4       -> -12344 Inexact Rounded
+rsu121  add -12345  0.49      -> -12344 Inexact Rounded
+rsu122  add -12345  0.499     -> -12344 Inexact Rounded
+rsu123  add -12345  0.49999   -> -12344 Inexact Rounded
+rsu124  add -12345  0.5       -> -12344 Inexact Rounded
+rsu125  add -12345  0.50001   -> -12344 Inexact Rounded
+rsu126  add -12345  0.5001    -> -12344 Inexact Rounded
+rsu127  add -12345  0.501     -> -12344 Inexact Rounded
+rsu128  add -12345  0.51      -> -12344 Inexact Rounded
+rsu129  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_down
+
+rsu140  add -12345 -0.1       -> -12345 Inexact Rounded
+rsu141  add -12345 -0.01      -> -12345 Inexact Rounded
+rsu142  add -12345 -0.001     -> -12345 Inexact Rounded
+rsu143  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsu144  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsu145  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsu146  add -12345  0         -> -12345
+rsu147  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsu148  add -12345  0.000001  -> -12345 Inexact Rounded
+rsu149  add -12345  0.00001   -> -12345 Inexact Rounded
+rsu150  add -12345  0.0001    -> -12345 Inexact Rounded
+rsu151  add -12345  0.001     -> -12345 Inexact Rounded
+rsu152  add -12345  0.01      -> -12345 Inexact Rounded
+rsu153  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsu155  add -12346  0.49999   -> -12346 Inexact Rounded
+rsu156  add -12346  0.5       -> -12345 Inexact Rounded
+rsu157  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsu160  add -12345  0.4       -> -12345 Inexact Rounded
+rsu161  add -12345  0.49      -> -12345 Inexact Rounded
+rsu162  add -12345  0.499     -> -12345 Inexact Rounded
+rsu163  add -12345  0.49999   -> -12345 Inexact Rounded
+rsu164  add -12345  0.5       -> -12344 Inexact Rounded
+rsu165  add -12345  0.50001   -> -12344 Inexact Rounded
+rsu166  add -12345  0.5001    -> -12344 Inexact Rounded
+rsu167  add -12345  0.501     -> -12344 Inexact Rounded
+rsu168  add -12345  0.51      -> -12344 Inexact Rounded
+rsu169  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_even
+
+rsu170  add -12345 -0.1       -> -12345 Inexact Rounded
+rsu171  add -12345 -0.01      -> -12345 Inexact Rounded
+rsu172  add -12345 -0.001     -> -12345 Inexact Rounded
+rsu173  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsu174  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsu175  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsu176  add -12345  0         -> -12345
+rsu177  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsu178  add -12345  0.000001  -> -12345 Inexact Rounded
+rsu179  add -12345  0.00001   -> -12345 Inexact Rounded
+rsu180  add -12345  0.0001    -> -12345 Inexact Rounded
+rsu181  add -12345  0.001     -> -12345 Inexact Rounded
+rsu182  add -12345  0.01      -> -12345 Inexact Rounded
+rsu183  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsu185  add -12346  0.49999   -> -12346 Inexact Rounded
+rsu186  add -12346  0.5       -> -12346 Inexact Rounded
+rsu187  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsu190  add -12345  0.4       -> -12345 Inexact Rounded
+rsu191  add -12345  0.49      -> -12345 Inexact Rounded
+rsu192  add -12345  0.499     -> -12345 Inexact Rounded
+rsu193  add -12345  0.49999   -> -12345 Inexact Rounded
+rsu194  add -12345  0.5       -> -12344 Inexact Rounded
+rsu195  add -12345  0.50001   -> -12344 Inexact Rounded
+rsu196  add -12345  0.5001    -> -12344 Inexact Rounded
+rsu197  add -12345  0.501     -> -12344 Inexact Rounded
+rsu198  add -12345  0.51      -> -12344 Inexact Rounded
+rsu199  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_up
+
+rsu200  add -12345 -0.1       -> -12345 Inexact Rounded
+rsu201  add -12345 -0.01      -> -12345 Inexact Rounded
+rsu202  add -12345 -0.001     -> -12345 Inexact Rounded
+rsu203  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsu204  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsu205  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsu206  add -12345  0         -> -12345
+rsu207  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsu208  add -12345  0.000001  -> -12345 Inexact Rounded
+rsu209  add -12345  0.00001   -> -12345 Inexact Rounded
+rsu210  add -12345  0.0001    -> -12345 Inexact Rounded
+rsu211  add -12345  0.001     -> -12345 Inexact Rounded
+rsu212  add -12345  0.01      -> -12345 Inexact Rounded
+rsu213  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsu215  add -12346  0.49999   -> -12346 Inexact Rounded
+rsu216  add -12346  0.5       -> -12346 Inexact Rounded
+rsu217  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsu220  add -12345  0.4       -> -12345 Inexact Rounded
+rsu221  add -12345  0.49      -> -12345 Inexact Rounded
+rsu222  add -12345  0.499     -> -12345 Inexact Rounded
+rsu223  add -12345  0.49999   -> -12345 Inexact Rounded
+rsu224  add -12345  0.5       -> -12345 Inexact Rounded
+rsu225  add -12345  0.50001   -> -12344 Inexact Rounded
+rsu226  add -12345  0.5001    -> -12344 Inexact Rounded
+rsu227  add -12345  0.501     -> -12344 Inexact Rounded
+rsu228  add -12345  0.51      -> -12344 Inexact Rounded
+rsu229  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: up
+
+rsu230  add -12345 -0.1       -> -12346 Inexact Rounded
+rsu231  add -12345 -0.01      -> -12346 Inexact Rounded
+rsu232  add -12345 -0.001     -> -12346 Inexact Rounded
+rsu233  add -12345 -0.00001   -> -12346 Inexact Rounded
+rsu234  add -12345 -0.000001  -> -12346 Inexact Rounded
+rsu235  add -12345 -0.0000001 -> -12346 Inexact Rounded
+rsu236  add -12345  0         -> -12345
+rsu237  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsu238  add -12345  0.000001  -> -12345 Inexact Rounded
+rsu239  add -12345  0.00001   -> -12345 Inexact Rounded
+rsu240  add -12345  0.0001    -> -12345 Inexact Rounded
+rsu241  add -12345  0.001     -> -12345 Inexact Rounded
+rsu242  add -12345  0.01      -> -12345 Inexact Rounded
+rsu243  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsu245  add -12346  0.49999   -> -12346 Inexact Rounded
+rsu246  add -12346  0.5       -> -12346 Inexact Rounded
+rsu247  add -12346  0.50001   -> -12346 Inexact Rounded
+
+rsu250  add -12345  0.4       -> -12345 Inexact Rounded
+rsu251  add -12345  0.49      -> -12345 Inexact Rounded
+rsu252  add -12345  0.499     -> -12345 Inexact Rounded
+rsu253  add -12345  0.49999   -> -12345 Inexact Rounded
+rsu254  add -12345  0.5       -> -12345 Inexact Rounded
+rsu255  add -12345  0.50001   -> -12345 Inexact Rounded
+rsu256  add -12345  0.5001    -> -12345 Inexact Rounded
+rsu257  add -12345  0.501     -> -12345 Inexact Rounded
+rsu258  add -12345  0.51      -> -12345 Inexact Rounded
+rsu259  add -12345  0.6       -> -12345 Inexact Rounded
+
+rounding: floor
+
+rsu300  add -12345 -0.1       -> -12346 Inexact Rounded
+rsu301  add -12345 -0.01      -> -12346 Inexact Rounded
+rsu302  add -12345 -0.001     -> -12346 Inexact Rounded
+rsu303  add -12345 -0.00001   -> -12346 Inexact Rounded
+rsu304  add -12345 -0.000001  -> -12346 Inexact Rounded
+rsu305  add -12345 -0.0000001 -> -12346 Inexact Rounded
+rsu306  add -12345  0         -> -12345
+rsu307  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsu308  add -12345  0.000001  -> -12345 Inexact Rounded
+rsu309  add -12345  0.00001   -> -12345 Inexact Rounded
+rsu310  add -12345  0.0001    -> -12345 Inexact Rounded
+rsu311  add -12345  0.001     -> -12345 Inexact Rounded
+rsu312  add -12345  0.01      -> -12345 Inexact Rounded
+rsu313  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsu315  add -12346  0.49999   -> -12346 Inexact Rounded
+rsu316  add -12346  0.5       -> -12346 Inexact Rounded
+rsu317  add -12346  0.50001   -> -12346 Inexact Rounded
+
+rsu320  add -12345  0.4       -> -12345 Inexact Rounded
+rsu321  add -12345  0.49      -> -12345 Inexact Rounded
+rsu322  add -12345  0.499     -> -12345 Inexact Rounded
+rsu323  add -12345  0.49999   -> -12345 Inexact Rounded
+rsu324  add -12345  0.5       -> -12345 Inexact Rounded
+rsu325  add -12345  0.50001   -> -12345 Inexact Rounded
+rsu326  add -12345  0.5001    -> -12345 Inexact Rounded
+rsu327  add -12345  0.501     -> -12345 Inexact Rounded
+rsu328  add -12345  0.51      -> -12345 Inexact Rounded
+rsu329  add -12345  0.6       -> -12345 Inexact Rounded
+
+rounding: ceiling
+
+rsu330  add -12345 -0.1       -> -12345 Inexact Rounded
+rsu331  add -12345 -0.01      -> -12345 Inexact Rounded
+rsu332  add -12345 -0.001     -> -12345 Inexact Rounded
+rsu333  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsu334  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsu335  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsu336  add -12345  0         -> -12345
+rsu337  add -12345  0.0000001 -> -12344 Inexact Rounded
+rsu338  add -12345  0.000001  -> -12344 Inexact Rounded
+rsu339  add -12345  0.00001   -> -12344 Inexact Rounded
+rsu340  add -12345  0.0001    -> -12344 Inexact Rounded
+rsu341  add -12345  0.001     -> -12344 Inexact Rounded
+rsu342  add -12345  0.01      -> -12344 Inexact Rounded
+rsu343  add -12345  0.1       -> -12344 Inexact Rounded
+
+rsu345  add -12346  0.49999   -> -12345 Inexact Rounded
+rsu346  add -12346  0.5       -> -12345 Inexact Rounded
+rsu347  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsu350  add -12345  0.4       -> -12344 Inexact Rounded
+rsu351  add -12345  0.49      -> -12344 Inexact Rounded
+rsu352  add -12345  0.499     -> -12344 Inexact Rounded
+rsu353  add -12345  0.49999   -> -12344 Inexact Rounded
+rsu354  add -12345  0.5       -> -12344 Inexact Rounded
+rsu355  add -12345  0.50001   -> -12344 Inexact Rounded
+rsu356  add -12345  0.5001    -> -12344 Inexact Rounded
+rsu357  add -12345  0.501     -> -12344 Inexact Rounded
+rsu358  add -12345  0.51      -> -12344 Inexact Rounded
+rsu359  add -12345  0.6       -> -12344 Inexact Rounded
+
+-- Division operators -------------------------------------------------
+
+rounding: down
+rdv101  divide 12345  1         ->  12345
+rdv102  divide 12345  1.0001    ->  12343 Inexact Rounded
+rdv103  divide 12345  1.001     ->  12332 Inexact Rounded
+rdv104  divide 12345  1.01      ->  12222 Inexact Rounded
+rdv105  divide 12345  1.1       ->  11222 Inexact Rounded
+rdv106  divide 12355  4         ->   3088.7 Inexact Rounded
+rdv107  divide 12345  4         ->   3086.2 Inexact Rounded
+rdv108  divide 12355  4.0001    ->   3088.6 Inexact Rounded
+rdv109  divide 12345  4.0001    ->   3086.1 Inexact Rounded
+rdv110  divide 12345  4.9       ->   2519.3 Inexact Rounded
+rdv111  divide 12345  4.99      ->   2473.9 Inexact Rounded
+rdv112  divide 12345  4.999     ->   2469.4 Inexact Rounded
+rdv113  divide 12345  4.9999    ->   2469 Inexact Rounded
+rdv114  divide 12345  5         ->   2469
+rdv115  divide 12345  5.0001    ->  2468.9 Inexact Rounded
+rdv116  divide 12345  5.001     ->  2468.5 Inexact Rounded
+rdv117  divide 12345  5.01      ->  2464 Inexact Rounded
+rdv118  divide 12345  5.1       ->  2420.5 Inexact Rounded
+
+rounding: half_down
+rdv201  divide 12345  1         ->  12345
+rdv202  divide 12345  1.0001    ->  12344 Inexact Rounded
+rdv203  divide 12345  1.001     ->  12333 Inexact Rounded
+rdv204  divide 12345  1.01      ->  12223 Inexact Rounded
+rdv205  divide 12345  1.1       ->  11223 Inexact Rounded
+rdv206  divide 12355  4         ->   3088.7 Inexact Rounded
+rdv207  divide 12345  4         ->   3086.2 Inexact Rounded
+rdv208  divide 12355  4.0001    ->   3088.7 Inexact Rounded
+rdv209  divide 12345  4.0001    ->   3086.2 Inexact Rounded
+rdv210  divide 12345  4.9       ->   2519.4 Inexact Rounded
+rdv211  divide 12345  4.99      ->   2473.9 Inexact Rounded
+rdv212  divide 12345  4.999     ->   2469.5 Inexact Rounded
+rdv213  divide 12345  4.9999    ->   2469 Inexact Rounded
+rdv214  divide 12345  5         ->   2469
+rdv215  divide 12345  5.0001    ->  2469 Inexact Rounded
+rdv216  divide 12345  5.001     ->  2468.5 Inexact Rounded
+rdv217  divide 12345  5.01      ->  2464.1 Inexact Rounded
+rdv218  divide 12345  5.1       ->  2420.6 Inexact Rounded
+
+rounding: half_even
+rdv301  divide 12345  1         ->  12345
+rdv302  divide 12345  1.0001    ->  12344 Inexact Rounded
+rdv303  divide 12345  1.001     ->  12333 Inexact Rounded
+rdv304  divide 12345  1.01      ->  12223 Inexact Rounded
+rdv305  divide 12345  1.1       ->  11223 Inexact Rounded
+rdv306  divide 12355  4         ->   3088.8 Inexact Rounded
+rdv307  divide 12345  4         ->   3086.2 Inexact Rounded
+rdv308  divide 12355  4.0001    ->   3088.7 Inexact Rounded
+rdv309  divide 12345  4.0001    ->   3086.2 Inexact Rounded
+rdv310  divide 12345  4.9       ->   2519.4 Inexact Rounded
+rdv311  divide 12345  4.99      ->   2473.9 Inexact Rounded
+rdv312  divide 12345  4.999     ->   2469.5 Inexact Rounded
+rdv313  divide 12345  4.9999    ->   2469 Inexact Rounded
+rdv314  divide 12345  5         ->   2469
+rdv315  divide 12345  5.0001    ->  2469 Inexact Rounded
+rdv316  divide 12345  5.001     ->  2468.5 Inexact Rounded
+rdv317  divide 12345  5.01      ->  2464.1 Inexact Rounded
+rdv318  divide 12345  5.1       ->  2420.6 Inexact Rounded
+
+rounding: half_up
+rdv401  divide 12345  1         ->  12345
+rdv402  divide 12345  1.0001    ->  12344 Inexact Rounded
+rdv403  divide 12345  1.001     ->  12333 Inexact Rounded
+rdv404  divide 12345  1.01      ->  12223 Inexact Rounded
+rdv405  divide 12345  1.1       ->  11223 Inexact Rounded
+rdv406  divide 12355  4         ->   3088.8 Inexact Rounded
+rdv407  divide 12345  4         ->   3086.3 Inexact Rounded
+rdv408  divide 12355  4.0001    ->   3088.7 Inexact Rounded
+rdv409  divide 12345  4.0001    ->   3086.2 Inexact Rounded
+rdv410  divide 12345  4.9       ->   2519.4 Inexact Rounded
+rdv411  divide 12345  4.99      ->   2473.9 Inexact Rounded
+rdv412  divide 12345  4.999     ->   2469.5 Inexact Rounded
+rdv413  divide 12345  4.9999    ->   2469 Inexact Rounded
+rdv414  divide 12345  5         ->   2469
+rdv415  divide 12345  5.0001    ->  2469 Inexact Rounded
+rdv416  divide 12345  5.001     ->  2468.5 Inexact Rounded
+rdv417  divide 12345  5.01      ->  2464.1 Inexact Rounded
+rdv418  divide 12345  5.1       ->  2420.6 Inexact Rounded
+
+rounding: up
+rdv501  divide 12345  1         ->  12345
+rdv502  divide 12345  1.0001    ->  12344 Inexact Rounded
+rdv503  divide 12345  1.001     ->  12333 Inexact Rounded
+rdv504  divide 12345  1.01      ->  12223 Inexact Rounded
+rdv505  divide 12345  1.1       ->  11223 Inexact Rounded
+rdv506  divide 12355  4         ->   3088.8 Inexact Rounded
+rdv507  divide 12345  4         ->   3086.3 Inexact Rounded
+rdv508  divide 12355  4.0001    ->   3088.7 Inexact Rounded
+rdv509  divide 12345  4.0001    ->   3086.2 Inexact Rounded
+rdv510  divide 12345  4.9       ->   2519.4 Inexact Rounded
+rdv511  divide 12345  4.99      ->   2474 Inexact Rounded
+rdv512  divide 12345  4.999     ->   2469.5 Inexact Rounded
+rdv513  divide 12345  4.9999    ->   2469.1 Inexact Rounded
+rdv514  divide 12345  5         ->   2469
+rdv515  divide 12345  5.0001    ->  2469 Inexact Rounded
+rdv516  divide 12345  5.001     ->  2468.6 Inexact Rounded
+rdv517  divide 12345  5.01      ->  2464.1 Inexact Rounded
+rdv518  divide 12345  5.1       ->  2420.6 Inexact Rounded
+
+rounding: floor
+rdv601  divide 12345  1         ->  12345
+rdv602  divide 12345  1.0001    ->  12343 Inexact Rounded
+rdv603  divide 12345  1.001     ->  12332 Inexact Rounded
+rdv604  divide 12345  1.01      ->  12222 Inexact Rounded
+rdv605  divide 12345  1.1       ->  11222 Inexact Rounded
+rdv606  divide 12355  4         ->   3088.7 Inexact Rounded
+rdv607  divide 12345  4         ->   3086.2 Inexact Rounded
+rdv608  divide 12355  4.0001    ->   3088.6 Inexact Rounded
+rdv609  divide 12345  4.0001    ->   3086.1 Inexact Rounded
+rdv610  divide 12345  4.9       ->   2519.3 Inexact Rounded
+rdv611  divide 12345  4.99      ->   2473.9 Inexact Rounded
+rdv612  divide 12345  4.999     ->   2469.4 Inexact Rounded
+rdv613  divide 12345  4.9999    ->   2469 Inexact Rounded
+rdv614  divide 12345  5         ->   2469
+rdv615  divide 12345  5.0001    ->  2468.9 Inexact Rounded
+rdv616  divide 12345  5.001     ->  2468.5 Inexact Rounded
+rdv617  divide 12345  5.01      ->  2464 Inexact Rounded
+rdv618  divide 12345  5.1       ->  2420.5 Inexact Rounded
+
+rounding: ceiling
+rdv701  divide 12345  1         ->  12345
+rdv702  divide 12345  1.0001    ->  12344 Inexact Rounded
+rdv703  divide 12345  1.001     ->  12333 Inexact Rounded
+rdv704  divide 12345  1.01      ->  12223 Inexact Rounded
+rdv705  divide 12345  1.1       ->  11223 Inexact Rounded
+rdv706  divide 12355  4         ->   3088.8 Inexact Rounded
+rdv707  divide 12345  4         ->   3086.3 Inexact Rounded
+rdv708  divide 12355  4.0001    ->   3088.7 Inexact Rounded
+rdv709  divide 12345  4.0001    ->   3086.2 Inexact Rounded
+rdv710  divide 12345  4.9       ->   2519.4 Inexact Rounded
+rdv711  divide 12345  4.99      ->   2474 Inexact Rounded
+rdv712  divide 12345  4.999     ->   2469.5 Inexact Rounded
+rdv713  divide 12345  4.9999    ->   2469.1 Inexact Rounded
+rdv714  divide 12345  5         ->   2469
+rdv715  divide 12345  5.0001    ->  2469 Inexact Rounded
+rdv716  divide 12345  5.001     ->  2468.6 Inexact Rounded
+rdv717  divide 12345  5.01      ->  2464.1 Inexact Rounded
+rdv718  divide 12345  5.1       ->  2420.6 Inexact Rounded
+
+-- [divideInteger and remainder unaffected]
+
+-- Multiplication operator --------------------------------------------
+
+rounding: down
+rmu101  multiply 12345  1         ->  12345
+rmu102  multiply 12345  1.0001    ->  12346 Inexact Rounded
+rmu103  multiply 12345  1.001     ->  12357 Inexact Rounded
+rmu104  multiply 12345  1.01      ->  12468 Inexact Rounded
+rmu105  multiply 12345  1.1       ->  13579 Inexact Rounded
+rmu106  multiply 12345  4         ->  49380
+rmu107  multiply 12345  4.0001    ->  49381 Inexact Rounded
+rmu108  multiply 12345  4.9       ->  60490 Inexact Rounded
+rmu109  multiply 12345  4.99      ->  61601 Inexact Rounded
+rmu110  multiply 12345  4.999     ->  61712 Inexact Rounded
+rmu111  multiply 12345  4.9999    ->  61723 Inexact Rounded
+rmu112  multiply 12345  5         ->  61725
+rmu113  multiply 12345  5.0001    ->  61726 Inexact Rounded
+rmu114  multiply 12345  5.001     ->  61737 Inexact Rounded
+rmu115  multiply 12345  5.01      ->  61848 Inexact Rounded
+rmu116  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu117  multiply 12345  13        ->  1.6048E+5 Inexact Rounded
+rmu118  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu119  multiply 12355  13        ->  1.6061E+5 Inexact Rounded
+
+rounding: half_down
+rmu201  multiply 12345  1         ->  12345
+rmu202  multiply 12345  1.0001    ->  12346 Inexact Rounded
+rmu203  multiply 12345  1.001     ->  12357 Inexact Rounded
+rmu204  multiply 12345  1.01      ->  12468 Inexact Rounded
+rmu205  multiply 12345  1.1       ->  13579 Inexact Rounded
+rmu206  multiply 12345  4         ->  49380
+rmu207  multiply 12345  4.0001    ->  49381 Inexact Rounded
+rmu208  multiply 12345  4.9       ->  60490 Inexact Rounded
+rmu209  multiply 12345  4.99      ->  61602 Inexact Rounded
+rmu210  multiply 12345  4.999     ->  61713 Inexact Rounded
+rmu211  multiply 12345  4.9999    ->  61724 Inexact Rounded
+rmu212  multiply 12345  5         ->  61725
+rmu213  multiply 12345  5.0001    ->  61726 Inexact Rounded
+rmu214  multiply 12345  5.001     ->  61737 Inexact Rounded
+rmu215  multiply 12345  5.01      ->  61848 Inexact Rounded
+rmu216  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu217  multiply 12345  13        ->  1.6048E+5 Inexact Rounded
+rmu218  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu219  multiply 12355  13        ->  1.6061E+5 Inexact Rounded
+
+rounding: half_even
+rmu301  multiply 12345  1         ->  12345
+rmu302  multiply 12345  1.0001    ->  12346 Inexact Rounded
+rmu303  multiply 12345  1.001     ->  12357 Inexact Rounded
+rmu304  multiply 12345  1.01      ->  12468 Inexact Rounded
+rmu305  multiply 12345  1.1       ->  13580 Inexact Rounded
+rmu306  multiply 12345  4         ->  49380
+rmu307  multiply 12345  4.0001    ->  49381 Inexact Rounded
+rmu308  multiply 12345  4.9       ->  60490 Inexact Rounded
+rmu309  multiply 12345  4.99      ->  61602 Inexact Rounded
+rmu310  multiply 12345  4.999     ->  61713 Inexact Rounded
+rmu311  multiply 12345  4.9999    ->  61724 Inexact Rounded
+rmu312  multiply 12345  5         ->  61725
+rmu313  multiply 12345  5.0001    ->  61726 Inexact Rounded
+rmu314  multiply 12345  5.001     ->  61737 Inexact Rounded
+rmu315  multiply 12345  5.01      ->  61848 Inexact Rounded
+rmu316  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu317  multiply 12345  13        ->  1.6048E+5 Inexact Rounded
+rmu318  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu319  multiply 12355  13        ->  1.6062E+5 Inexact Rounded
+
+rounding: half_up
+rmu401  multiply 12345  1         ->  12345
+rmu402  multiply 12345  1.0001    ->  12346 Inexact Rounded
+rmu403  multiply 12345  1.001     ->  12357 Inexact Rounded
+rmu404  multiply 12345  1.01      ->  12468 Inexact Rounded
+rmu405  multiply 12345  1.1       ->  13580 Inexact Rounded
+rmu406  multiply 12345  4         ->  49380
+rmu407  multiply 12345  4.0001    ->  49381 Inexact Rounded
+rmu408  multiply 12345  4.9       ->  60491 Inexact Rounded
+rmu409  multiply 12345  4.99      ->  61602 Inexact Rounded
+rmu410  multiply 12345  4.999     ->  61713 Inexact Rounded
+rmu411  multiply 12345  4.9999    ->  61724 Inexact Rounded
+rmu412  multiply 12345  5         ->  61725
+rmu413  multiply 12345  5.0001    ->  61726 Inexact Rounded
+rmu414  multiply 12345  5.001     ->  61737 Inexact Rounded
+rmu415  multiply 12345  5.01      ->  61848 Inexact Rounded
+rmu416  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu417  multiply 12345  13        ->  1.6049E+5 Inexact Rounded
+rmu418  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu419  multiply 12355  13        ->  1.6062E+5 Inexact Rounded
+
+rounding: up
+rmu501  multiply 12345  1         ->  12345
+rmu502  multiply 12345  1.0001    ->  12347 Inexact Rounded
+rmu503  multiply 12345  1.001     ->  12358 Inexact Rounded
+rmu504  multiply 12345  1.01      ->  12469 Inexact Rounded
+rmu505  multiply 12345  1.1       ->  13580 Inexact Rounded
+rmu506  multiply 12345  4         ->  49380
+rmu507  multiply 12345  4.0001    ->  49382 Inexact Rounded
+rmu508  multiply 12345  4.9       ->  60491 Inexact Rounded
+rmu509  multiply 12345  4.99      ->  61602 Inexact Rounded
+rmu510  multiply 12345  4.999     ->  61713 Inexact Rounded
+rmu511  multiply 12345  4.9999    ->  61724 Inexact Rounded
+rmu512  multiply 12345  5         ->  61725
+rmu513  multiply 12345  5.0001    ->  61727 Inexact Rounded
+rmu514  multiply 12345  5.001     ->  61738 Inexact Rounded
+rmu515  multiply 12345  5.01      ->  61849 Inexact Rounded
+rmu516  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu517  multiply 12345  13        ->  1.6049E+5 Inexact Rounded
+rmu518  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu519  multiply 12355  13        ->  1.6062E+5 Inexact Rounded
+-- [rmu516 & rmu518] can surprise
+
+rounding: floor
+rmu601  multiply 12345  1         ->  12345
+rmu602  multiply 12345  1.0001    ->  12346 Inexact Rounded
+rmu603  multiply 12345  1.001     ->  12357 Inexact Rounded
+rmu604  multiply 12345  1.01      ->  12468 Inexact Rounded
+rmu605  multiply 12345  1.1       ->  13579 Inexact Rounded
+rmu606  multiply 12345  4         ->  49380
+rmu607  multiply 12345  4.0001    ->  49381 Inexact Rounded
+rmu608  multiply 12345  4.9       ->  60490 Inexact Rounded
+rmu609  multiply 12345  4.99      ->  61601 Inexact Rounded
+rmu610  multiply 12345  4.999     ->  61712 Inexact Rounded
+rmu611  multiply 12345  4.9999    ->  61723 Inexact Rounded
+rmu612  multiply 12345  5         ->  61725
+rmu613  multiply 12345  5.0001    ->  61726 Inexact Rounded
+rmu614  multiply 12345  5.001     ->  61737 Inexact Rounded
+rmu615  multiply 12345  5.01      ->  61848 Inexact Rounded
+rmu616  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu617  multiply 12345  13        ->  1.6048E+5 Inexact Rounded
+rmu618  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu619  multiply 12355  13        ->  1.6061E+5 Inexact Rounded
+
+rounding: ceiling
+rmu701  multiply 12345  1         ->  12345
+rmu702  multiply 12345  1.0001    ->  12347 Inexact Rounded
+rmu703  multiply 12345  1.001     ->  12358 Inexact Rounded
+rmu704  multiply 12345  1.01      ->  12469 Inexact Rounded
+rmu705  multiply 12345  1.1       ->  13580 Inexact Rounded
+rmu706  multiply 12345  4         ->  49380
+rmu707  multiply 12345  4.0001    ->  49382 Inexact Rounded
+rmu708  multiply 12345  4.9       ->  60491 Inexact Rounded
+rmu709  multiply 12345  4.99      ->  61602 Inexact Rounded
+rmu710  multiply 12345  4.999     ->  61713 Inexact Rounded
+rmu711  multiply 12345  4.9999    ->  61724 Inexact Rounded
+rmu712  multiply 12345  5         ->  61725
+rmu713  multiply 12345  5.0001    ->  61727 Inexact Rounded
+rmu714  multiply 12345  5.001     ->  61738 Inexact Rounded
+rmu715  multiply 12345  5.01      ->  61849 Inexact Rounded
+rmu716  multiply 12345  12        ->  1.4814E+5 Rounded
+rmu717  multiply 12345  13        ->  1.6049E+5 Inexact Rounded
+rmu718  multiply 12355  12        ->  1.4826E+5 Rounded
+rmu719  multiply 12355  13        ->  1.6062E+5 Inexact Rounded
+
+-- Power operator -----------------------------------------------------
+
+rounding: down
+rpo101  power 12345  -5        ->  3.4877E-21 Inexact Rounded
+rpo102  power 12345  -4        ->  4.3056E-17 Inexact Rounded
+rpo103  power 12345  -3        ->  5.3152E-13 Inexact Rounded
+rpo104  power 12345  -2        ->  6.5617E-9 Inexact Rounded
+rpo105  power 12345  -1        ->  0.000081004 Inexact Rounded
+rpo106  power 12345  0         ->  1
+rpo107  power 12345  1         ->  12345
+rpo108  power 12345  2         ->  1.5239E+8 Inexact Rounded
+rpo109  power 12345  3         ->  1.8813E+12 Inexact Rounded
+rpo110  power 12345  4         ->  2.3225E+16 Inexact Rounded
+rpo111  power 12345  5         ->  2.8671E+20 Inexact Rounded
+rpo112  power   415  2         ->  1.7222E+5 Inexact Rounded
+rpo113  power    75  3         ->  4.2187E+5 Inexact Rounded
+
+rounding: half_down
+rpo201  power 12345  -5        ->  3.4877E-21 Inexact Rounded
+rpo202  power 12345  -4        ->  4.3056E-17 Inexact Rounded
+rpo203  power 12345  -3        ->  5.3153E-13 Inexact Rounded
+rpo204  power 12345  -2        ->  6.5617E-9 Inexact Rounded
+rpo205  power 12345  -1        ->  0.000081004 Inexact Rounded
+rpo206  power 12345  0         ->  1
+rpo207  power 12345  1         ->  12345
+rpo208  power 12345  2         ->  1.524E+8 Inexact Rounded
+rpo209  power 12345  3         ->  1.8814E+12 Inexact Rounded
+rpo210  power 12345  4         ->  2.3225E+16 Inexact Rounded
+rpo211  power 12345  5         ->  2.8672E+20 Inexact Rounded
+rpo212  power   415  2         ->  1.7222E+5 Inexact Rounded
+rpo213  power    75  3         ->  4.2187E+5 Inexact Rounded
+
+rounding: half_even
+rpo301  power 12345  -5        ->  3.4877E-21 Inexact Rounded
+rpo302  power 12345  -4        ->  4.3056E-17 Inexact Rounded
+rpo303  power 12345  -3        ->  5.3153E-13 Inexact Rounded
+rpo304  power 12345  -2        ->  6.5617E-9 Inexact Rounded
+rpo305  power 12345  -1        ->  0.000081004 Inexact Rounded
+rpo306  power 12345  0         ->  1
+rpo307  power 12345  1         ->  12345
+rpo308  power 12345  2         ->  1.524E+8 Inexact Rounded
+rpo309  power 12345  3         ->  1.8814E+12 Inexact Rounded
+rpo310  power 12345  4         ->  2.3225E+16 Inexact Rounded
+rpo311  power 12345  5         ->  2.8672E+20 Inexact Rounded
+rpo312  power   415  2         ->  1.7222E+5 Inexact Rounded
+rpo313  power    75  3         ->  4.2188E+5 Inexact Rounded
+
+rounding: half_up
+rpo401  power 12345  -5        ->  3.4877E-21 Inexact Rounded
+rpo402  power 12345  -4        ->  4.3056E-17 Inexact Rounded
+rpo403  power 12345  -3        ->  5.3153E-13 Inexact Rounded
+rpo404  power 12345  -2        ->  6.5617E-9 Inexact Rounded
+rpo405  power 12345  -1        ->  0.000081004 Inexact Rounded
+rpo406  power 12345  0         ->  1
+rpo407  power 12345  1         ->  12345
+rpo408  power 12345  2         ->  1.524E+8 Inexact Rounded
+rpo409  power 12345  3         ->  1.8814E+12 Inexact Rounded
+rpo410  power 12345  4         ->  2.3225E+16 Inexact Rounded
+rpo411  power 12345  5         ->  2.8672E+20 Inexact Rounded
+rpo412  power   415  2         ->  1.7223E+5 Inexact Rounded
+rpo413  power    75  3         ->  4.2188E+5 Inexact Rounded
+
+rounding: up
+rpo501  power 12345  -5        ->  3.4878E-21 Inexact Rounded
+rpo502  power 12345  -4        ->  4.3057E-17 Inexact Rounded
+rpo503  power 12345  -3        ->  5.3153E-13 Inexact Rounded
+rpo504  power 12345  -2        ->  6.5618E-9 Inexact Rounded
+rpo505  power 12345  -1        ->  0.000081005 Inexact Rounded
+rpo506  power 12345  0         ->  1
+rpo507  power 12345  1         ->  12345
+rpo508  power 12345  2         ->  1.524E+8 Inexact Rounded
+rpo509  power 12345  3         ->  1.8814E+12 Inexact Rounded
+rpo510  power 12345  4         ->  2.3226E+16 Inexact Rounded
+rpo511  power 12345  5         ->  2.8672E+20 Inexact Rounded
+rpo512  power   415  2         ->  1.7223E+5 Inexact Rounded
+rpo513  power    75  3         ->  4.2188E+5 Inexact Rounded
+
+rounding: floor
+rpo601  power 12345  -5        ->  3.4877E-21 Inexact Rounded
+rpo602  power 12345  -4        ->  4.3056E-17 Inexact Rounded
+rpo603  power 12345  -3        ->  5.3152E-13 Inexact Rounded
+rpo604  power 12345  -2        ->  6.5617E-9 Inexact Rounded
+rpo605  power 12345  -1        ->  0.000081004 Inexact Rounded
+rpo606  power 12345  0         ->  1
+rpo607  power 12345  1         ->  12345
+rpo608  power 12345  2         ->  1.5239E+8 Inexact Rounded
+rpo609  power 12345  3         ->  1.8813E+12 Inexact Rounded
+rpo610  power 12345  4         ->  2.3225E+16 Inexact Rounded
+rpo611  power 12345  5         ->  2.8671E+20 Inexact Rounded
+rpo612  power   415  2         ->  1.7222E+5 Inexact Rounded
+rpo613  power    75  3         ->  4.2187E+5 Inexact Rounded
+
+rounding: ceiling
+rpo701  power 12345  -5        ->  3.4878E-21 Inexact Rounded
+rpo702  power 12345  -4        ->  4.3057E-17 Inexact Rounded
+rpo703  power 12345  -3        ->  5.3153E-13 Inexact Rounded
+rpo704  power 12345  -2        ->  6.5618E-9 Inexact Rounded
+rpo705  power 12345  -1        ->  0.000081005 Inexact Rounded
+rpo706  power 12345  0         ->  1
+rpo707  power 12345  1         ->  12345
+rpo708  power 12345  2         ->  1.524E+8 Inexact Rounded
+rpo709  power 12345  3         ->  1.8814E+12 Inexact Rounded
+rpo710  power 12345  4         ->  2.3226E+16 Inexact Rounded
+rpo711  power 12345  5         ->  2.8672E+20 Inexact Rounded
+rpo712  power   415  2         ->  1.7223E+5 Inexact Rounded
+rpo713  power    75  3         ->  4.2188E+5 Inexact Rounded
+
+
+-- extended math ------------------------------------------------------
+
+extended: 1
+
+-- just re-check additions; base mechanism perturbations only
+rounding: down
+
+radx100  add 12345 -0.1       -> 12344 Inexact Rounded
+radx101  add 12345 -0.01      -> 12344 Inexact Rounded
+radx102  add 12345 -0.001     -> 12344 Inexact Rounded
+radx103  add 12345 -0.00001   -> 12344 Inexact Rounded
+radx104  add 12345 -0.000001  -> 12344 Inexact Rounded
+radx105  add 12345 -0.0000001 -> 12344 Inexact Rounded
+radx106  add 12345  0         -> 12345
+radx107  add 12345  0.0000001 -> 12345 Inexact Rounded
+radx108  add 12345  0.000001  -> 12345 Inexact Rounded
+radx109  add 12345  0.00001   -> 12345 Inexact Rounded
+radx110  add 12345  0.0001    -> 12345 Inexact Rounded
+radx111  add 12345  0.001     -> 12345 Inexact Rounded
+radx112  add 12345  0.01      -> 12345 Inexact Rounded
+radx113  add 12345  0.1       -> 12345 Inexact Rounded
+
+radx115  add 12346  0.49999   -> 12346 Inexact Rounded
+radx116  add 12346  0.5       -> 12346 Inexact Rounded
+radx117  add 12346  0.50001   -> 12346 Inexact Rounded
+
+radx120  add 12345  0.4       -> 12345 Inexact Rounded
+radx121  add 12345  0.49      -> 12345 Inexact Rounded
+radx122  add 12345  0.499     -> 12345 Inexact Rounded
+radx123  add 12345  0.49999   -> 12345 Inexact Rounded
+radx124  add 12345  0.5       -> 12345 Inexact Rounded
+radx125  add 12345  0.50001   -> 12345 Inexact Rounded
+radx126  add 12345  0.5001    -> 12345 Inexact Rounded
+radx127  add 12345  0.501     -> 12345 Inexact Rounded
+radx128  add 12345  0.51      -> 12345 Inexact Rounded
+radx129  add 12345  0.6       -> 12345 Inexact Rounded
+
+rounding: half_down
+
+radx140  add 12345 -0.1       -> 12345 Inexact Rounded
+radx141  add 12345 -0.01      -> 12345 Inexact Rounded
+radx142  add 12345 -0.001     -> 12345 Inexact Rounded
+radx143  add 12345 -0.00001   -> 12345 Inexact Rounded
+radx144  add 12345 -0.000001  -> 12345 Inexact Rounded
+radx145  add 12345 -0.0000001 -> 12345 Inexact Rounded
+radx146  add 12345  0         -> 12345
+radx147  add 12345  0.0000001 -> 12345 Inexact Rounded
+radx148  add 12345  0.000001  -> 12345 Inexact Rounded
+radx149  add 12345  0.00001   -> 12345 Inexact Rounded
+radx150  add 12345  0.0001    -> 12345 Inexact Rounded
+radx151  add 12345  0.001     -> 12345 Inexact Rounded
+radx152  add 12345  0.01      -> 12345 Inexact Rounded
+radx153  add 12345  0.1       -> 12345 Inexact Rounded
+
+radx155  add 12346  0.49999   -> 12346 Inexact Rounded
+radx156  add 12346  0.5       -> 12346 Inexact Rounded
+radx157  add 12346  0.50001   -> 12347 Inexact Rounded
+
+radx160  add 12345  0.4       -> 12345 Inexact Rounded
+radx161  add 12345  0.49      -> 12345 Inexact Rounded
+radx162  add 12345  0.499     -> 12345 Inexact Rounded
+radx163  add 12345  0.49999   -> 12345 Inexact Rounded
+radx164  add 12345  0.5       -> 12345 Inexact Rounded
+radx165  add 12345  0.50001   -> 12346 Inexact Rounded
+radx166  add 12345  0.5001    -> 12346 Inexact Rounded
+radx167  add 12345  0.501     -> 12346 Inexact Rounded
+radx168  add 12345  0.51      -> 12346 Inexact Rounded
+radx169  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: half_even
+
+radx170  add 12345 -0.1       -> 12345 Inexact Rounded
+radx171  add 12345 -0.01      -> 12345 Inexact Rounded
+radx172  add 12345 -0.001     -> 12345 Inexact Rounded
+radx173  add 12345 -0.00001   -> 12345 Inexact Rounded
+radx174  add 12345 -0.000001  -> 12345 Inexact Rounded
+radx175  add 12345 -0.0000001 -> 12345 Inexact Rounded
+radx176  add 12345  0         -> 12345
+radx177  add 12345  0.0000001 -> 12345 Inexact Rounded
+radx178  add 12345  0.000001  -> 12345 Inexact Rounded
+radx179  add 12345  0.00001   -> 12345 Inexact Rounded
+radx180  add 12345  0.0001    -> 12345 Inexact Rounded
+radx181  add 12345  0.001     -> 12345 Inexact Rounded
+radx182  add 12345  0.01      -> 12345 Inexact Rounded
+radx183  add 12345  0.1       -> 12345 Inexact Rounded
+
+radx185  add 12346  0.49999   -> 12346 Inexact Rounded
+radx186  add 12346  0.5       -> 12346 Inexact Rounded
+radx187  add 12346  0.50001   -> 12347 Inexact Rounded
+
+radx190  add 12345  0.4       -> 12345 Inexact Rounded
+radx191  add 12345  0.49      -> 12345 Inexact Rounded
+radx192  add 12345  0.499     -> 12345 Inexact Rounded
+radx193  add 12345  0.49999   -> 12345 Inexact Rounded
+radx194  add 12345  0.5       -> 12346 Inexact Rounded
+radx195  add 12345  0.50001   -> 12346 Inexact Rounded
+radx196  add 12345  0.5001    -> 12346 Inexact Rounded
+radx197  add 12345  0.501     -> 12346 Inexact Rounded
+radx198  add 12345  0.51      -> 12346 Inexact Rounded
+radx199  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: half_up
+
+radx200  add 12345 -0.1       -> 12345 Inexact Rounded
+radx201  add 12345 -0.01      -> 12345 Inexact Rounded
+radx202  add 12345 -0.001     -> 12345 Inexact Rounded
+radx203  add 12345 -0.00001   -> 12345 Inexact Rounded
+radx204  add 12345 -0.000001  -> 12345 Inexact Rounded
+radx205  add 12345 -0.0000001 -> 12345 Inexact Rounded
+radx206  add 12345  0         -> 12345
+radx207  add 12345  0.0000001 -> 12345 Inexact Rounded
+radx208  add 12345  0.000001  -> 12345 Inexact Rounded
+radx209  add 12345  0.00001   -> 12345 Inexact Rounded
+radx210  add 12345  0.0001    -> 12345 Inexact Rounded
+radx211  add 12345  0.001     -> 12345 Inexact Rounded
+radx212  add 12345  0.01      -> 12345 Inexact Rounded
+radx213  add 12345  0.1       -> 12345 Inexact Rounded
+
+radx215  add 12346  0.49999   -> 12346 Inexact Rounded
+radx216  add 12346  0.5       -> 12347 Inexact Rounded
+radx217  add 12346  0.50001   -> 12347 Inexact Rounded
+
+radx220  add 12345  0.4       -> 12345 Inexact Rounded
+radx221  add 12345  0.49      -> 12345 Inexact Rounded
+radx222  add 12345  0.499     -> 12345 Inexact Rounded
+radx223  add 12345  0.49999   -> 12345 Inexact Rounded
+radx224  add 12345  0.5       -> 12346 Inexact Rounded
+radx225  add 12345  0.50001   -> 12346 Inexact Rounded
+radx226  add 12345  0.5001    -> 12346 Inexact Rounded
+radx227  add 12345  0.501     -> 12346 Inexact Rounded
+radx228  add 12345  0.51      -> 12346 Inexact Rounded
+radx229  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: up
+
+radx230  add 12345 -0.1       -> 12345 Inexact Rounded
+radx231  add 12345 -0.01      -> 12345 Inexact Rounded
+radx232  add 12345 -0.001     -> 12345 Inexact Rounded
+radx233  add 12345 -0.00001   -> 12345 Inexact Rounded
+radx234  add 12345 -0.000001  -> 12345 Inexact Rounded
+radx235  add 12345 -0.0000001 -> 12345 Inexact Rounded
+radx236  add 12345  0         -> 12345
+radx237  add 12345  0.0000001 -> 12346 Inexact Rounded
+radx238  add 12345  0.000001  -> 12346 Inexact Rounded
+radx239  add 12345  0.00001   -> 12346 Inexact Rounded
+radx240  add 12345  0.0001    -> 12346 Inexact Rounded
+radx241  add 12345  0.001     -> 12346 Inexact Rounded
+radx242  add 12345  0.01      -> 12346 Inexact Rounded
+radx243  add 12345  0.1       -> 12346 Inexact Rounded
+
+radx245  add 12346  0.49999   -> 12347 Inexact Rounded
+radx246  add 12346  0.5       -> 12347 Inexact Rounded
+radx247  add 12346  0.50001   -> 12347 Inexact Rounded
+
+radx250  add 12345  0.4       -> 12346 Inexact Rounded
+radx251  add 12345  0.49      -> 12346 Inexact Rounded
+radx252  add 12345  0.499     -> 12346 Inexact Rounded
+radx253  add 12345  0.49999   -> 12346 Inexact Rounded
+radx254  add 12345  0.5       -> 12346 Inexact Rounded
+radx255  add 12345  0.50001   -> 12346 Inexact Rounded
+radx256  add 12345  0.5001    -> 12346 Inexact Rounded
+radx257  add 12345  0.501     -> 12346 Inexact Rounded
+radx258  add 12345  0.51      -> 12346 Inexact Rounded
+radx259  add 12345  0.6       -> 12346 Inexact Rounded
+
+rounding: floor
+
+radx300  add 12345 -0.1       -> 12344 Inexact Rounded
+radx301  add 12345 -0.01      -> 12344 Inexact Rounded
+radx302  add 12345 -0.001     -> 12344 Inexact Rounded
+radx303  add 12345 -0.00001   -> 12344 Inexact Rounded
+radx304  add 12345 -0.000001  -> 12344 Inexact Rounded
+radx305  add 12345 -0.0000001 -> 12344 Inexact Rounded
+radx306  add 12345  0         -> 12345
+radx307  add 12345  0.0000001 -> 12345 Inexact Rounded
+radx308  add 12345  0.000001  -> 12345 Inexact Rounded
+radx309  add 12345  0.00001   -> 12345 Inexact Rounded
+radx310  add 12345  0.0001    -> 12345 Inexact Rounded
+radx311  add 12345  0.001     -> 12345 Inexact Rounded
+radx312  add 12345  0.01      -> 12345 Inexact Rounded
+radx313  add 12345  0.1       -> 12345 Inexact Rounded
+
+radx315  add 12346  0.49999   -> 12346 Inexact Rounded
+radx316  add 12346  0.5       -> 12346 Inexact Rounded
+radx317  add 12346  0.50001   -> 12346 Inexact Rounded
+
+radx320  add 12345  0.4       -> 12345 Inexact Rounded
+radx321  add 12345  0.49      -> 12345 Inexact Rounded
+radx322  add 12345  0.499     -> 12345 Inexact Rounded
+radx323  add 12345  0.49999   -> 12345 Inexact Rounded
+radx324  add 12345  0.5       -> 12345 Inexact Rounded
+radx325  add 12345  0.50001   -> 12345 Inexact Rounded
+radx326  add 12345  0.5001    -> 12345 Inexact Rounded
+radx327  add 12345  0.501     -> 12345 Inexact Rounded
+radx328  add 12345  0.51      -> 12345 Inexact Rounded
+radx329  add 12345  0.6       -> 12345 Inexact Rounded
+
+rounding: ceiling
+
+radx330  add 12345 -0.1       -> 12345 Inexact Rounded
+radx331  add 12345 -0.01      -> 12345 Inexact Rounded
+radx332  add 12345 -0.001     -> 12345 Inexact Rounded
+radx333  add 12345 -0.00001   -> 12345 Inexact Rounded
+radx334  add 12345 -0.000001  -> 12345 Inexact Rounded
+radx335  add 12345 -0.0000001 -> 12345 Inexact Rounded
+radx336  add 12345  0         -> 12345
+radx337  add 12345  0.0000001 -> 12346 Inexact Rounded
+radx338  add 12345  0.000001  -> 12346 Inexact Rounded
+radx339  add 12345  0.00001   -> 12346 Inexact Rounded
+radx340  add 12345  0.0001    -> 12346 Inexact Rounded
+radx341  add 12345  0.001     -> 12346 Inexact Rounded
+radx342  add 12345  0.01      -> 12346 Inexact Rounded
+radx343  add 12345  0.1       -> 12346 Inexact Rounded
+
+radx345  add 12346  0.49999   -> 12347 Inexact Rounded
+radx346  add 12346  0.5       -> 12347 Inexact Rounded
+radx347  add 12346  0.50001   -> 12347 Inexact Rounded
+
+radx350  add 12345  0.4       -> 12346 Inexact Rounded
+radx351  add 12345  0.49      -> 12346 Inexact Rounded
+radx352  add 12345  0.499     -> 12346 Inexact Rounded
+radx353  add 12345  0.49999   -> 12346 Inexact Rounded
+radx354  add 12345  0.5       -> 12346 Inexact Rounded
+radx355  add 12345  0.50001   -> 12346 Inexact Rounded
+radx356  add 12345  0.5001    -> 12346 Inexact Rounded
+radx357  add 12345  0.501     -> 12346 Inexact Rounded
+radx358  add 12345  0.51      -> 12346 Inexact Rounded
+radx359  add 12345  0.6       -> 12346 Inexact Rounded
+
+-- negatives...
+
+rounding: down
+
+rsux100  add -12345 -0.1       -> -12345 Inexact Rounded
+rsux101  add -12345 -0.01      -> -12345 Inexact Rounded
+rsux102  add -12345 -0.001     -> -12345 Inexact Rounded
+rsux103  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsux104  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsux105  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsux106  add -12345  0         -> -12345
+rsux107  add -12345  0.0000001 -> -12344 Inexact Rounded
+rsux108  add -12345  0.000001  -> -12344 Inexact Rounded
+rsux109  add -12345  0.00001   -> -12344 Inexact Rounded
+rsux110  add -12345  0.0001    -> -12344 Inexact Rounded
+rsux111  add -12345  0.001     -> -12344 Inexact Rounded
+rsux112  add -12345  0.01      -> -12344 Inexact Rounded
+rsux113  add -12345  0.1       -> -12344 Inexact Rounded
+
+rsux115  add -12346  0.49999   -> -12345 Inexact Rounded
+rsux116  add -12346  0.5       -> -12345 Inexact Rounded
+rsux117  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsux120  add -12345  0.4       -> -12344 Inexact Rounded
+rsux121  add -12345  0.49      -> -12344 Inexact Rounded
+rsux122  add -12345  0.499     -> -12344 Inexact Rounded
+rsux123  add -12345  0.49999   -> -12344 Inexact Rounded
+rsux124  add -12345  0.5       -> -12344 Inexact Rounded
+rsux125  add -12345  0.50001   -> -12344 Inexact Rounded
+rsux126  add -12345  0.5001    -> -12344 Inexact Rounded
+rsux127  add -12345  0.501     -> -12344 Inexact Rounded
+rsux128  add -12345  0.51      -> -12344 Inexact Rounded
+rsux129  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_down
+
+rsux140  add -12345 -0.1       -> -12345 Inexact Rounded
+rsux141  add -12345 -0.01      -> -12345 Inexact Rounded
+rsux142  add -12345 -0.001     -> -12345 Inexact Rounded
+rsux143  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsux144  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsux145  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsux146  add -12345  0         -> -12345
+rsux147  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsux148  add -12345  0.000001  -> -12345 Inexact Rounded
+rsux149  add -12345  0.00001   -> -12345 Inexact Rounded
+rsux150  add -12345  0.0001    -> -12345 Inexact Rounded
+rsux151  add -12345  0.001     -> -12345 Inexact Rounded
+rsux152  add -12345  0.01      -> -12345 Inexact Rounded
+rsux153  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsux155  add -12346  0.49999   -> -12346 Inexact Rounded
+rsux156  add -12346  0.5       -> -12345 Inexact Rounded
+rsux157  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsux160  add -12345  0.4       -> -12345 Inexact Rounded
+rsux161  add -12345  0.49      -> -12345 Inexact Rounded
+rsux162  add -12345  0.499     -> -12345 Inexact Rounded
+rsux163  add -12345  0.49999   -> -12345 Inexact Rounded
+rsux164  add -12345  0.5       -> -12344 Inexact Rounded
+rsux165  add -12345  0.50001   -> -12344 Inexact Rounded
+rsux166  add -12345  0.5001    -> -12344 Inexact Rounded
+rsux167  add -12345  0.501     -> -12344 Inexact Rounded
+rsux168  add -12345  0.51      -> -12344 Inexact Rounded
+rsux169  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_even
+
+rsux170  add -12345 -0.1       -> -12345 Inexact Rounded
+rsux171  add -12345 -0.01      -> -12345 Inexact Rounded
+rsux172  add -12345 -0.001     -> -12345 Inexact Rounded
+rsux173  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsux174  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsux175  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsux176  add -12345  0         -> -12345
+rsux177  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsux178  add -12345  0.000001  -> -12345 Inexact Rounded
+rsux179  add -12345  0.00001   -> -12345 Inexact Rounded
+rsux180  add -12345  0.0001    -> -12345 Inexact Rounded
+rsux181  add -12345  0.001     -> -12345 Inexact Rounded
+rsux182  add -12345  0.01      -> -12345 Inexact Rounded
+rsux183  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsux185  add -12346  0.49999   -> -12346 Inexact Rounded
+rsux186  add -12346  0.5       -> -12346 Inexact Rounded
+rsux187  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsux190  add -12345  0.4       -> -12345 Inexact Rounded
+rsux191  add -12345  0.49      -> -12345 Inexact Rounded
+rsux192  add -12345  0.499     -> -12345 Inexact Rounded
+rsux193  add -12345  0.49999   -> -12345 Inexact Rounded
+rsux194  add -12345  0.5       -> -12344 Inexact Rounded
+rsux195  add -12345  0.50001   -> -12344 Inexact Rounded
+rsux196  add -12345  0.5001    -> -12344 Inexact Rounded
+rsux197  add -12345  0.501     -> -12344 Inexact Rounded
+rsux198  add -12345  0.51      -> -12344 Inexact Rounded
+rsux199  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: half_up
+
+rsux200  add -12345 -0.1       -> -12345 Inexact Rounded
+rsux201  add -12345 -0.01      -> -12345 Inexact Rounded
+rsux202  add -12345 -0.001     -> -12345 Inexact Rounded
+rsux203  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsux204  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsux205  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsux206  add -12345  0         -> -12345
+rsux207  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsux208  add -12345  0.000001  -> -12345 Inexact Rounded
+rsux209  add -12345  0.00001   -> -12345 Inexact Rounded
+rsux210  add -12345  0.0001    -> -12345 Inexact Rounded
+rsux211  add -12345  0.001     -> -12345 Inexact Rounded
+rsux212  add -12345  0.01      -> -12345 Inexact Rounded
+rsux213  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsux215  add -12346  0.49999   -> -12346 Inexact Rounded
+rsux216  add -12346  0.5       -> -12346 Inexact Rounded
+rsux217  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsux220  add -12345  0.4       -> -12345 Inexact Rounded
+rsux221  add -12345  0.49      -> -12345 Inexact Rounded
+rsux222  add -12345  0.499     -> -12345 Inexact Rounded
+rsux223  add -12345  0.49999   -> -12345 Inexact Rounded
+rsux224  add -12345  0.5       -> -12345 Inexact Rounded
+rsux225  add -12345  0.50001   -> -12344 Inexact Rounded
+rsux226  add -12345  0.5001    -> -12344 Inexact Rounded
+rsux227  add -12345  0.501     -> -12344 Inexact Rounded
+rsux228  add -12345  0.51      -> -12344 Inexact Rounded
+rsux229  add -12345  0.6       -> -12344 Inexact Rounded
+
+rounding: up
+
+rsux230  add -12345 -0.1       -> -12346 Inexact Rounded
+rsux231  add -12345 -0.01      -> -12346 Inexact Rounded
+rsux232  add -12345 -0.001     -> -12346 Inexact Rounded
+rsux233  add -12345 -0.00001   -> -12346 Inexact Rounded
+rsux234  add -12345 -0.000001  -> -12346 Inexact Rounded
+rsux235  add -12345 -0.0000001 -> -12346 Inexact Rounded
+rsux236  add -12345  0         -> -12345
+rsux237  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsux238  add -12345  0.000001  -> -12345 Inexact Rounded
+rsux239  add -12345  0.00001   -> -12345 Inexact Rounded
+rsux240  add -12345  0.0001    -> -12345 Inexact Rounded
+rsux241  add -12345  0.001     -> -12345 Inexact Rounded
+rsux242  add -12345  0.01      -> -12345 Inexact Rounded
+rsux243  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsux245  add -12346  0.49999   -> -12346 Inexact Rounded
+rsux246  add -12346  0.5       -> -12346 Inexact Rounded
+rsux247  add -12346  0.50001   -> -12346 Inexact Rounded
+
+rsux250  add -12345  0.4       -> -12345 Inexact Rounded
+rsux251  add -12345  0.49      -> -12345 Inexact Rounded
+rsux252  add -12345  0.499     -> -12345 Inexact Rounded
+rsux253  add -12345  0.49999   -> -12345 Inexact Rounded
+rsux254  add -12345  0.5       -> -12345 Inexact Rounded
+rsux255  add -12345  0.50001   -> -12345 Inexact Rounded
+rsux256  add -12345  0.5001    -> -12345 Inexact Rounded
+rsux257  add -12345  0.501     -> -12345 Inexact Rounded
+rsux258  add -12345  0.51      -> -12345 Inexact Rounded
+rsux259  add -12345  0.6       -> -12345 Inexact Rounded
+
+rounding: floor
+
+rsux300  add -12345 -0.1       -> -12346 Inexact Rounded
+rsux301  add -12345 -0.01      -> -12346 Inexact Rounded
+rsux302  add -12345 -0.001     -> -12346 Inexact Rounded
+rsux303  add -12345 -0.00001   -> -12346 Inexact Rounded
+rsux304  add -12345 -0.000001  -> -12346 Inexact Rounded
+rsux305  add -12345 -0.0000001 -> -12346 Inexact Rounded
+rsux306  add -12345  0         -> -12345
+rsux307  add -12345  0.0000001 -> -12345 Inexact Rounded
+rsux308  add -12345  0.000001  -> -12345 Inexact Rounded
+rsux309  add -12345  0.00001   -> -12345 Inexact Rounded
+rsux310  add -12345  0.0001    -> -12345 Inexact Rounded
+rsux311  add -12345  0.001     -> -12345 Inexact Rounded
+rsux312  add -12345  0.01      -> -12345 Inexact Rounded
+rsux313  add -12345  0.1       -> -12345 Inexact Rounded
+
+rsux315  add -12346  0.49999   -> -12346 Inexact Rounded
+rsux316  add -12346  0.5       -> -12346 Inexact Rounded
+rsux317  add -12346  0.50001   -> -12346 Inexact Rounded
+
+rsux320  add -12345  0.4       -> -12345 Inexact Rounded
+rsux321  add -12345  0.49      -> -12345 Inexact Rounded
+rsux322  add -12345  0.499     -> -12345 Inexact Rounded
+rsux323  add -12345  0.49999   -> -12345 Inexact Rounded
+rsux324  add -12345  0.5       -> -12345 Inexact Rounded
+rsux325  add -12345  0.50001   -> -12345 Inexact Rounded
+rsux326  add -12345  0.5001    -> -12345 Inexact Rounded
+rsux327  add -12345  0.501     -> -12345 Inexact Rounded
+rsux328  add -12345  0.51      -> -12345 Inexact Rounded
+rsux329  add -12345  0.6       -> -12345 Inexact Rounded
+
+rounding: ceiling
+
+rsux330  add -12345 -0.1       -> -12345 Inexact Rounded
+rsux331  add -12345 -0.01      -> -12345 Inexact Rounded
+rsux332  add -12345 -0.001     -> -12345 Inexact Rounded
+rsux333  add -12345 -0.00001   -> -12345 Inexact Rounded
+rsux334  add -12345 -0.000001  -> -12345 Inexact Rounded
+rsux335  add -12345 -0.0000001 -> -12345 Inexact Rounded
+rsux336  add -12345  0         -> -12345
+rsux337  add -12345  0.0000001 -> -12344 Inexact Rounded
+rsux338  add -12345  0.000001  -> -12344 Inexact Rounded
+rsux339  add -12345  0.00001   -> -12344 Inexact Rounded
+rsux340  add -12345  0.0001    -> -12344 Inexact Rounded
+rsux341  add -12345  0.001     -> -12344 Inexact Rounded
+rsux342  add -12345  0.01      -> -12344 Inexact Rounded
+rsux343  add -12345  0.1       -> -12344 Inexact Rounded
+
+rsux345  add -12346  0.49999   -> -12345 Inexact Rounded
+rsux346  add -12346  0.5       -> -12345 Inexact Rounded
+rsux347  add -12346  0.50001   -> -12345 Inexact Rounded
+
+rsux350  add -12345  0.4       -> -12344 Inexact Rounded
+rsux351  add -12345  0.49      -> -12344 Inexact Rounded
+rsux352  add -12345  0.499     -> -12344 Inexact Rounded
+rsux353  add -12345  0.49999   -> -12344 Inexact Rounded
+rsux354  add -12345  0.5       -> -12344 Inexact Rounded
+rsux355  add -12345  0.50001   -> -12344 Inexact Rounded
+rsux356  add -12345  0.5001    -> -12344 Inexact Rounded
+rsux357  add -12345  0.501     -> -12344 Inexact Rounded
+rsux358  add -12345  0.51      -> -12344 Inexact Rounded
+rsux359  add -12345  0.6       -> -12344 Inexact Rounded
+
+-- Check cancellation subtractions under the different rounding modes
+-- (The IEEE 854 'curious rule' in $6.3)
+
+rounding: down
+rzex001  add  0    0    ->  0
+rzex002  add  0   -0    ->  0
+rzex003  add -0    0    ->  0
+rzex004  add -0   -0    -> -0
+rzex005  add  1   -1    ->  0
+rzex006  add -1    1    ->  0
+rzex007  add  1.5 -1.5  ->  0
+rzex008  add -1.5  1.5  ->  0
+rzex009  add  2   -2    ->  0
+rzex010  add -2    2    ->  0
+
+rounding: up
+rzex011  add  0    0    ->  0
+rzex012  add  0   -0    ->  0
+rzex013  add -0    0    ->  0
+rzex014  add -0   -0    -> -0
+rzex015  add  1   -1    ->  0
+rzex016  add -1    1    ->  0
+rzex017  add  1.5 -1.5  ->  0
+rzex018  add -1.5  1.5  ->  0
+rzex019  add  2   -2    ->  0
+rzex020  add -2    2    ->  0
+
+rounding: half_up
+rzex021  add  0    0    ->  0
+rzex022  add  0   -0    ->  0
+rzex023  add -0    0    ->  0
+rzex024  add -0   -0    -> -0
+rzex025  add  1   -1    ->  0
+rzex026  add -1    1    ->  0
+rzex027  add  1.5 -1.5  ->  0
+rzex028  add -1.5  1.5  ->  0
+rzex029  add  2   -2    ->  0
+rzex030  add -2    2    ->  0
+
+rounding: half_down
+rzex031  add  0    0    ->  0
+rzex032  add  0   -0    ->  0
+rzex033  add -0    0    ->  0
+rzex034  add -0   -0    -> -0
+rzex035  add  1   -1    ->  0
+rzex036  add -1    1    ->  0
+rzex037  add  1.5 -1.5  ->  0
+rzex038  add -1.5  1.5  ->  0
+rzex039  add  2   -2    ->  0
+rzex040  add -2    2    ->  0
+
+rounding: half_even
+rzex041  add  0    0    ->  0
+rzex042  add  0   -0    ->  0
+rzex043  add -0    0    ->  0
+rzex044  add -0   -0    -> -0
+rzex045  add  1   -1    ->  0
+rzex046  add -1    1    ->  0
+rzex047  add  1.5 -1.5  ->  0
+rzex048  add -1.5  1.5  ->  0
+rzex049  add  2   -2    ->  0
+rzex050  add -2    2    ->  0
+
+rounding: floor
+rzex051  add  0    0    ->  0
+rzex052  add  0   -0    -> -0  -- here are two 'curious'
+rzex053  add -0    0    -> -0  --
+rzex054  add -0   -0    -> -0
+rzex055  add  1   -1    -> -0  -- here are the rest
+rzex056  add -1    1    -> -0  -- ..
+rzex057  add  1.5 -1.5  -> -0  -- ..
+rzex058  add -1.5  1.5  -> -0  -- ..
+rzex059  add  2   -2    -> -0  -- ..
+rzex060  add -2    2    -> -0  -- ..
+
+rounding: ceiling
+rzex061  add  0    0    ->  0
+rzex062  add  0   -0    ->  0
+rzex063  add -0    0    ->  0
+rzex064  add -0   -0    -> -0
+rzex065  add  1   -1    ->  0
+rzex066  add -1    1    ->  0
+rzex067  add  1.5 -1.5  ->  0
+rzex068  add -1.5  1.5  ->  0
+rzex069  add  2   -2    ->  0
+rzex070  add -2    2    ->  0
+
+-- Underflow and overflow values vary with rounding mode and sign
+maxexponent: 999999999
+rounding: down
+rovx100  multiply   10    9E+999999999 ->  9.9999E+999999999 Overflow Inexact Rounded
+rovx101  multiply  -10    9E+999999999 -> -9.9999E+999999999 Overflow Inexact Rounded
+rovx102  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx104  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: up
+rovx110  multiply   10    9E+999999999 ->  Infinity Overflow Inexact Rounded
+rovx111  multiply  -10    9E+999999999 -> -Infinity Overflow Inexact Rounded
+rovx112  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx114  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: ceiling
+rovx120  multiply   10    9E+999999999 ->  Infinity Overflow Inexact Rounded
+rovx121  multiply  -10    9E+999999999 -> -9.9999E+999999999 Overflow Inexact Rounded
+rovx122  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx124  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: floor
+rovx130  multiply   10    9E+999999999 ->  9.9999E+999999999 Overflow Inexact Rounded
+rovx131  multiply  -10    9E+999999999 -> -Infinity Overflow Inexact Rounded
+rovx132  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx134  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: half_up
+rovx140  multiply   10    9E+999999999 ->  Infinity Overflow Inexact Rounded
+rovx141  multiply  -10    9E+999999999 -> -Infinity Overflow Inexact Rounded
+rovx142  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx144  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: half_even
+rovx150  multiply   10    9E+999999999 ->  Infinity Overflow Inexact Rounded
+rovx151  multiply  -10    9E+999999999 -> -Infinity Overflow Inexact Rounded
+rovx152  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx154  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+rounding: half_down
+rovx160  multiply   10    9E+999999999 ->  Infinity Overflow Inexact Rounded
+rovx161  multiply  -10    9E+999999999 -> -Infinity Overflow Inexact Rounded
+rovx162  divide     1E-9  9E+999999999 ->  0 Underflow Inexact Rounded
+rovx164  divide    -1E-9  9E+999999999 -> -0 Underflow Inexact Rounded
+
+-- check maximum finite value over a range of precisions
+rounding: down
+precision: 1
+rovx200  multiply   10    9E+999999999 ->  9E+999999999 Overflow Inexact Rounded
+rovx201  multiply  -10    9E+999999999 -> -9E+999999999 Overflow Inexact Rounded
+precision: 2
+rovx210  multiply   10    9E+999999999 ->  9.9E+999999999 Overflow Inexact Rounded
+rovx211  multiply  -10    9E+999999999 -> -9.9E+999999999 Overflow Inexact Rounded
+precision: 3
+rovx220  multiply   10    9E+999999999 ->  9.99E+999999999 Overflow Inexact Rounded
+rovx221  multiply  -10    9E+999999999 -> -9.99E+999999999 Overflow Inexact Rounded
+precision: 4
+rovx230  multiply   10    9E+999999999 ->  9.999E+999999999 Overflow Inexact Rounded
+rovx231  multiply  -10    9E+999999999 -> -9.999E+999999999 Overflow Inexact Rounded
+precision: 5
+rovx240  multiply   10    9E+999999999 ->  9.9999E+999999999 Overflow Inexact Rounded
+rovx241  multiply  -10    9E+999999999 -> -9.9999E+999999999 Overflow Inexact Rounded
+precision: 6
+rovx250  multiply   10    9E+999999999 ->  9.99999E+999999999 Overflow Inexact Rounded
+rovx251  multiply  -10    9E+999999999 -> -9.99999E+999999999 Overflow Inexact Rounded
+precision: 7
+rovx260  multiply   10    9E+999999999 ->  9.999999E+999999999 Overflow Inexact Rounded
+rovx261  multiply  -10    9E+999999999 -> -9.999999E+999999999 Overflow Inexact Rounded
+precision: 8
+rovx270  multiply   10    9E+999999999 ->  9.9999999E+999999999 Overflow Inexact Rounded
+rovx271  multiply  -10    9E+999999999 -> -9.9999999E+999999999 Overflow Inexact Rounded
+precision: 9
+rovx280  multiply   10    9E+999999999 ->  9.99999999E+999999999 Overflow Inexact Rounded
+rovx281  multiply  -10    9E+999999999 -> -9.99999999E+999999999 Overflow Inexact Rounded
+precision: 10
+rovx290  multiply   10    9E+999999999 ->  9.999999999E+999999999 Overflow Inexact Rounded
+rovx291  multiply  -10    9E+999999999 -> -9.999999999E+999999999 Overflow Inexact Rounded
+
+

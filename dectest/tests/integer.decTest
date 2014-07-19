@@ -1,0 +1,202 @@
+------------------------------------------------------------------------
+-- integer.decTest -- round decimal to integer                        --
+-- Copyright (c) IBM Corporation, 2001.        All rights reserved.   --
+------------------------------------------------------------------------
+-- Please see the document "Standard Decimal Arithmetic Testcases"    --
+-- at http://www2.hursley.ibm.com/decimal for the description of      --
+-- these testcases.                                                   --
+--                                                                    --
+-- These testcases are experimental ('beta' versions), and they       --
+-- may contain errors.  They are offered on an as-is basis.  In       --
+-- particular, achieving the same results as the tests here is not    --
+-- a guarantee that an implementation complies with any Standard      --
+-- or specification.  The tests are not exhaustive.                   --
+--                                                                    --
+-- Please send comments, suggestions, and corrections to the author:  --
+--   Mike Cowlishaw, IBM Fellow                                       --
+--   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         --
+--   mfc@uk.ibm.com                                                   --
+------------------------------------------------------------------------
+version: 1.03
+
+-- This set of tests tests the extended specification 'round-to-integer'
+-- operation (from IEEE 854).  All non-zero results are defined as
+-- being those from either plus or rescale, so those are assumed to have
+-- been tested.
+
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+int001 integer      0     ->  0
+int002 integer      0.0   ->  0
+int003 integer      0.1   ->  0 Rounded Inexact
+int004 integer      0.2   ->  0 Rounded Inexact
+int005 integer      0.3   ->  0 Rounded Inexact
+int006 integer      0.4   ->  0 Rounded Inexact
+int007 integer      0.5   ->  1 Rounded Inexact
+int008 integer      0.6   ->  1 Rounded Inexact
+int009 integer      0.7   ->  1 Rounded Inexact
+int010 integer      0.8   ->  1 Rounded Inexact
+int011 integer      0.9   ->  1 Rounded Inexact
+int012 integer      1     ->  1
+int013 integer      1.0   ->  1 Rounded
+int014 integer      1.1   ->  1 Rounded Inexact
+int015 integer      1.2   ->  1 Rounded Inexact
+int016 integer      1.3   ->  1 Rounded Inexact
+int017 integer      1.4   ->  1 Rounded Inexact
+int018 integer      1.5   ->  2 Rounded Inexact
+int019 integer      1.6   ->  2 Rounded Inexact
+int020 integer      1.7   ->  2 Rounded Inexact
+int021 integer      1.8   ->  2 Rounded Inexact
+int022 integer      1.9   ->  2 Rounded Inexact
+-- negatives
+int031 integer     -0     ->  0
+int032 integer     -0.0   ->  0
+int033 integer     -0.1   ->  0 Rounded Inexact
+int034 integer     -0.2   ->  0 Rounded Inexact
+int035 integer     -0.3   ->  0 Rounded Inexact
+int036 integer     -0.4   ->  0 Rounded Inexact
+int037 integer     -0.5   -> -1 Rounded Inexact
+int038 integer     -0.6   -> -1 Rounded Inexact
+int039 integer     -0.7   -> -1 Rounded Inexact
+int040 integer     -0.8   -> -1 Rounded Inexact
+int041 integer     -0.9   -> -1 Rounded Inexact
+int042 integer     -1     -> -1
+int043 integer     -1.0   -> -1 Rounded
+int044 integer     -1.1   -> -1 Rounded Inexact
+int045 integer     -1.2   -> -1 Rounded Inexact
+int046 integer     -1.3   -> -1 Rounded Inexact
+int047 integer     -1.4   -> -1 Rounded Inexact
+int048 integer     -1.5   -> -2 Rounded Inexact
+int049 integer     -1.6   -> -2 Rounded Inexact
+int050 integer     -1.7   -> -2 Rounded Inexact
+int051 integer     -1.8   -> -2 Rounded Inexact
+int052 integer     -1.9   -> -2 Rounded Inexact
+
+-- numbers around precision
+precision: 9
+int060 integer '56267E-10'   -> '0' Inexact Rounded
+int061 integer '56267E-5'    -> '1' Inexact Rounded
+int062 integer '56267E-2'    -> '563' Inexact Rounded
+int063 integer '56267E-1'    -> '5627' Inexact Rounded
+int065 integer '56267E-0'    -> '56267'
+int066 integer '56267E+0'    -> '56267'
+int067 integer '56267E+1'    -> '562670'
+int068 integer '56267E+2'    -> '5626700'
+int069 integer '56267E+3'    -> '56267000'
+int070 integer '56267E+4'    -> '562670000'
+int071 integer '56267E+5'    -> '5.6267E+9'
+int072 integer '56267E+6'    -> '5.6267E+10'
+int080 integer '-56267E-10'  -> '0'     Inexact Rounded
+int081 integer '-56267E-5'   -> '-1'     Inexact Rounded
+int082 integer '-56267E-2'   -> '-563'    Inexact Rounded
+int083 integer '-56267E-1'   -> '-5627'    Inexact Rounded
+int085 integer '-56267E-0'   -> '-56267'
+int086 integer '-56267E+0'   -> '-56267'
+int087 integer '-56267E+1'   -> '-562670'
+int088 integer '-56267E+2'   -> '-5626700'
+int089 integer '-56267E+3'   -> '-56267000'
+int090 integer '-56267E+4'   -> '-562670000'
+int091 integer '-56267E+5'   -> '-5.6267E+9'
+int092 integer '-56267E+6'   -> '-5.6267E+10'
+
+-- extended math ------------------------------------------------------
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+extended: 1
+
+-- sanity checks (as base, above)
+intx001 integer      0     ->  0
+intx002 integer      0.0   ->  0
+intx003 integer      0.1   ->  0 Rounded Inexact
+intx004 integer      0.2   ->  0 Rounded Inexact
+intx005 integer      0.3   ->  0 Rounded Inexact
+intx006 integer      0.4   ->  0 Rounded Inexact
+intx007 integer      0.5   ->  1 Rounded Inexact
+intx008 integer      0.6   ->  1 Rounded Inexact
+intx009 integer      0.7   ->  1 Rounded Inexact
+intx010 integer      0.8   ->  1 Rounded Inexact
+intx011 integer      0.9   ->  1 Rounded Inexact
+intx012 integer      1     ->  1
+intx013 integer      1.0   ->  1 Rounded
+intx014 integer      1.1   ->  1 Rounded Inexact
+intx015 integer      1.2   ->  1 Rounded Inexact
+intx016 integer      1.3   ->  1 Rounded Inexact
+intx017 integer      1.4   ->  1 Rounded Inexact
+intx018 integer      1.5   ->  2 Rounded Inexact
+intx019 integer      1.6   ->  2 Rounded Inexact
+intx020 integer      1.7   ->  2 Rounded Inexact
+intx021 integer      1.8   ->  2 Rounded Inexact
+intx022 integer      1.9   ->  2 Rounded Inexact
+-- negatives
+intx031 integer     -0     -> -0
+intx032 integer     -0.0   -> -0
+intx033 integer     -0.1   -> -0 Rounded Inexact
+intx034 integer     -0.2   -> -0 Rounded Inexact
+intx035 integer     -0.3   -> -0 Rounded Inexact
+intx036 integer     -0.4   -> -0 Rounded Inexact
+intx037 integer     -0.5   -> -1 Rounded Inexact
+intx038 integer     -0.6   -> -1 Rounded Inexact
+intx039 integer     -0.7   -> -1 Rounded Inexact
+intx040 integer     -0.8   -> -1 Rounded Inexact
+intx041 integer     -0.9   -> -1 Rounded Inexact
+intx042 integer     -1     -> -1
+intx043 integer     -1.0   -> -1 Rounded
+intx044 integer     -1.1   -> -1 Rounded Inexact
+intx045 integer     -1.2   -> -1 Rounded Inexact
+intx046 integer     -1.3   -> -1 Rounded Inexact
+intx047 integer     -1.4   -> -1 Rounded Inexact
+intx048 integer     -1.5   -> -2 Rounded Inexact
+intx049 integer     -1.6   -> -2 Rounded Inexact
+intx050 integer     -1.7   -> -2 Rounded Inexact
+intx051 integer     -1.8   -> -2 Rounded Inexact
+intx052 integer     -1.9   -> -2 Rounded Inexact
+
+-- numbers around precision
+precision: 9
+intx060 integer '56267E-10'   -> '0' Inexact Rounded
+intx061 integer '56267E-5'    -> '1' Inexact Rounded
+intx062 integer '56267E-2'    -> '563' Inexact Rounded
+intx063 integer '56267E-1'    -> '5627' Inexact Rounded
+intx065 integer '56267E-0'    -> '56267'
+intx066 integer '56267E+0'    -> '56267'
+intx067 integer '56267E+1'    -> '562670'
+intx068 integer '56267E+2'    -> '5626700'
+intx069 integer '56267E+3'    -> '56267000'
+intx070 integer '56267E+4'    -> '562670000'
+intx071 integer '56267E+5'    -> '5.6267E+9'
+intx072 integer '56267E+6'    -> '5.6267E+10'
+intx080 integer '-56267E-10'  -> '-0'     Inexact Rounded
+intx081 integer '-56267E-5'   -> '-1'     Inexact Rounded
+intx082 integer '-56267E-2'   -> '-563'    Inexact Rounded
+intx083 integer '-56267E-1'   -> '-5627'    Inexact Rounded
+intx085 integer '-56267E-0'   -> '-56267'
+intx086 integer '-56267E+0'   -> '-56267'
+intx087 integer '-56267E+1'   -> '-562670'
+intx088 integer '-56267E+2'   -> '-5626700'
+intx089 integer '-56267E+3'   -> '-56267000'
+intx090 integer '-56267E+4'   -> '-562670000'
+intx091 integer '-56267E+5'   -> '-5.6267E+9'
+intx092 integer '-56267E+6'   -> '-5.6267E+10'
+
+-- specials and zeros
+intx820 integer 'Inf'    -> 'Infinity'
+intx821 integer '-Inf'   -> '-Infinity'
+intx822 integer   NaN    ->  NaN
+intx823 integer  sNaN    ->  NaN  Invalid_operation
+intx824 integer     0    ->  0
+intx825 integer    -0    -> -0
+
+-- examples from extended specification
+rounding:    half_even
+precision:   9
+extended:    1
+int900 integer     2.1    -> 2     Rounded Inexact
+int901 integer   100      -> 100
+int902 integer   100.0    -> 100   Rounded
+int903 integer   100.5    -> 100   Rounded Inexact
+int904 integer   101.5    -> 102   Rounded Inexact
+int905 integer   10E+5    -> 1000000

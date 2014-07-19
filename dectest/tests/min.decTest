@@ -1,0 +1,303 @@
+------------------------------------------------------------------------
+-- min.decTest -- decimal minimum                                     --
+-- Copyright (c) IBM Corporation, 1981, 2001.  All rights reserved.   --
+------------------------------------------------------------------------
+-- Please see the document "Standard Decimal Arithmetic Testcases"    --
+-- at http://www2.hursley.ibm.com/decimal for the description of      --
+-- these testcases.                                                   --
+--                                                                    --
+-- These testcases are experimental ('beta' versions), and they       --
+-- may contain errors.  They are offered on an as-is basis.  In       --
+-- particular, achieving the same results as the tests here is not    --
+-- a guarantee that an implementation complies with any Standard      --
+-- or specification.  The tests are not exhaustive.                   --
+--                                                                    --
+-- Please send comments, suggestions, and corrections to the author:  --
+--   Mike Cowlishaw, IBM Fellow                                       --
+--   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         --
+--   mfc@uk.ibm.com                                                   --
+------------------------------------------------------------------------
+version: 1.03
+
+-- we assume that base comparison is tested in compare.decTest, so
+-- these mainly cover special cases, lost digits, and rounding
+
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+-- sanity checks
+mnm001 min  -2  -2  -> -2
+mnm002 min  -2  -1  -> -2
+mnm003 min  -2   0  -> -2
+mnm004 min  -2   1  -> -2
+mnm005 min  -2   2  -> -2
+mnm006 min  -1  -2  -> -2
+mnm007 min  -1  -1  -> -1
+mnm008 min  -1   0  -> -1
+mnm009 min  -1   1  -> -1
+mnm010 min  -1   2  -> -1
+mnm011 min   0  -2  -> -2
+mnm012 min   0  -1  -> -1
+mnm013 min   0   0  ->  0
+mnm014 min   0   1  ->  0
+mnm015 min   0   2  ->  0
+mnm016 min   1  -2  -> -2
+mnm017 min   1  -1  -> -1
+mnm018 min   1   0  ->  0
+mnm019 min   1   1  ->  1
+mnm020 min   1   2  ->  1
+mnm021 min   2  -2  -> -2
+mnm022 min   2  -1  -> -1
+mnm023 min   2   0  ->  0
+mnm025 min   2   1  ->  1
+mnm026 min   2   2  ->  2
+
+-- lostDigits and input rounding checks
+maxExponent: 999
+precision: 9
+mnm101 min -12345678000 1  -> -1.23456780E+10 Rounded
+mnm102 min 1 -12345678000  -> -1.23456780E+10 Rounded
+mnm103 min -1234567800  1  -> -1.23456780E+9 Rounded
+mnm104 min 1 -1234567800   -> -1.23456780E+9 Rounded
+mnm105 min -1234567890  1  -> -1.23456789E+9 Rounded
+mnm106 min 1 -1234567890   -> -1.23456789E+9 Rounded
+mnm107 min -1234567891  1  -> -1.23456789E+9 Inexact Lost_digits Rounded
+mnm108 min 1 -1234567891   -> -1.23456789E+9 Inexact Lost_digits Rounded
+mnm109 min -12345678901 1  -> -1.23456789E+10 Inexact Lost_digits Rounded
+mnm110 min 1 -12345678901  -> -1.23456789E+10 Inexact Lost_digits Rounded
+mnm111 min -1234567896  1  -> -1.23456790E+9 Inexact Lost_digits Rounded
+mnm112 min 1 -1234567896   -> -1.23456790E+9 Inexact Lost_digits Rounded
+mnm113 min 1234567891  1   -> 1 Inexact Lost_digits Rounded
+mnm114 min 1 1234567891    -> 1 Inexact Lost_digits Rounded
+mnm115 min 12345678901 1   -> 1 Inexact Lost_digits Rounded
+mnm116 min 1 12345678901   -> 1 Inexact Lost_digits Rounded
+mnm117 min 1234567896  1   -> 1 Inexact Lost_digits Rounded
+mnm118 min 1 1234567896    -> 1 Inexact Lost_digits Rounded
+
+precision: 15
+-- still checking for [no] lostDigits
+mnm121 min -12345678000 1  -> -12345678000
+mnm122 min 1 -12345678000  -> -12345678000
+mnm123 min -1234567800  1  -> -1234567800
+mnm124 min 1 -1234567800   -> -1234567800
+mnm125 min -1234567890  1  -> -1234567890
+mnm126 min 1 -1234567890   -> -1234567890
+mnm127 min -1234567891  1  -> -1234567891
+mnm128 min 1 -1234567891   -> -1234567891
+mnm129 min -12345678901 1  -> -12345678901
+mnm130 min 1 -12345678901  -> -12345678901
+mnm131 min -1234567896  1  -> -1234567896
+mnm132 min 1 -1234567896   -> -1234567896
+mnm133 min 1234567891  1   -> 1
+mnm134 min 1 1234567891    -> 1
+mnm135 min 12345678901 1   -> 1
+mnm136 min 1 12345678901   -> 1
+mnm137 min 1234567896  1   -> 1
+mnm138 min 1 1234567896    -> 1
+
+-- Null tests
+mnm900 min 10  # -> ? Invalid_operation
+mnm901 min  # 10 -> ? Invalid_operation
+
+-- extended math ------------------------------------------------------
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+extended: 1
+
+-- sanity checks
+mnmx001 min  -2  -2  -> -2
+mnmx002 min  -2  -1  -> -2
+mnmx003 min  -2   0  -> -2
+mnmx004 min  -2   1  -> -2
+mnmx005 min  -2   2  -> -2
+mnmx006 min  -1  -2  -> -2
+mnmx007 min  -1  -1  -> -1
+mnmx008 min  -1   0  -> -1
+mnmx009 min  -1   1  -> -1
+mnmx010 min  -1   2  -> -1
+mnmx011 min   0  -2  -> -2
+mnmx012 min   0  -1  -> -1
+mnmx013 min   0   0  ->  0
+mnmx014 min   0   1  ->  0
+mnmx015 min   0   2  ->  0
+mnmx016 min   1  -2  -> -2
+mnmx017 min   1  -1  -> -1
+mnmx018 min   1   0  ->  0
+mnmx019 min   1   1  ->  1
+mnmx020 min   1   2  ->  1
+mnmx021 min   2  -2  -> -2
+mnmx022 min   2  -1  -> -1
+mnmx023 min   2   0  ->  0
+mnmx025 min   2   1  ->  1
+mnmx026 min   2   2  ->  2
+
+-- extended zeros
+mnmx030 min   0     0   ->  0
+mnmx031 min   0    -0   -> -0
+mnmx032 min   0    -0.0 -> -0
+mnmx033 min   0     0.0 ->  0
+mnmx034 min  -0     0   -> -0
+mnmx035 min  -0    -0   -> -0
+mnmx036 min  -0    -0.0 -> -0
+mnmx037 min  -0     0.0 -> -0
+mnmx038 min   0.0   0   ->  0
+mnmx039 min   0.0  -0   -> -0
+mnmx040 min   0.0  -0.0 -> -0
+mnmx041 min   0.0   0.0 ->  0
+mnmx042 min  -0.0   0   -> -0
+mnmx043 min  -0.0  -0   -> -0
+mnmx044 min  -0.0  -0.0 -> -0
+mnmx045 min  -0.0   0.0 -> -0
+
+-- lostDigits and input rounding checks
+maxExponent: 999
+precision: 9
+mnmx051 min -12345678000 1  -> -1.23456780E+10 Rounded
+mnmx052 min 1 -12345678000  -> -1.23456780E+10 Rounded
+mnmx053 min -1234567800  1  -> -1.23456780E+9 Rounded
+mnmx054 min 1 -1234567800   -> -1.23456780E+9 Rounded
+mnmx055 min -1234567890  1  -> -1.23456789E+9 Rounded
+mnmx056 min 1 -1234567890   -> -1.23456789E+9 Rounded
+mnmx057 min -1234567891  1  -> -1.23456789E+9 Inexact Lost_digits Rounded
+mnmx058 min 1 -1234567891   -> -1.23456789E+9 Inexact Lost_digits Rounded
+mnmx059 min -12345678901 1  -> -1.23456789E+10 Inexact Lost_digits Rounded
+mnmx060 min 1 -12345678901  -> -1.23456789E+10 Inexact Lost_digits Rounded
+mnmx061 min -1234567896  1  -> -1.23456790E+9 Inexact Lost_digits Rounded
+mnmx062 min 1 -1234567896   -> -1.23456790E+9 Inexact Lost_digits Rounded
+mnmx063 min 1234567891  1   -> 1 Inexact Lost_digits Rounded
+mnmx064 min 1 1234567891    -> 1 Inexact Lost_digits Rounded
+mnmx065 min 12345678901 1   -> 1 Inexact Lost_digits Rounded
+mnmx066 min 1 12345678901   -> 1 Inexact Lost_digits Rounded
+mnmx067 min 1234567896  1   -> 1 Inexact Lost_digits Rounded
+mnmx068 min 1 1234567896    -> 1 Inexact Lost_digits Rounded
+
+precision: 15
+-- still checking for [no] lostDigits
+mnmx071 min -12345678000 1  -> -12345678000
+mnmx072 min 1 -12345678000  -> -12345678000
+mnmx073 min -1234567800  1  -> -1234567800
+mnmx074 min 1 -1234567800   -> -1234567800
+mnmx075 min -1234567890  1  -> -1234567890
+mnmx076 min 1 -1234567890   -> -1234567890
+mnmx077 min -1234567891  1  -> -1234567891
+mnmx078 min 1 -1234567891   -> -1234567891
+mnmx079 min -12345678901 1  -> -12345678901
+mnmx080 min 1 -12345678901  -> -12345678901
+mnmx081 min -1234567896  1  -> -1234567896
+mnmx082 min 1 -1234567896   -> -1234567896
+mnmx083 min 1234567891  1   -> 1
+mnmx084 min 1 1234567891    -> 1
+mnmx085 min 12345678901 1   -> 1
+mnmx086 min 1 12345678901   -> 1
+mnmx087 min 1234567896  1   -> 1
+mnmx088 min 1 1234567896    -> 1
+
+-- Specials
+precision: 9
+mnmx090 min  Inf  -Inf   -> -Infinity
+mnmx091 min  Inf  -1000  -> -1000
+mnmx092 min  Inf  -1     -> -1
+mnmx093 min  Inf  -0     -> -0
+mnmx094 min  Inf   0     ->  0
+mnmx095 min  Inf   1     ->  1
+mnmx096 min  Inf   1000  ->  1000
+mnmx097 min  Inf   Inf   ->  Infinity
+mnmx098 min -1000  Inf   -> -1000
+mnmx099 min -Inf   Inf   -> -Infinity
+mnmx100 min -1     Inf   -> -1
+mnmx101 min -0     Inf   -> -0
+mnmx102 min  0     Inf   ->  0
+mnmx103 min  1     Inf   ->  1
+mnmx104 min  1000  Inf   ->  1000
+mnmx105 min  Inf   Inf   ->  Infinity
+
+mnmx120 min -Inf  -Inf   -> -Infinity
+mnmx121 min -Inf  -1000  -> -Infinity
+mnmx122 min -Inf  -1     -> -Infinity
+mnmx123 min -Inf  -0     -> -Infinity
+mnmx124 min -Inf   0     -> -Infinity
+mnmx125 min -Inf   1     -> -Infinity
+mnmx126 min -Inf   1000  -> -Infinity
+mnmx127 min -Inf   Inf   -> -Infinity
+mnmx128 min -Inf  -Inf   -> -Infinity
+mnmx129 min -1000 -Inf   -> -Infinity
+mnmx130 min -1    -Inf   -> -Infinity
+mnmx131 min -0    -Inf   -> -Infinity
+mnmx132 min  0    -Inf   -> -Infinity
+mnmx133 min  1    -Inf   -> -Infinity
+mnmx134 min  1000 -Inf   -> -Infinity
+mnmx135 min  Inf  -Inf   -> -Infinity
+
+mnmx141 min  NaN -Inf    ->  NaN
+mnmx142 min  NaN -1000   ->  NaN
+mnmx143 min  NaN -1      ->  NaN
+mnmx144 min  NaN -0      ->  NaN
+mnmx145 min  NaN  0      ->  NaN
+mnmx146 min  NaN  1      ->  NaN
+mnmx147 min  NaN  1000   ->  NaN
+mnmx148 min  NaN  Inf    ->  NaN
+mnmx149 min  NaN  NaN    ->  NaN
+mnmx150 min -Inf  NaN    ->  NaN
+mnmx151 min -1000 NaN    ->  NaN
+mnmx152 min -1    NaN    ->  NaN
+mnmx153 min -0    NaN    ->  NaN
+mnmx154 min  0    NaN    ->  NaN
+mnmx155 min  1    NaN    ->  NaN
+mnmx156 min  1000 NaN    ->  NaN
+mnmx157 min  Inf  NaN    ->  NaN
+
+mnmx161 min  sNaN -Inf   ->  NaN  Invalid_operation
+mnmx162 min  sNaN -1000  ->  NaN  Invalid_operation
+mnmx163 min  sNaN -1     ->  NaN  Invalid_operation
+mnmx164 min  sNaN -0     ->  NaN  Invalid_operation
+mnmx165 min  sNaN  0     ->  NaN  Invalid_operation
+mnmx166 min  sNaN  1     ->  NaN  Invalid_operation
+mnmx167 min  sNaN  1000  ->  NaN  Invalid_operation
+mnmx168 min  sNaN  NaN   ->  NaN  Invalid_operation
+mnmx169 min  sNaN sNaN   ->  NaN  Invalid_operation
+mnmx170 min  NaN  sNaN   ->  NaN  Invalid_operation
+mnmx171 min -Inf  sNaN   ->  NaN  Invalid_operation
+mnmx172 min -1000 sNaN   ->  NaN  Invalid_operation
+mnmx173 min -1    sNaN   ->  NaN  Invalid_operation
+mnmx174 min -0    sNaN   ->  NaN  Invalid_operation
+mnmx175 min  0    sNaN   ->  NaN  Invalid_operation
+mnmx176 min  1    sNaN   ->  NaN  Invalid_operation
+mnmx177 min  1000 sNaN   ->  NaN  Invalid_operation
+mnmx178 min  Inf  sNaN   ->  NaN  Invalid_operation
+mnmx179 min  NaN  sNaN   ->  NaN  Invalid_operation
+
+-- overflow and underflow tests .. subnormal results [inputs] now allowed
+maxExponent: 999999999
+mnmx230 min -1.23456789012345E-0 -9E+999999999 -> -9E+999999999 Inexact Lost_digits Rounded
+mnmx231 min -9E+999999999 -1.23456789012345E-0 -> -9E+999999999 Inexact Lost_digits Rounded
+mnmx232 min -0.100 -9E-999999999               -> -0.100
+mnmx233 min -9E-999999999 -0.100               -> -0.100
+mnmx235 min +1.23456789012345E-0 -9E+999999999 -> -9E+999999999 Inexact Lost_digits Rounded
+mnmx236 min -9E+999999999 1.23456789012345E-0  -> -9E+999999999 Inexact Lost_digits Rounded
+mnmx237 min +0.100 -9E-999999999               -> -9E-999999999
+mnmx238 min -9E-999999999 0.100                -> -9E-999999999
+
+mnmx239 min -1e-599999999 -1e-400000001   ->  -1E-400000001
+mnmx240 min -1e-599999999 -1e-400000000   ->  -1E-400000000
+mnmx241 min -1e-600000000 -1e-400000000   ->  -1E-400000000
+mnmx242 min -9e-999999998 -0.01           ->  -0.01
+mnmx243 min -9e-999999998 -0.1            ->  -0.1
+mnmx244 min -0.01         -9e-999999998   ->  -0.01
+mnmx245 min -1e599999999  -1e400000001    ->  -1E+599999999
+mnmx246 min -1e599999999  -1e400000000    ->  -1E+599999999
+mnmx247 min -1e600000000  -1e400000000    ->  -1E+600000000
+mnmx248 min -9e999999998  -100            ->  -9E+999999998
+mnmx249 min -9e999999998  -10             ->  -9E+999999998
+mnmx250 min -100          -9e999999998    ->  -9E+999999998
+-- signs
+mnmx251 min -1e+777777777 -1e+411111111 -> -1E+777777777
+mnmx252 min -1e+777777777 +1e+411111111 -> -1E+777777777
+mnmx253 min +1e+777777777 -1e+411111111 -> -1E+411111111
+mnmx254 min +1e+777777777 +1e+411111111 ->  1E+411111111
+mnmx255 min -1e-777777777 -1e-411111111 -> -1E-411111111
+mnmx256 min -1e-777777777 +1e-411111111 -> -1E-777777777
+mnmx257 min +1e-777777777 -1e-411111111 -> -1E-411111111
+mnmx258 min +1e-777777777 +1e-411111111 ->  1E-777777777

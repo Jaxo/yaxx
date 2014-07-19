@@ -1,0 +1,569 @@
+In file: tests\base.decTest, line 379: Test case "bas510" has failed:
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\base.decTest, line 380: Test case "bas511" has failed:
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\base.decTest, line 381: Test case "bas512" has failed:
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\base.decTest, line 382: Test case "bas513" has failed:
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\base.decTest, line 383: Test case "bas514" has failed:
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\base.decTest, line 604: Test case "emax001" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 605: Test case "emax002" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 606: Test case "emax003" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 614: Test case "emax011" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 615: Test case "emax012" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 616: Test case "emax013" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 617: Test case "emax014" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 618: Test case "emax015" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 619: Test case "emax016" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 620: Test case "emax017" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 621: Test case "emax018" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 624: Test case "emax100" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 625: Test case "emax101" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 626: Test case "emax102" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 636: Test case "emax112" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 637: Test case "emax113" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 638: Test case "emax114" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 641: Test case "emax117" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 643: Test case "emax119" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 644: Test case "emax120" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 647: Test case "emax200" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 661: Test case "emax214" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 665: Test case "emax218" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 668: Test case "emax221" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 671: Test case "emax231" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 678: Test case "emax238" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 681: Test case "emax241" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 688: Test case "emax248" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 691: Test case "emax251" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 698: Test case "emax258" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 699: Test case "emax261" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 706: Test case "emax268" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 707: Test case "emax271" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 714: Test case "emax278" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 717: Test case "emax281" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 722: Test case "emax286" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 725: Test case "emax291" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 728: Test case "emax294" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 730: Test case "emax301" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 733: Test case "emax304" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 735: Test case "emax311" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 738: Test case "emax314" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 740: Test case "emax321" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 743: Test case "emax324" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 745: Test case "emax331" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 748: Test case "emax334" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 750: Test case "emax341" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\base.decTest, line 753: Test case "emax344" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 382: Test case "ext510" has failed:
+	result is "1" and "NaN" was expected.
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\extend.decTest, line 383: Test case "ext511" has failed:
+	result is "1" and "NaN" was expected.
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\extend.decTest, line 384: Test case "ext512" has failed:
+	result is "12" and "NaN" was expected.
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\extend.decTest, line 385: Test case "ext513" has failed:
+	result is "1" and "NaN" was expected.
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\extend.decTest, line 386: Test case "ext514" has failed:
+	result is "-1" and "NaN" was expected.
+	condition is: "".  "CONVERSION_SYNTAX" was expected.
+In file: tests\extend.decTest, line 637: Test case "emax001" has failed:
+	result is "-1E+2" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 638: Test case "emax002" has failed:
+	result is "-100" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 639: Test case "emax003" has failed:
+	result is "-10" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 647: Test case "emax011" has failed:
+	result is "10" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 648: Test case "emax012" has failed:
+	result is "100" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 649: Test case "emax013" has failed:
+	result is "1E+2" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 650: Test case "emax014" has failed:
+	result is "0.99" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 651: Test case "emax015" has failed:
+	result is "0.1" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 652: Test case "emax016" has failed:
+	result is "0.01" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 653: Test case "emax017" has failed:
+	result is "0.1" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 654: Test case "emax018" has failed:
+	result is "0.01" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 657: Test case "emax100" has failed:
+	result is "-1E+3" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 658: Test case "emax101" has failed:
+	result is "-1E+2" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 659: Test case "emax102" has failed:
+	result is "-100" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 669: Test case "emax112" has failed:
+	result is "100" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 670: Test case "emax113" has failed:
+	result is "1E+2" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 671: Test case "emax114" has failed:
+	result is "1E+3" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 674: Test case "emax117" has failed:
+	result is "0.01" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 676: Test case "emax119" has failed:
+	result is "0.01" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 677: Test case "emax120" has failed:
+	result is "0.001" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 680: Test case "emax200" has failed:
+	result is "-1E+3" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 694: Test case "emax214" has failed:
+	result is "1E+3" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 698: Test case "emax218" has failed:
+	result is "0.001" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 701: Test case "emax221" has failed:
+	result is "0.001" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 704: Test case "emax231" has failed:
+	result is "1E-8" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 711: Test case "emax238" has failed:
+	result is "1E+8" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 714: Test case "emax241" has failed:
+	result is "1E-10" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 721: Test case "emax248" has failed:
+	result is "1E+10" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 724: Test case "emax251" has failed:
+	result is "1E-11" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 731: Test case "emax258" has failed:
+	result is "1E+11" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 732: Test case "emax261" has failed:
+	result is "1.00E-11" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 739: Test case "emax268" has failed:
+	result is "1.00E+11" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 740: Test case "emax271" has failed:
+	result is "9.99E-11" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 747: Test case "emax278" has failed:
+	result is "9.99E+11" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 750: Test case "emax281" has failed:
+	result is "1E-100" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 755: Test case "emax286" has failed:
+	result is "1E+100" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 758: Test case "emax291" has failed:
+	result is "1E-1000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 761: Test case "emax294" has failed:
+	result is "1E+1000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 763: Test case "emax301" has failed:
+	result is "1E-10000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 766: Test case "emax304" has failed:
+	result is "1E+10000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 768: Test case "emax311" has failed:
+	result is "1E-100000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 771: Test case "emax314" has failed:
+	result is "1E+100000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 773: Test case "emax321" has failed:
+	result is "1E-1000000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 776: Test case "emax324" has failed:
+	result is "1E+1000000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 778: Test case "emax331" has failed:
+	result is "1E-10000000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 781: Test case "emax334" has failed:
+	result is "1E+10000000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 783: Test case "emax341" has failed:
+	result is "1E-100000000" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\extend.decTest, line 786: Test case "emax344" has failed:
+	result is "1E+100000000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\multiply.decTest, line 498: Test case "mulx296" has failed:
+	result is "" and "1E-1999999996" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "INEXACT ROUNDED UNDERFLOW" was expected.
+In file: tests\multiply.decTest, line 499: Test case "mulx297" has failed:
+	result is "" and "1E-1999999997" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "INEXACT ROUNDED UNDERFLOW" was expected.
+In file: tests\multiply.decTest, line 500: Test case "mulx298" has failed:
+	result is "" and "0" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "INEXACT ROUNDED UNDERFLOW" was expected.
+In file: tests\multiply.decTest, line 501: Test case "mulx299" has failed:
+	result is "" and "1E-1000000007" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "INEXACT ROUNDED UNDERFLOW" was expected.
+In file: tests\multiply.decTest, line 502: Test case "mulx300" has failed:
+	result is "" and "1E-1000000008" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "INEXACT ROUNDED UNDERFLOW" was expected.
+In file: tests\power.decTest, line 227: Test case "pow249" has failed:
+	result is "" and "2" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\power.decTest, line 228: Test case "pow250" has failed:
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 230: Test case "pow251" has failed:
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 232: Test case "pow252" has failed:
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 234: Test case "pow253" has failed:
+	result is "" and "4096" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\power.decTest, line 236: Test case "pow254" has failed:
+	result is "" and "4096" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\power.decTest, line 538: Test case "powx249" has failed:
+	result is "" and "2" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\power.decTest, line 539: Test case "powx250" has failed:
+	result is "" and "Infinity" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 541: Test case "powx251" has failed:
+	result is "" and "Infinity" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 543: Test case "powx252" has failed:
+	result is "" and "Infinity" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "OVERFLOW" was expected.
+In file: tests\power.decTest, line 545: Test case "powx253" has failed:
+	result is "" and "4096" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\power.decTest, line 547: Test case "powx254" has failed:
+	result is "" and "4096" was expected.
+	condition is: "INSUFFICIENT_STORAGE".  "" was expected.
+In file: tests\remainder.decTest, line 128: Test case "rem204" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 129: Test case "rem205" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 130: Test case "rem206" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 131: Test case "rem207" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 132: Test case "rem208" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 133: Test case "rem209" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 134: Test case "rem210" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 135: Test case "rem211" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 391: Test case "remx107" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 392: Test case "remx108" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 393: Test case "remx109" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 394: Test case "remx110" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 395: Test case "remx111" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 396: Test case "remx112" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 397: Test case "remx113" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 398: Test case "remx114" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 399: Test case "remx115" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 400: Test case "remx116" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 401: Test case "remx119" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 402: Test case "remx120" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 403: Test case "remx121" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 404: Test case "remx122" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 405: Test case "remx123" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remainder.decTest, line 406: Test case "remx124" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 128: Test case "remn204" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 129: Test case "remn205" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 130: Test case "remn206" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 131: Test case "remn207" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 132: Test case "remn208" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 133: Test case "remn209" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 134: Test case "remn210" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 135: Test case "remn211" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 409: Test case "rmnx107" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 410: Test case "rmnx108" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 411: Test case "rmnx109" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 412: Test case "rmnx110" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 413: Test case "rmnx111" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 414: Test case "rmnx112" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 415: Test case "rmnx113" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 416: Test case "rmnx114" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 417: Test case "rmnx115" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 418: Test case "rmnx116" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 419: Test case "rmnx119" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 420: Test case "rmnx120" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 421: Test case "rmnx121" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 422: Test case "rmnx122" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 423: Test case "rmnx123" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\remaindernear.decTest, line 424: Test case "rmnx124" has failed:
+	condition is: "DIVISION_BY_ZERO INVALID_OPERATION".  "INVALID_OPERATION" was expected.
+In file: tests\single.decTest, line 30: Test case "bas901" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 31: Test case "bas902" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 32: Test case "bas903" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 33: Test case "bas904" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 34: Test case "bas905" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 35: Test case "bas906" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 36: Test case "bas907" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 37: Test case "bas908" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 38: Test case "bas909" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 39: Test case "bas910" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 155: Test case "basx901" has failed:
+	result is "9.9E+1000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 156: Test case "basx902" has failed:
+	result is "9.99E+1001" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 157: Test case "basx903" has failed:
+	result is "9E-1014" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 158: Test case "basx904" has failed:
+	result is "9E-1015" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 159: Test case "basx905" has failed:
+	result is "1E+1000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 160: Test case "basx906" has failed:
+	result is "1.0E-1014" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 161: Test case "basx907" has failed:
+	result is "9E+9998" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 162: Test case "basx908" has failed:
+	result is "9.9E-9998" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 163: Test case "basx909" has failed:
+	result is "1.11E+9999" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 164: Test case "basx910" has failed:
+	result is "1.111E-9996" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 166: Test case "basx911" has failed:
+	result is "-9.9E+1000" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 167: Test case "basx912" has failed:
+	result is "-9.99E+1001" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 168: Test case "basx913" has failed:
+	result is "-9E-1014" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 169: Test case "basx914" has failed:
+	result is "-9E-1015" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 170: Test case "basx915" has failed:
+	result is "-1E+1000" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 171: Test case "basx916" has failed:
+	result is "-1.0E-1014" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 172: Test case "basx917" has failed:
+	result is "-9E+9998" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 173: Test case "basx918" has failed:
+	result is "-9.9E-9998" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 174: Test case "basx919" has failed:
+	result is "-1.11E+9999" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\single.decTest, line 175: Test case "basx920" has failed:
+	result is "-1.111E-9996" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 40: Test case "bas931" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 41: Test case "bas932" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 42: Test case "bas933" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 43: Test case "bas934" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 44: Test case "bas935" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 45: Test case "bas936" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 46: Test case "bas937" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 47: Test case "bas938" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 48: Test case "bas939" has failed:
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 49: Test case "bas940" has failed:
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 172: Test case "basx931" has failed:
+	result is "9.9E+10000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 173: Test case "basx932" has failed:
+	result is "9.99E+10001" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 174: Test case "basx933" has failed:
+	result is "9E-10032" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 175: Test case "basx934" has failed:
+	result is "9E-10032" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 176: Test case "basx935" has failed:
+	result is "1E+10000" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 177: Test case "basx936" has failed:
+	result is "1.0E-10031" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 178: Test case "basx937" has failed:
+	result is "9E+99998" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 179: Test case "basx938" has failed:
+	result is "9.9E-99998" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 180: Test case "basx939" has failed:
+	result is "1.11E+100001" and "Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 181: Test case "basx940" has failed:
+	result is "1.111E-99996" and "0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 183: Test case "basx941" has failed:
+	result is "-9.9E+10000" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 184: Test case "basx942" has failed:
+	result is "-9.99E+10001" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 185: Test case "basx943" has failed:
+	result is "-9E-10032" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 186: Test case "basx944" has failed:
+	result is "-9E-10032" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 187: Test case "basx945" has failed:
+	result is "-1E+10000" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 188: Test case "basx946" has failed:
+	result is "-1.0E-10031" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 189: Test case "basx947" has failed:
+	result is "-9E+99998" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 190: Test case "basx948" has failed:
+	result is "-9.9E-99998" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 191: Test case "basx949" has failed:
+	result is "-1.11E+100001" and "-Infinity" was expected.
+	condition is: "".  "CONVERSION_OVERFLOW INEXACT ROUNDED" was expected.
+In file: tests\double.decTest, line 192: Test case "basx950" has failed:
+	result is "-1.111E-99996" and "-0" was expected.
+	condition is: "".  "CONVERSION_UNDERFLOW INEXACT ROUNDED" was expected.

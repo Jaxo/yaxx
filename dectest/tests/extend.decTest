@@ -1,0 +1,853 @@
+------------------------------------------------------------------------
+-- extend.decTest -- extended decimal <--> string conversions         --
+-- Copyright (c) IBM Corporation, 2001.        All rights reserved.   --
+------------------------------------------------------------------------
+-- Please see the document "Standard Decimal Arithmetic Testcases"    --
+-- at http://www2.hursley.ibm.com/decimal for the description of      --
+-- these testcases.                                                   --
+--                                                                    --
+-- These testcases are experimental ('beta' versions), and they       --
+-- may contain errors.  They are offered on an as-is basis.  In       --
+-- particular, achieving the same results as the tests here is not    --
+-- a guarantee that an implementation complies with any Standard      --
+-- or specification.  The tests are not exhaustive.                   --
+--                                                                    --
+-- Please send comments, suggestions, and corrections to the author:  --
+--   Mike Cowlishaw, IBM Fellow                                       --
+--   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         --
+--   mfc@uk.ibm.com                                                   --
+------------------------------------------------------------------------
+version: 1.03
+
+-- This file tests extended conversions from string to a decimal number
+-- and back to a string (in either Scientific or Engineering form)
+-- All the testcases from base.decTest are here (modified as required),
+-- together with new ones for infinities, NaNs, and extended zeros.
+
+extended:    1                     -- allow infinities, NaNs, -0, 0.00
+
+-- [the following settings should *not* affect conversions]
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+ext001 toSci      0 -> 0
+ext002 toSci      1 -> 1
+ext003 toSci    1.0 -> 1.0
+ext004 toSci   1.00 -> 1.00
+ext005 toSci     10 -> 10
+ext006 toSci   1000 -> 1000
+ext007 toSci   10.0 -> 10.0
+ext008 toSci   10.1 -> 10.1
+ext009 toSci   10.4 -> 10.4
+ext010 toSci   10.5 -> 10.5
+ext011 toSci   10.6 -> 10.6
+ext012 toSci   10.9 -> 10.9
+ext013 toSci   11.0 -> 11.0
+ext014 toSci 1.234 -> 1.234
+ext015 toSci 0.123 -> 0.123
+ext016 toSci 0.012 -> 0.012
+
+
+ext021 toSci     -1 -> -1
+ext022 toSci   -1.0 -> -1.0
+ext023 toSci   -0.1 -> -0.1
+ext024 toSci   -9.1 -> -9.1
+
+ext030 toSci  '123456789.123456'     -> '123456789.123456'
+ext031 toSci  '123456789.000000'     -> '123456789.000000'
+ext032 toSci   '123456789123456'     -> '123456789123456'
+ext033 toSci   '0.0000123456789'     -> '0.0000123456789'
+ext034 toSci  '0.00000123456789'     -> '0.00000123456789'
+ext035 toSci '0.000000123456789'     -> '1.23456789E-7'
+ext036 toSci '0.0000000123456789'    -> '1.23456789E-8'
+
+ext037 toSci '0.123456789012344' -> '0.123456789012344'
+ext038 toSci '0.123456789012345' -> '0.123456789012345'
+
+-- String [many more examples are implicitly tested elsewhere]
+-- strings without E cannot generate E in result
+ext101 toSci "12"        -> '12'
+ext102 toSci "-76"       -> '-76'
+ext103 toSci "12.76"     -> '12.76'
+ext104 toSci "+12.76"    -> '12.76'
+ext105 toSci "012.76"    -> '12.76'
+ext106 toSci "+0.003"    -> '0.003'
+ext107 toSci "17."       -> '17'
+ext108 toSci ".5"        -> '0.5'
+ext109 toSci "044"       -> '44'
+ext110 toSci "0044"      -> '44'
+ext111 toSci "0.0005"    -> '0.0005'
+ext112 toSci "00.00005"  -> '0.00005'
+ext113 toSci "0.000005"  -> '0.000005'
+ext114 toSci "0.0000005" -> '5E-7'
+ext115 toSci "0.00000005" -> '5E-8'
+ext116 toSci "12345678.543210" -> '12345678.543210'
+ext117 toSci "2345678.543210" -> '2345678.543210'
+ext118 toSci "345678.543210" -> '345678.543210'
+ext119 toSci "0345678.54321" -> '345678.54321'
+ext120 toSci "345678.5432" -> '345678.5432'
+ext121 toSci "+345678.5432" -> '345678.5432'
+ext122 toSci "+0345678.5432" -> '345678.5432'
+ext123 toSci "+00345678.5432" -> '345678.5432'
+ext124 toSci "-345678.5432"  -> '-345678.5432'
+ext125 toSci "-0345678.5432"  -> '-345678.5432'
+ext126 toSci "-00345678.5432"  -> '-345678.5432'
+
+-- [No exotics as no Unicode]
+
+-- Numbers with E
+ext130 toSci "0.000E-1"  -> '0'
+ext131 toSci "0.000E-2"  -> '0'
+ext132 toSci "0.000E-3"  -> '0'
+ext133 toSci "0.000E-4"  -> '0'
+ext134 toSci "0.00E-2"   -> '0'
+ext135 toSci "0.00E-3"   -> '0'
+ext136 toSci "0.00E-4"   -> '0'
+ext137 toSci "0.00E-5"   -> '0'
+ext138 toSci "+0E+9"     -> '0'
+ext139 toSci "-0E+9"     -> '-0'
+
+ext140 toSci "1E+9"      -> '1E+9'
+ext141 toSci "1e+09"     -> '1E+9'
+ext142 toSci "1E+90"     -> '1E+90'
+ext143 toSci "+1E+009"   -> '1E+9'
+ext144 toSci "0E+9"      -> '0'
+ext145 toSci "1E+9"      -> '1E+9'
+ext146 toSci "1E+09"     -> '1E+9'
+ext147 toSci "1e+90"     -> '1E+90'
+ext148 toSci "1E+009"    -> '1E+9'
+ext149 toSci "000E+9"    -> '0'
+ext150 toSci "1E9"       -> '1E+9'
+ext151 toSci "1e09"      -> '1E+9'
+ext152 toSci "1E90"      -> '1E+90'
+ext153 toSci "1E009"     -> '1E+9'
+ext154 toSci "0E9"       -> '0'
+ext155 toSci "0.000e+0"  -> '0'
+ext156 toSci "0.000E-1"  -> '0'
+ext157 toSci "4E+9"      -> '4E+9'
+ext158 toSci "44E+9"     -> '4.4E+10'
+ext159 toSci "0.73e-7"   -> '7.3E-8'
+ext160 toSci "00E+9"     -> '0'
+ext161 toSci "00E-9"     -> '0'
+ext162 toSci "10E+9"     -> '1.0E+10'
+ext163 toSci "10E+09"    -> '1.0E+10'
+ext164 toSci "10e+90"    -> '1.0E+91'
+ext165 toSci "10E+009"   -> '1.0E+10'
+ext166 toSci "100e+9"    -> '1.00E+11'
+ext167 toSci "100e+09"   -> '1.00E+11'
+ext168 toSci "100E+90"   -> '1.00E+92'
+ext169 toSci "100e+009"  -> '1.00E+11'
+
+ext170 toSci "1.265"     -> '1.265'
+ext171 toSci "1.265E-20" -> '1.265E-20'
+ext172 toSci "1.265E-8"  -> '1.265E-8'
+ext173 toSci "1.265E-4"  -> '0.0001265'
+ext174 toSci "1.265E-3"  -> '0.001265'
+ext175 toSci "1.265E-2"  -> '0.01265'
+ext176 toSci "1.265E-1"  -> '0.1265'
+ext177 toSci "1.265E-0"  -> '1.265'
+ext178 toSci "1.265E+1"  -> '12.65'
+ext179 toSci "1.265E+2"  -> '126.5'
+ext180 toSci "1.265E+3"  -> '1265'
+ext181 toSci "1.265E+4"  -> '1.265E+4'
+ext182 toSci "1.265E+8"  -> '1.265E+8'
+ext183 toSci "1.265E+20" -> '1.265E+20'
+
+ext190 toSci "12.65"     -> '12.65'
+ext191 toSci "12.65E-20" -> '1.265E-19'
+ext192 toSci "12.65E-8"  -> '1.265E-7'
+ext193 toSci "12.65E-4"  -> '0.001265'
+ext194 toSci "12.65E-3"  -> '0.01265'
+ext195 toSci "12.65E-2"  -> '0.1265'
+ext196 toSci "12.65E-1"  -> '1.265'
+ext197 toSci "12.65E-0"  -> '12.65'
+ext198 toSci "12.65E+1"  -> '126.5'
+ext199 toSci "12.65E+2"  -> '1265'
+ext200 toSci "12.65E+3"  -> '1.265E+4'
+ext201 toSci "12.65E+4"  -> '1.265E+5'
+ext202 toSci "12.65E+8"  -> '1.265E+9'
+ext203 toSci "12.65E+20" -> '1.265E+21'
+
+ext210 toSci "126.5"     -> '126.5'
+ext211 toSci "126.5E-20" -> '1.265E-18'
+ext212 toSci "126.5E-8"  -> '0.000001265'
+ext213 toSci "126.5E-4"  -> '0.01265'
+ext214 toSci "126.5E-3"  -> '0.1265'
+ext215 toSci "126.5E-2"  -> '1.265'
+ext216 toSci "126.5E-1"  -> '12.65'
+ext217 toSci "126.5E-0"  -> '126.5'
+ext218 toSci "126.5E+1"  -> '1265'
+ext219 toSci "126.5E+2"  -> '1.265E+4'
+ext220 toSci "126.5E+3"  -> '1.265E+5'
+ext221 toSci "126.5E+4"  -> '1.265E+6'
+ext222 toSci "126.5E+8"  -> '1.265E+10'
+ext223 toSci "126.5E+20" -> '1.265E+22'
+
+ext230 toSci "1265"     -> '1265'
+ext231 toSci "1265E-20" -> '1.265E-17'
+ext232 toSci "1265E-8"  -> '0.00001265'
+ext233 toSci "1265E-4"  -> '0.1265'
+ext234 toSci "1265E-3"  -> '1.265'
+ext235 toSci "1265E-2"  -> '12.65'
+ext236 toSci "1265E-1"  -> '126.5'
+ext237 toSci "1265E-0"  -> '1265'
+ext238 toSci "1265E+1"  -> '1.265E+4'
+ext239 toSci "1265E+2"  -> '1.265E+5'
+ext240 toSci "1265E+3"  -> '1.265E+6'
+ext241 toSci "1265E+4"  -> '1.265E+7'
+ext242 toSci "1265E+8"  -> '1.265E+11'
+ext243 toSci "1265E+20" -> '1.265E+23'
+
+ext250 toSci "0.1265"     -> '0.1265'
+ext251 toSci "0.1265E-20" -> '1.265E-21'
+ext252 toSci "0.1265E-8"  -> '1.265E-9'
+ext253 toSci "0.1265E-4"  -> '0.00001265'
+ext254 toSci "0.1265E-3"  -> '0.0001265'
+ext255 toSci "0.1265E-2"  -> '0.001265'
+ext256 toSci "0.1265E-1"  -> '0.01265'
+ext257 toSci "0.1265E-0"  -> '0.1265'
+ext258 toSci "0.1265E+1"  -> '1.265'
+ext259 toSci "0.1265E+2"  -> '12.65'
+ext260 toSci "0.1265E+3"  -> '126.5'
+ext261 toSci "0.1265E+4"  -> '1265'
+ext262 toSci "0.1265E+8"  -> '1.265E+7'
+ext263 toSci "0.1265E+20" -> '1.265E+19'
+
+ext270 toSci "0.09e999"  -> '9E+997'
+ext271 toSci "0.9e999"   -> '9E+998'
+ext272 toSci "9e999"     -> '9E+999'
+ext273 toSci "9.9e999"   -> '9.9E+999'
+ext274 toSci "9.99e999"  -> '9.99E+999'
+ext275 toSci "9.99e-999" -> '9.99E-999'
+ext276 toSci "9.9e-999"  -> '9.9E-999'
+ext277 toSci "9e-999"    -> '9E-999'
+ext279 toSci "99e-999"   -> '9.9E-998'
+ext280 toSci "999e-999"  -> '9.99E-997'
+ext281 toSci '0.9e-998'  -> '9E-999'
+ext282 toSci '0.09e-997' -> '9E-999'
+ext283 toSci '0.1e1000'  -> '1E+999'
+ext284 toSci '10e-1000'  -> '1.0E-999'
+
+-- Engineering notation tests
+ext301  toSci 10e12  -> 1.0E+13
+ext302  toEng 10e12  -> 10E+12
+ext303  toSci 10e11  -> 1.0E+12
+ext304  toEng 10e11  -> 1.0E+12
+ext305  toSci 10e10  -> 1.0E+11
+ext306  toEng 10e10  -> 100E+9
+ext307  toSci 10e9   -> 1.0E+10
+ext308  toEng 10e9   -> 10E+9
+ext309  toSci 10e8   -> 1.0E+9
+ext310  toEng 10e8   -> 1.0E+9
+ext311  toSci 10e7   -> 1.0E+8
+ext312  toEng 10e7   -> 100E+6
+ext313  toSci 10e6   -> 1.0E+7
+ext314  toEng 10e6   -> 10E+6
+ext315  toSci 10e5   -> 1.0E+6
+ext316  toEng 10e5   -> 1.0E+6
+ext317  toSci 10e4   -> 1.0E+5
+ext318  toEng 10e4   -> 100E+3
+ext319  toSci 10e3   -> 1.0E+4
+ext320  toEng 10e3   -> 10E+3
+ext321  toSci 10e2   -> 1.0E+3
+ext322  toEng 10e2   -> 1.0E+3
+ext323  toSci 10e1   -> 1.0E+2
+ext324  toEng 10e1   -> 100
+ext325  toSci 10e0   -> 10
+ext326  toEng 10e0   -> 10
+ext327  toSci 10e-1  -> 1.0
+ext328  toEng 10e-1  -> 1.0
+ext329  toSci 10e-2  -> 0.10
+ext330  toEng 10e-2  -> 0.10
+ext331  toSci 10e-3  -> 0.010
+ext332  toEng 10e-3  -> 0.010
+ext333  toSci 10e-4  -> 0.0010
+ext334  toEng 10e-4  -> 0.0010
+ext335  toSci 10e-5  -> 0.00010
+ext336  toEng 10e-5  -> 0.00010
+ext337  toSci 10e-6  -> 0.000010
+ext338  toEng 10e-6  -> 0.000010
+ext339  toSci 10e-7  -> 0.0000010
+ext340  toEng 10e-7  -> 0.0000010
+ext341  toSci 10e-8  -> 1.0E-7
+ext342  toEng 10e-8  -> 100E-9
+ext343  toSci 10e-9  -> 1.0E-8
+ext344  toEng 10e-9  -> 10E-9
+ext345  toSci 10e-10 -> 1.0E-9
+ext346  toEng 10e-10 -> 1.0E-9
+ext347  toSci 10e-11 -> 1.0E-10
+ext348  toEng 10e-11 -> 100E-12
+ext349  toSci 10e-12 -> 1.0E-11
+ext350  toEng 10e-12 -> 10E-12
+ext351  toSci 10e-13 -> 1.0E-12
+ext352  toEng 10e-13 -> 1.0E-12
+
+ext361  toSci 7E12  -> 7E+12
+ext362  toEng 7E12  -> 7E+12
+ext363  toSci 7E11  -> 7E+11
+ext364  toEng 7E11  -> 700E+9
+ext365  toSci 7E10  -> 7E+10
+ext366  toEng 7E10  -> 70E+9
+ext367  toSci 7E9   -> 7E+9
+ext368  toEng 7E9   -> 7E+9
+ext369  toSci 7E8   -> 7E+8
+ext370  toEng 7E8   -> 700E+6
+ext371  toSci 7E7   -> 7E+7
+ext372  toEng 7E7   -> 70E+6
+ext373  toSci 7E6   -> 7E+6
+ext374  toEng 7E6   -> 7E+6
+ext375  toSci 7E5   -> 7E+5
+ext376  toEng 7E5   -> 700E+3
+ext377  toSci 7E4   -> 7E+4
+ext378  toEng 7E4   -> 70E+3
+ext379  toSci 7E3   -> 7E+3
+ext380  toEng 7E3   -> 7E+3
+ext381  toSci 7E2   -> 7E+2
+ext382  toEng 7E2   -> 700
+ext383  toSci 7E1   -> 7E+1
+ext384  toEng 7E1   -> 70
+ext385  toSci 7E0   -> 7
+ext386  toEng 7E0   -> 7
+ext387  toSci 7E-1  -> 0.7
+ext388  toEng 7E-1  -> 0.7
+ext389  toSci 7E-2  -> 0.07
+ext390  toEng 7E-2  -> 0.07
+ext391  toSci 7E-3  -> 0.007
+ext392  toEng 7E-3  -> 0.007
+ext393  toSci 7E-4  -> 0.0007
+ext394  toEng 7E-4  -> 0.0007
+ext395  toSci 7E-5  -> 0.00007
+ext396  toEng 7E-5  -> 0.00007
+ext397  toSci 7E-6  -> 0.000007
+ext398  toEng 7E-6  -> 0.000007
+ext399  toSci 7E-7  -> 7E-7
+ext400  toEng 7E-7  -> 700E-9
+ext401  toSci 7E-8  -> 7E-8
+ext402  toEng 7E-8  -> 70E-9
+ext403  toSci 7E-9  -> 7E-9
+ext404  toEng 7E-9  -> 7E-9
+ext405  toSci 7E-10 -> 7E-10
+ext406  toEng 7E-10 -> 700E-12
+ext407  toSci 7E-11 -> 7E-11
+ext408  toEng 7E-11 -> 70E-12
+ext409  toSci 7E-12 -> 7E-12
+ext410  toEng 7E-12 -> 7E-12
+ext411  toSci 7E-13 -> 7E-13
+ext412  toEng 7E-13 -> 700E-15
+-- Exacts remain exact ..
+precision: 9
+ext420  toSci    100 -> 100
+ext421  toEng    100 -> 100
+ext422  toSci   1000 -> 1000
+ext423  toEng   1000 -> 1000
+ext424  toSci  999.9 ->  999.9
+ext425  toEng  999.9 ->  999.9
+ext426  toSci 1000.0 -> 1000.0
+ext427  toEng 1000.0 -> 1000.0
+ext428  toSci 1000.1 -> 1000.1
+ext429  toEng 1000.1 -> 1000.1
+ext430  toSci 10000 -> 10000
+ext431  toEng 10000 -> 10000
+ext432  toSci 100000 -> 100000
+ext433  toEng 100000 -> 100000
+ext434  toSci 1000000 -> 1000000
+ext435  toEng 1000000 -> 1000000
+ext436  toSci 10000000 -> 10000000
+ext437  toEng 10000000 -> 10000000
+ext438  toSci 100000000 -> 100000000
+ext439  toEng 100000000 -> 100000000
+ext440  toSci 1000000000 -> 1000000000
+ext441  toEng 1000000000 -> 1000000000
+ext442  toSci 10000000000 -> 10000000000
+ext443  toEng 10000000000 -> 10000000000
+ext444  toSci 10000000000.0 -> 10000000000.0
+ext445  toEng 10000000000.0 -> 10000000000.0
+ext446  toSci 10000000000.1 -> 10000000000.1
+ext447  toEng 10000000000.1 -> 10000000000.1
+ext448  toSci 10000000000.9 -> 10000000000.9
+ext449  toEng 10000000000.9 -> 10000000000.9
+
+-- The 'baddies' tests from DiagBigDecimal, plus some others
+ext500 toSci '1..2'            -> NaN Conversion_syntax
+ext501 toSci '.'               -> NaN Conversion_syntax
+ext502 toSci '..'              -> NaN Conversion_syntax
+ext503 toSci '++1'             -> NaN Conversion_syntax
+ext504 toSci '--1'             -> NaN Conversion_syntax
+ext505 toSci '-+1'             -> NaN Conversion_syntax
+ext506 toSci '+-1'             -> NaN Conversion_syntax
+ext507 toSci '12e'             -> NaN Conversion_syntax
+ext508 toSci '12e++'           -> NaN Conversion_syntax
+ext509 toSci '12f4'            -> NaN Conversion_syntax
+ext510 toSci ' +1'             -> NaN Conversion_syntax
+ext511 toSci '+ 1'             -> NaN Conversion_syntax
+ext512 toSci '12 '             -> NaN Conversion_syntax
+ext513 toSci ' + 1'            -> NaN Conversion_syntax
+ext514 toSci ' - 1 '           -> NaN Conversion_syntax
+ext515 toSci 'x'               -> NaN Conversion_syntax
+ext516 toSci '-1-'             -> NaN Conversion_syntax
+ext517 toSci '12-'             -> NaN Conversion_syntax
+ext518 toSci '3+'              -> NaN Conversion_syntax
+ext519 toSci ''                -> NaN Conversion_syntax
+ext520 toSci '1e-'             -> NaN Conversion_syntax
+ext521 toSci '7e99999a'        -> NaN Conversion_syntax
+ext522 toSci '7e123567890x'    -> NaN Conversion_syntax
+ext523 toSci '7e12356789012x'  -> NaN Conversion_syntax
+ext524 toSci ''                -> NaN Conversion_syntax
+ext525 toSci 'e100'            -> NaN Conversion_syntax
+ext526 toSci '\u0e5a'          -> NaN Conversion_syntax
+ext527 toSci '\u0b65'          -> NaN Conversion_syntax
+ext528 toSci '123,65'          -> NaN Conversion_syntax
+ext529 toSci '1.34.5'          -> NaN Conversion_syntax
+ext530 toSci '.123.5'          -> NaN Conversion_syntax
+ext531 toSci '01.35.'          -> NaN Conversion_syntax
+ext532 toSci '01.35-'          -> NaN Conversion_syntax
+ext533 toSci '0000..'          -> NaN Conversion_syntax
+ext534 toSci '.0000.'          -> NaN Conversion_syntax
+ext535 toSci '00..00'          -> NaN Conversion_syntax
+ext536 toSci '111e*123'        -> NaN Conversion_syntax
+ext537 toSci '111e123-'        -> NaN Conversion_syntax
+ext538 toSci '111e+12+'        -> NaN Conversion_syntax
+ext539 toSci '111e1-3-'        -> NaN Conversion_syntax
+ext540 toSci '111e1*23'        -> NaN Conversion_syntax
+ext541 toSci '111e1e+3'        -> NaN Conversion_syntax
+ext542 toSci '1e1.0'           -> NaN Conversion_syntax
+ext543 toSci '1e123e'          -> NaN Conversion_syntax
+ext544 toSci 'ten'             -> NaN Conversion_syntax
+ext545 toSci 'ONE'             -> NaN Conversion_syntax
+ext546 toSci '1e.1'            -> NaN Conversion_syntax
+ext547 toSci '1e1.'            -> NaN Conversion_syntax
+ext548 toSci '1ee'             -> NaN Conversion_syntax
+ext549 toSci 'e+1'             -> NaN Conversion_syntax
+ext550 toSci '1.23.4'          -> NaN Conversion_syntax
+ext551 toSci '1.2.1'           -> NaN Conversion_syntax
+ext552 toSci '1E+1.2'          -> NaN Conversion_syntax
+ext553 toSci '1E+1.2.3'        -> NaN Conversion_syntax
+ext554 toSci '1E++1'           -> NaN Conversion_syntax
+ext555 toSci '1E--1'           -> NaN Conversion_syntax
+ext556 toSci '1E+-1'           -> NaN Conversion_syntax
+ext557 toSci '1E-+1'           -> NaN Conversion_syntax
+ext558 toSci '1E''1'           -> NaN Conversion_syntax
+ext559 toSci "1E""1"           -> NaN Conversion_syntax
+ext560 toSci "1E"""""          -> NaN Conversion_syntax
+-- Near-specials
+ext561 toSci "qNaN"            -> NaN Conversion_syntax
+ext562 toSci "NaNq"            -> NaN Conversion_syntax
+ext563 toSci "NaNs"            -> NaN Conversion_syntax
+ext564 toSci "Infi"            -> NaN Conversion_syntax
+ext565 toSci "Infin"           -> NaN Conversion_syntax
+ext566 toSci "Infini"          -> NaN Conversion_syntax
+ext567 toSci "Infinit"         -> NaN Conversion_syntax
+
+-- Xflows for all precisions
+ext570 toSci '99e999999999'       -> Infinity Conversion_overflow Inexact Rounded
+ext571 toSci '999e999999999'      -> Infinity Conversion_overflow Inexact Rounded
+ext572 toSci '0.9e-999999999'     -> 0 Conversion_underflow Inexact Rounded
+ext573 toSci '0.09e-999999999'    -> 0 Conversion_underflow Inexact Rounded
+ext574 toSci '0.1e1000000000'     -> Infinity Conversion_overflow Inexact Rounded
+ext575 toSci '10e-1000000000'     -> 0 Conversion_underflow Inexact Rounded
+ext576 toSci '0.9e9999999999'     -> Infinity Conversion_overflow Inexact Rounded
+ext577 toSci '99e-9999999999'     -> 0 Conversion_underflow Inexact Rounded
+ext578 toSci '111e9999999999'     -> Infinity Conversion_overflow Inexact Rounded
+ext579 toSci '1111e-9999999999'   -> 0 Conversion_underflow Inexact Rounded
+ext580 toSci '1111e-99999999999'  -> 0 Conversion_underflow Inexact Rounded
+ext581 toSci '7e1000000000'       -> Infinity Conversion_overflow Inexact Rounded
+-- negatives
+ext582 toSci '-99e999999999'      -> -Infinity Conversion_overflow Inexact Rounded
+ext583 toSci '-999e999999999'     -> -Infinity Conversion_overflow Inexact Rounded
+ext584 toSci '-0.9e-999999999'    -> -0 Conversion_underflow Inexact Rounded
+ext585 toSci '-0.09e-999999999'   -> -0 Conversion_underflow Inexact Rounded
+ext586 toSci '-0.1e1000000000'    -> -Infinity Conversion_overflow Inexact Rounded
+ext587 toSci '-10e-1000000000'    -> -0 Conversion_underflow Inexact Rounded
+ext588 toSci '-0.9e9999999999'    -> -Infinity Conversion_overflow Inexact Rounded
+ext589 toSci '-99e-9999999999'    -> -0 Conversion_underflow Inexact Rounded
+ext590 toSci '-111e9999999999'    -> -Infinity Conversion_overflow Inexact Rounded
+ext591 toSci '-1111e-9999999999'  -> -0 Conversion_underflow Inexact Rounded
+ext592 toSci '-1111e-99999999999' -> -0 Conversion_underflow Inexact Rounded
+ext593 toSci '-7e1000000000'      -> -Infinity Conversion_overflow Inexact Rounded
+
+-- Additional extended tests for giga precision
+maxexponent: 999999999
+
+ext951 toSci '99e999'          -> '9.9E+1000'
+ext952 toSci '999e999'         -> '9.99E+1001'
+ext953 toSci '0.9e-999'        -> '9E-1000'
+ext954 toSci '0.09e-999'       -> '9E-1001'
+ext955 toSci '0.1e1001'        -> '1E+1000'
+ext956 toSci '10e-1001'        -> '1.0E-1000'
+ext957 toSci '0.9e9999'        -> '9E+9998'
+ext958 toSci '99e-9999'        -> '9.9E-9998'
+ext959 toSci '111e9997'        -> '1.11E+9999'
+ext960 toSci '1111e-9999'      -> '1.111E-9996'
+ext961 toSci '99e9999'         -> '9.9E+10000'
+ext962 toSci '999e9999'        -> '9.99E+10001'
+ext963 toSci '0.9e-9999'       -> '9E-10000'
+ext964 toSci '0.09e-9999'      -> '9E-10001'
+ext965 toSci '0.1e10001'       -> '1E+10000'
+ext966 toSci '10e-10001'       -> '1.0E-10000'
+ext967 toSci '0.9e99999'       -> '9E+99998'
+ext968 toSci '99e-99999'       -> '9.9E-99998'
+ext969 toSci '111e99999'       -> '1.11E+100001'
+ext970 toSci '1111e-99999'     -> '1.111E-99996'
+ext971 toSci "0.09e999999999"  -> '9E+999999997'
+ext972 toSci "0.9e999999999"   -> '9E+999999998'
+ext973 toSci "9e999999999"     -> '9E+999999999'
+ext974 toSci "9.9e999999999"   -> '9.9E+999999999'
+ext975 toSci "9.99e999999999"  -> '9.99E+999999999'
+ext976 toSci "9.99e-999999999" -> '9.99E-999999999'
+ext977 toSci "9.9e-999999999"  -> '9.9E-999999999'
+ext978 toSci "9e-999999999"    -> '9E-999999999'
+ext979 toSci "99e-999999999"   -> '9.9E-999999998'
+ext980 toSci "999e-999999999"  -> '9.99E-999999997'
+
+-- New tests for zeros, infinities, NaNs, etc.
+ext601 toSci 0.000000000       ->  0
+ext602 toSci 0.00000000        ->  0
+ext603 toSci 0.0000000         ->  0
+ext604 toSci 0.000000          ->  0
+ext605 toSci 0.00000           ->  0
+ext606 toSci 0.0000            ->  0
+ext607 toSci 0.000             ->  0
+ext608 toSci 0.00              ->  0
+ext609 toSci 0.0               ->  0
+ext610 toSci  .0               ->  0
+ext611 toSci 0.                ->  0
+ext612 toSci -.0               -> -0
+ext613 toSci -0.               -> -0
+ext614 toSci -0.0              -> -0
+ext615 toSci -0.00             -> -0
+ext616 toSci -0.000            -> -0
+ext617 toSci -0.0000           -> -0
+ext618 toSci -0.00000          -> -0
+ext619 toSci -0.000000         -> -0
+ext620 toSci -0.0000000        -> -0
+ext621 toSci -0.00000000       -> -0
+ext622 toSci -0.000000000      -> -0
+
+ext630 toSci  0.00E+0          ->  0
+ext631 toSci  0.00E+1          ->  0
+ext632 toSci  0.00E+2          ->  0
+ext633 toSci  0.00E+3          ->  0
+ext634 toSci  0.00E+4          ->  0
+ext635 toSci  0.00E+5          ->  0
+ext636 toSci  0.00E+6          ->  0
+ext637 toSci  0.00E+7          ->  0
+ext638 toSci  0.00E+8          ->  0
+ext639 toSci  0.00E+9          ->  0
+
+ext640 toSci  0.0E+0           ->  0
+ext641 toSci  0.0E+1           ->  0
+ext642 toSci  0.0E+2           ->  0
+ext643 toSci  0.0E+3           ->  0
+ext644 toSci  0.0E+4           ->  0
+ext645 toSci  0.0E+5           ->  0
+ext646 toSci  0.0E+6           ->  0
+ext647 toSci  0.0E+7           ->  0
+ext648 toSci  0.0E+8           ->  0
+ext649 toSci  0.0E+9           ->  0
+
+ext650 toSci  0E+0             ->  0
+ext651 toSci  0E+1             ->  0
+ext652 toSci  0E+2             ->  0
+ext653 toSci  0E+3             ->  0
+ext654 toSci  0E+4             ->  0
+ext655 toSci  0E+5             ->  0
+ext656 toSci  0E+6             ->  0
+ext657 toSci  0E+7             ->  0
+ext658 toSci  0E+8             ->  0
+ext659 toSci  0E+9             ->  0
+
+ext660 toSci  0.0E-0           ->  0
+ext661 toSci  0.0E-1           ->  0
+ext662 toSci  0.0E-2           ->  0
+ext663 toSci  0.0E-3           ->  0
+ext664 toSci  0.0E-4           ->  0
+ext665 toSci  0.0E-5           ->  0
+ext666 toSci  0.0E-6           ->  0
+ext667 toSci  0.0E-7           ->  0
+ext668 toSci  0.0E-8           ->  0
+ext669 toSci  0.0E-9           ->  0
+
+ext670 toSci  0.00E-0          ->  0
+ext671 toSci  0.00E-1          ->  0
+ext672 toSci  0.00E-2          ->  0
+ext673 toSci  0.00E-3          ->  0
+ext674 toSci  0.00E-4          ->  0
+ext675 toSci  0.00E-5          ->  0
+ext676 toSci  0.00E-6          ->  0
+ext677 toSci  0.00E-7          ->  0
+ext678 toSci  0.00E-8          ->  0
+ext679 toSci  0.00E-9          ->  0
+
+ext700 toSci "NaN"             -> NaN
+ext701 toSci "nan"             -> NaN
+ext702 toSci "nAn"             -> NaN
+ext703 toSci "NAN"             -> NaN
+ext704 toSci "+NaN"            -> NaN Conversion_syntax
+ext705 toSci "+nan"            -> NaN Conversion_syntax
+ext706 toSci "+nAn"            -> NaN Conversion_syntax
+ext707 toSci "+NAN"            -> NaN Conversion_syntax
+ext708 toSci "-NaN"            -> NaN Conversion_syntax
+ext709 toSci "-nan"            -> NaN Conversion_syntax
+ext710 toSci "-nAn"            -> NaN Conversion_syntax
+ext711 toSci "-NAN"            -> NaN Conversion_syntax
+
+ext720 toSci "sNaN"            -> sNaN
+ext721 toSci "snan"            -> sNaN
+ext722 toSci "SnAn"            -> sNaN
+ext723 toSci "SNAN"            -> sNaN
+ext724 toSci "+sNaN"           -> NaN Conversion_syntax
+ext725 toSci "+snan"           -> NaN Conversion_syntax
+ext726 toSci "+SnAn"           -> NaN Conversion_syntax
+ext727 toSci "+SNAN"           -> NaN Conversion_syntax
+ext728 toSci "-sNaN"           -> NaN Conversion_syntax
+ext729 toSci "-snan"           -> NaN Conversion_syntax
+ext730 toSci "-SnAn"           -> NaN Conversion_syntax
+ext731 toSci "-SNAN"           -> NaN Conversion_syntax
+
+ext740 toSci "Inf"             -> Infinity
+ext741 toSci "inf"             -> Infinity
+ext742 toSci "iNf"             -> Infinity
+ext743 toSci "INF"             -> Infinity
+ext744 toSci "+Inf"            -> Infinity
+ext745 toSci "+inf"            -> Infinity
+ext746 toSci "+iNf"            -> Infinity
+ext747 toSci "+INF"            -> Infinity
+ext748 toSci "-Inf"            -> -Infinity
+ext749 toSci "-inf"            -> -Infinity
+ext750 toSci "-iNf"            -> -Infinity
+ext751 toSci "-INF"            -> -Infinity
+
+ext760 toSci "Infinity"        -> Infinity
+ext761 toSci "infinity"        -> Infinity
+ext762 toSci "iNfInItY"        -> Infinity
+ext763 toSci "INFINITY"        -> Infinity
+ext764 toSci "+Infinity"       -> Infinity
+ext765 toSci "+infinity"       -> Infinity
+ext766 toSci "+iNfInItY"       -> Infinity
+ext767 toSci "+INFINITY"       -> Infinity
+ext768 toSci "-Infinity"       -> -Infinity
+ext769 toSci "-infinity"       -> -Infinity
+ext770 toSci "-iNfInItY"       -> -Infinity
+ext771 toSci "-INFINITY"       -> -Infinity
+
+
+-- Varying exponent maximums
+maxexponent: 0
+emax001 toSci -1E+2  -> -Infinity Conversion_overflow Inexact Rounded
+emax002 toSci -100   -> -Infinity Conversion_overflow Inexact Rounded
+emax003 toSci  -10   -> -Infinity Conversion_overflow Inexact Rounded
+emax004 toSci   -9.9 -> -9.9
+emax005 toSci   -9   -> -9
+emax006 toSci   -1   -> -1
+emax007 toSci    0   ->  0
+emax008 toSci    1   ->  1
+emax009 toSci    9   ->  9
+emax010 toSci    9.9 ->  9.9
+emax011 toSci   10   ->  Infinity Conversion_overflow Inexact Rounded
+emax012 toSci  100   ->  Infinity Conversion_overflow Inexact Rounded
+emax013 toSci  1E+2  ->  Infinity Conversion_overflow Inexact Rounded
+emax014 toSci   0.99 ->  0 Conversion_underflow Inexact Rounded
+emax015 toSci   0.1  ->  0 Conversion_underflow Inexact Rounded
+emax016 toSci   0.01 ->  0 Conversion_underflow Inexact Rounded
+emax017 toSci  1E-1  ->  0 Conversion_underflow Inexact Rounded
+emax018 toSci  1E-2  ->  0 Conversion_underflow Inexact Rounded
+
+maxexponent: 1
+emax100 toSci -1E+3  -> -Infinity Conversion_overflow Inexact Rounded
+emax101 toSci -1E+2  -> -Infinity Conversion_overflow Inexact Rounded
+emax102 toSci -100   -> -Infinity Conversion_overflow Inexact Rounded
+emax103 toSci  -10   -> -10
+emax104 toSci   -9.9 -> -9.9
+emax105 toSci   -9   -> -9
+emax106 toSci   -1   -> -1
+emax107 toSci    0   ->  0
+emax108 toSci    1   ->  1
+emax109 toSci    9   ->  9
+emax110 toSci    9.9 ->  9.9
+emax111 toSci   10   -> 10
+emax112 toSci  100   ->  Infinity Conversion_overflow Inexact Rounded
+emax113 toSci  1E+2  ->  Infinity Conversion_overflow Inexact Rounded
+emax114 toSci  1E+3  ->  Infinity Conversion_overflow Inexact Rounded
+emax115 toSci   0.99 ->  0.99
+emax116 toSci   0.1  ->  0.1
+emax117 toSci   0.01 ->  0 Conversion_underflow Inexact Rounded
+emax118 toSci  1E-1  ->  0.1
+emax119 toSci  1E-2  ->  0 Conversion_underflow Inexact Rounded
+emax120 toSci  1E-3  ->  0 Conversion_underflow Inexact Rounded
+
+maxexponent: 2
+emax200 toSci -1E+3  -> -Infinity Conversion_overflow Inexact Rounded
+emax201 toSci -1E+2  -> -1E+2
+emax202 toSci -100   -> -100
+emax203 toSci  -10   -> -10
+emax204 toSci   -9.9 -> -9.9
+emax205 toSci   -9   -> -9
+emax206 toSci   -1   -> -1
+emax207 toSci    0   ->  0
+emax208 toSci    1   ->  1
+emax209 toSci    9   ->  9
+emax210 toSci    9.9 ->  9.9
+emax211 toSci   10   -> 10
+emax212 toSci  100   -> 100
+emax213 toSci  1E+2  -> 1E+2
+emax214 toSci  1E+3  ->  Infinity Conversion_overflow Inexact Rounded
+emax215 toSci   0.99 ->  0.99
+emax216 toSci   0.1  ->  0.1
+emax217 toSci   0.01 ->  0.01
+emax218 toSci  0.001 ->  0 Conversion_underflow Inexact Rounded
+emax219 toSci  1E-1  ->  0.1
+emax220 toSci  1E-2  ->  0.01
+emax221 toSci  1E-3  ->  0 Conversion_underflow Inexact Rounded
+
+maxexponent: 7
+emax231 toSci  1E-8  ->  0 Conversion_underflow Inexact Rounded
+emax232 toSci  1E-7  ->  1E-7
+emax233 toSci  1E-6  ->  0.000001
+emax234 toSci  1E-5  ->  0.00001
+emax235 toSci  1E+5  ->  1E+5
+emax236 toSci  1E+6  ->  1E+6
+emax237 toSci  1E+7  ->  1E+7
+emax238 toSci  1E+8  ->  Infinity Conversion_overflow Inexact Rounded
+
+maxexponent: 9
+emax241 toSci  1E-10 ->  0 Conversion_underflow Inexact Rounded
+emax242 toSci  1E-9  ->  1E-9
+emax243 toSci  1E-8  ->  1E-8
+emax244 toSci  1E-7  ->  1E-7
+emax245 toSci  1E+7  ->  1E+7
+emax246 toSci  1E+8  ->  1E+8
+emax247 toSci  1E+9  ->  1E+9
+emax248 toSci  1E+10 ->  Infinity Conversion_overflow Inexact Rounded
+
+maxexponent: 10  -- boundary
+emax251 toSci  1E-11 ->  0 Conversion_underflow Inexact Rounded
+emax252 toSci  1E-10 ->  1E-10
+emax253 toSci  1E-9  ->  1E-9
+emax254 toSci  1E-8  ->  1E-8
+emax255 toSci  1E+8  ->  1E+8
+emax256 toSci  1E+9  ->  1E+9
+emax257 toSci  1E+10 ->  1E+10
+emax258 toSci  1E+11 ->  Infinity Conversion_overflow Inexact Rounded
+emax261 toSci  1.00E-11 ->  0 Conversion_underflow Inexact Rounded
+emax262 toSci  1.00E-10 ->  1.00E-10
+emax263 toSci  1.00E-9  ->  1.00E-9
+emax264 toSci  1.00E-8  ->  1.00E-8
+emax265 toSci  1.00E+8  ->  1.00E+8
+emax266 toSci  1.00E+9  ->  1.00E+9
+emax267 toSci  1.00E+10 ->  1.00E+10
+emax268 toSci  1.00E+11 ->  Infinity Conversion_overflow Inexact Rounded
+emax271 toSci  9.99E-11 ->  0 Conversion_underflow Inexact Rounded
+emax272 toSci  9.99E-10 ->  9.99E-10
+emax273 toSci  9.99E-9  ->  9.99E-9
+emax274 toSci  9.99E-8  ->  9.99E-8
+emax275 toSci  9.99E+8  ->  9.99E+8
+emax276 toSci  9.99E+9  ->  9.99E+9
+emax277 toSci  9.99E+10 ->  9.99E+10
+emax278 toSci  9.99E+11 ->  Infinity Conversion_overflow Inexact Rounded
+
+maxexponent: 99
+emax281 toSci  1E-100 ->  0 Conversion_underflow Inexact Rounded
+emax282 toSci  1E-99  ->  1E-99
+emax283 toSci  1E-98  ->  1E-98
+emax284 toSci  1E+98  ->  1E+98
+emax285 toSci  1E+99  ->  1E+99
+emax286 toSci  1E+100 ->  Infinity Conversion_overflow Inexact Rounded
+
+maxexponent: 999
+emax291 toSci  1E-1000 ->  0 Conversion_underflow Inexact Rounded
+emax292 toSci  1E-999  ->  1E-999
+emax293 toSci  1E+999  ->  1E+999
+emax294 toSci  1E+1000 ->  Infinity Conversion_overflow Inexact Rounded
+maxexponent: 9999
+emax301 toSci  1E-10000 ->  0 Conversion_underflow Inexact Rounded
+emax302 toSci  1E-9999  ->  1E-9999
+emax303 toSci  1E+9999  ->  1E+9999
+emax304 toSci  1E+10000 ->  Infinity Conversion_overflow Inexact Rounded
+maxexponent: 99999
+emax311 toSci  1E-100000 ->  0 Conversion_underflow Inexact Rounded
+emax312 toSci  1E-99999  ->  1E-99999
+emax313 toSci  1E+99999  ->  1E+99999
+emax314 toSci  1E+100000 ->  Infinity Conversion_overflow Inexact Rounded
+maxexponent: 999999
+emax321 toSci  1E-1000000 ->  0 Conversion_underflow Inexact Rounded
+emax322 toSci  1E-999999  ->  1E-999999
+emax323 toSci  1E+999999  ->  1E+999999
+emax324 toSci  1E+1000000 ->  Infinity Conversion_overflow Inexact Rounded
+maxexponent: 9999999
+emax331 toSci  1E-10000000 ->  0 Conversion_underflow Inexact Rounded
+emax332 toSci  1E-9999999  ->  1E-9999999
+emax333 toSci  1E+9999999  ->  1E+9999999
+emax334 toSci  1E+10000000 ->  Infinity Conversion_overflow Inexact Rounded
+maxexponent: 99999999
+emax341 toSci  1E-100000000 ->  0 Conversion_underflow Inexact Rounded
+emax342 toSci  1E-99999999  ->  1E-99999999
+emax343 toSci  1E+99999999  ->  1E+99999999
+emax344 toSci  1E+100000000 ->  Infinity Conversion_overflow Inexact Rounded
+
+maxexponent: 999999999
+emax351 toSci  1E-1000000000     ->  0 Conversion_underflow Inexact Rounded
+emax352 toSci  1E-999999999      ->  1E-999999999
+emax353 toSci  1E+999999999      ->  1E+999999999
+emax354 toSci  1E+1000000000     ->  Infinity Conversion_overflow Inexact Rounded
+emax355 toSci  1.000E-1000000000 ->  0 Conversion_underflow Inexact Rounded
+emax356 toSci  1.000E-999999999  ->  1.000E-999999999
+emax357 toSci  1.000E+999999999  ->  1.000E+999999999
+emax358 toSci  1.000E+1000000000 ->  Infinity Conversion_overflow Inexact Rounded
+emax359 toSci  1.001E-1000000000 ->  0 Conversion_underflow Inexact Rounded
+emax360 toSci  1.001E-999999999  ->  1.001E-999999999
+emax361 toSci  1.001E+999999999  ->  1.001E+999999999
+emax362 toSci  1.001E+1000000000 ->  Infinity Conversion_overflow Inexact Rounded
+emax363 toSci  9.000E-1000000000 ->  0 Conversion_underflow Inexact Rounded
+emax364 toSci  9.000E-999999999  ->  9.000E-999999999
+emax365 toSci  9.000E+999999999  ->  9.000E+999999999
+emax366 toSci  9.000E+1000000000 ->  Infinity Conversion_overflow Inexact Rounded
+emax367 toSci  9.999E-1000000000 ->  0 Conversion_underflow Inexact Rounded
+emax368 toSci  9.999E-999999999  ->  9.999E-999999999
+emax369 toSci  9.999E+999999999  ->  9.999E+999999999
+emax370 toSci  9.999E+1000000000 ->  Infinity Conversion_overflow Inexact Rounded
+emax371 toSci -1E-1000000000     -> -0 Conversion_underflow Inexact Rounded
+emax372 toSci -1E-999999999      -> -1E-999999999
+emax373 toSci -1E+999999999      -> -1E+999999999
+emax374 toSci -1E+1000000000     -> -Infinity Conversion_overflow Inexact Rounded
+emax375 toSci -1.000E-1000000000 -> -0 Conversion_underflow Inexact Rounded
+emax376 toSci -1.000E-999999999  -> -1.000E-999999999
+emax377 toSci -1.000E+999999999  -> -1.000E+999999999
+emax378 toSci -1.000E+1000000000 -> -Infinity Conversion_overflow Inexact Rounded
+emax379 toSci -1.001E-1000000000 -> -0 Conversion_underflow Inexact Rounded
+emax380 toSci -1.001E-999999999  -> -1.001E-999999999
+emax381 toSci -1.001E+999999999  -> -1.001E+999999999
+emax382 toSci -1.001E+1000000000 -> -Infinity Conversion_overflow Inexact Rounded
+emax383 toSci -9.000E-1000000000 -> -0 Conversion_underflow Inexact Rounded
+emax384 toSci -9.000E-999999999  -> -9.000E-999999999
+emax385 toSci -9.000E+999999999  -> -9.000E+999999999
+emax386 toSci -9.000E+1000000000 -> -Infinity Conversion_overflow Inexact Rounded
+emax387 toSci -9.999E-1000000000 -> -0 Conversion_underflow Inexact Rounded
+emax388 toSci -9.999E-999999999  -> -9.999E-999999999
+emax389 toSci -9.999E+999999999  -> -9.999E+999999999
+emax390 toSci -9.999E+1000000000 -> -Infinity Conversion_overflow Inexact Rounded
+
+-- reprise rounding mode effect (using multiplies so precision directive used)
+rounding: half_up
+emax400 multiply -9.999E+999999999 10 -> -Infinity Overflow Inexact Rounded
+emax401 multiply  9.999E+999999999 10 ->  Infinity Overflow Inexact Rounded
+rounding: half_down
+emax402 multiply -9.999E+999999999 10 -> -Infinity Overflow Inexact Rounded
+emax403 multiply  9.999E+999999999 10 ->  Infinity Overflow Inexact Rounded
+rounding: half_even
+emax404 multiply -9.999E+999999999 10 -> -Infinity Overflow Inexact Rounded
+emax405 multiply  9.999E+999999999 10 ->  Infinity Overflow Inexact Rounded
+rounding: floor
+emax406 multiply -9.999E+999999999 10 -> -Infinity Overflow Inexact Rounded
+emax407 multiply  9.999E+999999999 10 ->  9.99999999E+999999999 Overflow Inexact Rounded
+rounding: ceiling
+emax408 multiply -9.999E+999999999 10 -> -9.99999999E+999999999 Overflow Inexact Rounded
+emax409 multiply  9.999E+999999999 10 ->  Infinity Overflow Inexact Rounded
+rounding: up
+emax410 multiply -9.999E+999999999 10 -> -Infinity Overflow Inexact Rounded
+emax411 multiply  9.999E+999999999 10 ->  Infinity Overflow Inexact Rounded
+rounding: down
+emax412 multiply -9.999E+999999999 10 -> -9.99999999E+999999999 Overflow Inexact Rounded
+emax413 multiply  9.999E+999999999 10 ->  9.99999999E+999999999 Overflow Inexact Rounded
+
+

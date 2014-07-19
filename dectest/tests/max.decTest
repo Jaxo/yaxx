@@ -1,0 +1,303 @@
+------------------------------------------------------------------------
+-- max.decTest -- decimal maximum                                     --
+-- Copyright (c) IBM Corporation, 1981, 2001.  All rights reserved.   --
+------------------------------------------------------------------------
+-- Please see the document "Standard Decimal Arithmetic Testcases"    --
+-- at http://www2.hursley.ibm.com/decimal for the description of      --
+-- these testcases.                                                   --
+--                                                                    --
+-- These testcases are experimental ('beta' versions), and they       --
+-- may contain errors.  They are offered on an as-is basis.  In       --
+-- particular, achieving the same results as the tests here is not    --
+-- a guarantee that an implementation complies with any Standard      --
+-- or specification.  The tests are not exhaustive.                   --
+--                                                                    --
+-- Please send comments, suggestions, and corrections to the author:  --
+--   Mike Cowlishaw, IBM Fellow                                       --
+--   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         --
+--   mfc@uk.ibm.com                                                   --
+------------------------------------------------------------------------
+version: 1.03
+
+-- we assume that base comparison is tested in compare.decTest, so
+-- these mainly cover special cases, lost digits, and rounding
+
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+-- sanity checks
+max001 max  -2  -2  -> -2
+max002 max  -2  -1  -> -1
+max003 max  -2   0  ->  0
+max004 max  -2   1  ->  1
+max005 max  -2   2  ->  2
+max006 max  -1  -2  -> -1
+max007 max  -1  -1  -> -1
+max008 max  -1   0  ->  0
+max009 max  -1   1  ->  1
+max010 max  -1   2  ->  2
+max011 max   0  -2  ->  0
+max012 max   0  -1  ->  0
+max013 max   0   0  ->  0
+max014 max   0   1  ->  1
+max015 max   0   2  ->  2
+max016 max   1  -2  ->  1
+max017 max   1  -1  ->  1
+max018 max   1   0  ->  1
+max019 max   1   1  ->  1
+max020 max   1   2  ->  2
+max021 max   2  -2  ->  2
+max022 max   2  -1  ->  2
+max023 max   2   0  ->  2
+max025 max   2   1  ->  2
+max026 max   2   2  ->  2
+
+-- lostDigits and input rounding checks
+maxexponent: 999
+precision: 9
+max101 max 12345678000 1  -> 1.23456780E+10 Rounded
+max102 max 1 12345678000  -> 1.23456780E+10 Rounded
+max103 max 1234567800  1  -> 1.23456780E+9 Rounded
+max104 max 1 1234567800   -> 1.23456780E+9 Rounded
+max105 max 1234567890  1  -> 1.23456789E+9 Rounded
+max106 max 1 1234567890   -> 1.23456789E+9 Rounded
+max107 max 1234567891  1  -> 1.23456789E+9 Inexact Lost_digits Rounded
+max108 max 1 1234567891   -> 1.23456789E+9 Inexact Lost_digits Rounded
+max109 max 12345678901 1  -> 1.23456789E+10 Inexact Lost_digits Rounded
+max110 max 1 12345678901  -> 1.23456789E+10 Inexact Lost_digits Rounded
+max111 max 1234567896  1  -> 1.23456790E+9 Inexact Lost_digits Rounded
+max112 max 1 1234567896   -> 1.23456790E+9 Inexact Lost_digits Rounded
+max113 max -1234567891  1 -> 1 Inexact Lost_digits Rounded
+max114 max 1 -1234567891  -> 1 Inexact Lost_digits Rounded
+max115 max -12345678901 1 -> 1 Inexact Lost_digits Rounded
+max116 max 1 -12345678901 -> 1 Inexact Lost_digits Rounded
+max117 max -1234567896  1 -> 1 Inexact Lost_digits Rounded
+max118 max 1 -1234567896  -> 1 Inexact Lost_digits Rounded
+
+precision: 15
+-- still checking for [no] lostDigits
+max121 max 12345678000 1  -> 12345678000
+max122 max 1 12345678000  -> 12345678000
+max123 max 1234567800  1  -> 1234567800
+max124 max 1 1234567800   -> 1234567800
+max125 max 1234567890  1  -> 1234567890
+max126 max 1 1234567890   -> 1234567890
+max127 max 1234567891  1  -> 1234567891
+max128 max 1 1234567891   -> 1234567891
+max129 max 12345678901 1  -> 12345678901
+max130 max 1 12345678901  -> 12345678901
+max131 max 1234567896  1  -> 1234567896
+max132 max 1 1234567896   -> 1234567896
+max133 max -1234567891  1 -> 1
+max134 max 1 -1234567891  -> 1
+max135 max -12345678901 1 -> 1
+max136 max 1 -12345678901 -> 1
+max137 max -1234567896  1 -> 1
+max138 max 1 -1234567896  -> 1
+
+-- Null tests
+max900 max 10  # -> ? Invalid_operation
+max901 max  # 10 -> ? Invalid_operation
+
+-- extended math ------------------------------------------------------
+precision:   9
+rounding:    half_up
+maxExponent: 999
+
+extended: 1
+
+-- sanity checks
+maxx001 max  -2  -2  -> -2
+maxx002 max  -2  -1  -> -1
+maxx003 max  -2   0  ->  0
+maxx004 max  -2   1  ->  1
+maxx005 max  -2   2  ->  2
+maxx006 max  -1  -2  -> -1
+maxx007 max  -1  -1  -> -1
+maxx008 max  -1   0  ->  0
+maxx009 max  -1   1  ->  1
+maxx010 max  -1   2  ->  2
+maxx011 max   0  -2  ->  0
+maxx012 max   0  -1  ->  0
+maxx013 max   0   0  ->  0
+maxx014 max   0   1  ->  1
+maxx015 max   0   2  ->  2
+maxx016 max   1  -2  ->  1
+maxx017 max   1  -1  ->  1
+maxx018 max   1   0  ->  1
+maxx019 max   1   1  ->  1
+maxx020 max   1   2  ->  2
+maxx021 max   2  -2  ->  2
+maxx022 max   2  -1  ->  2
+maxx023 max   2   0  ->  2
+maxx025 max   2   1  ->  2
+maxx026 max   2   2  ->  2
+
+-- extended zeros
+maxx030 max   0     0   ->  0
+maxx031 max   0    -0   ->  0
+maxx032 max   0    -0.0 ->  0
+maxx033 max   0     0.0 ->  0
+maxx034 max  -0     0   ->  0
+maxx035 max  -0    -0   -> -0
+maxx036 max  -0    -0.0 -> -0
+maxx037 max  -0     0.0 ->  0
+maxx038 max   0.0   0   ->  0
+maxx039 max   0.0  -0   ->  0
+maxx040 max   0.0  -0.0 ->  0
+maxx041 max   0.0   0.0 ->  0
+maxx042 max  -0.0   0   ->  0
+maxx043 max  -0.0  -0   -> -0
+maxx044 max  -0.0  -0.0 -> -0
+maxx045 max  -0.0   0.0 ->  0
+
+-- lostDigits and input rounding checks
+maxexponent: 999
+precision: 9
+maxx051 max 12345678000 1  -> 1.23456780E+10 Rounded
+maxx052 max 1 12345678000  -> 1.23456780E+10 Rounded
+maxx053 max 1234567800  1  -> 1.23456780E+9 Rounded
+maxx054 max 1 1234567800   -> 1.23456780E+9 Rounded
+maxx055 max 1234567890  1  -> 1.23456789E+9 Rounded
+maxx056 max 1 1234567890   -> 1.23456789E+9 Rounded
+maxx057 max 1234567891  1  -> 1.23456789E+9 Inexact Lost_digits Rounded
+maxx058 max 1 1234567891   -> 1.23456789E+9 Inexact Lost_digits Rounded
+maxx059 max 12345678901 1  -> 1.23456789E+10 Inexact Lost_digits Rounded
+maxx060 max 1 12345678901  -> 1.23456789E+10 Inexact Lost_digits Rounded
+maxx061 max 1234567896  1  -> 1.23456790E+9 Inexact Lost_digits Rounded
+maxx062 max 1 1234567896   -> 1.23456790E+9 Inexact Lost_digits Rounded
+maxx063 max -1234567891  1 -> 1 Inexact Lost_digits Rounded
+maxx064 max 1 -1234567891  -> 1 Inexact Lost_digits Rounded
+maxx065 max -12345678901 1 -> 1 Inexact Lost_digits Rounded
+maxx066 max 1 -12345678901 -> 1 Inexact Lost_digits Rounded
+maxx067 max -1234567896  1 -> 1 Inexact Lost_digits Rounded
+maxx068 max 1 -1234567896  -> 1 Inexact Lost_digits Rounded
+
+precision: 15
+-- still checking for [no] lostDigits
+maxx071 max 12345678000 1  -> 12345678000
+maxx072 max 1 12345678000  -> 12345678000
+maxx073 max 1234567800  1  -> 1234567800
+maxx074 max 1 1234567800   -> 1234567800
+maxx075 max 1234567890  1  -> 1234567890
+maxx076 max 1 1234567890   -> 1234567890
+maxx077 max 1234567891  1  -> 1234567891
+maxx078 max 1 1234567891   -> 1234567891
+maxx079 max 12345678901 1  -> 12345678901
+maxx080 max 1 12345678901  -> 12345678901
+maxx081 max 1234567896  1  -> 1234567896
+maxx082 max 1 1234567896   -> 1234567896
+maxx083 max -1234567891  1 -> 1
+maxx084 max 1 -1234567891  -> 1
+maxx085 max -12345678901 1 -> 1
+maxx086 max 1 -12345678901 -> 1
+maxx087 max -1234567896  1 -> 1
+maxx088 max 1 -1234567896  -> 1
+
+-- Specials
+precision: 9
+maxx090 max  Inf  -Inf   ->  Infinity
+maxx091 max  Inf  -1000  ->  Infinity
+maxx092 max  Inf  -1     ->  Infinity
+maxx093 max  Inf  -0     ->  Infinity
+maxx094 max  Inf   0     ->  Infinity
+maxx095 max  Inf   1     ->  Infinity
+maxx096 max  Inf   1000  ->  Infinity
+maxx097 max  Inf   Inf   ->  Infinity
+maxx098 max -1000  Inf   ->  Infinity
+maxx099 max -Inf   Inf   ->  Infinity
+maxx100 max -1     Inf   ->  Infinity
+maxx101 max -0     Inf   ->  Infinity
+maxx102 max  0     Inf   ->  Infinity
+maxx103 max  1     Inf   ->  Infinity
+maxx104 max  1000  Inf   ->  Infinity
+maxx105 max  Inf   Inf   ->  Infinity
+
+maxx120 max -Inf  -Inf   -> -Infinity
+maxx121 max -Inf  -1000  -> -1000
+maxx122 max -Inf  -1     -> -1
+maxx123 max -Inf  -0     -> -0
+maxx124 max -Inf   0     ->  0
+maxx125 max -Inf   1     ->  1
+maxx126 max -Inf   1000  ->  1000
+maxx127 max -Inf   Inf   ->  Infinity
+maxx128 max -Inf  -Inf   ->  -Infinity
+maxx129 max -1000 -Inf   ->  -1000
+maxx130 max -1    -Inf   ->  -1
+maxx131 max -0    -Inf   ->  -0
+maxx132 max  0    -Inf   ->  0
+maxx133 max  1    -Inf   ->  1
+maxx134 max  1000 -Inf   ->  1000
+maxx135 max  Inf  -Inf   ->  Infinity
+
+maxx141 max  NaN -Inf    ->  NaN
+maxx142 max  NaN -1000   ->  NaN
+maxx143 max  NaN -1      ->  NaN
+maxx144 max  NaN -0      ->  NaN
+maxx145 max  NaN  0      ->  NaN
+maxx146 max  NaN  1      ->  NaN
+maxx147 max  NaN  1000   ->  NaN
+maxx148 max  NaN  Inf    ->  NaN
+maxx149 max  NaN  NaN    ->  NaN
+maxx150 max -Inf  NaN    ->  NaN
+maxx151 max -1000 NaN    ->  NaN
+maxx152 max -1    NaN    ->  NaN
+maxx153 max -0    NaN    ->  NaN
+maxx154 max  0    NaN    ->  NaN
+maxx155 max  1    NaN    ->  NaN
+maxx156 max  1000 NaN    ->  NaN
+maxx157 max  Inf  NaN    ->  NaN
+
+maxx161 max  sNaN -Inf   ->  NaN  Invalid_operation
+maxx162 max  sNaN -1000  ->  NaN  Invalid_operation
+maxx163 max  sNaN -1     ->  NaN  Invalid_operation
+maxx164 max  sNaN -0     ->  NaN  Invalid_operation
+maxx165 max  sNaN  0     ->  NaN  Invalid_operation
+maxx166 max  sNaN  1     ->  NaN  Invalid_operation
+maxx167 max  sNaN  1000  ->  NaN  Invalid_operation
+maxx168 max  sNaN  NaN   ->  NaN  Invalid_operation
+maxx169 max  sNaN sNaN   ->  NaN  Invalid_operation
+maxx170 max  NaN  sNaN   ->  NaN  Invalid_operation
+maxx171 max -Inf  sNaN   ->  NaN  Invalid_operation
+maxx172 max -1000 sNaN   ->  NaN  Invalid_operation
+maxx173 max -1    sNaN   ->  NaN  Invalid_operation
+maxx174 max -0    sNaN   ->  NaN  Invalid_operation
+maxx175 max  0    sNaN   ->  NaN  Invalid_operation
+maxx176 max  1    sNaN   ->  NaN  Invalid_operation
+maxx177 max  1000 sNaN   ->  NaN  Invalid_operation
+maxx178 max  Inf  sNaN   ->  NaN  Invalid_operation
+maxx179 max  NaN  sNaN   ->  NaN  Invalid_operation
+
+-- overflow and underflow tests .. subnormal results [inputs] now allowed
+maxExponent: 999999999
+maxx230 max +1.23456789012345E-0 9E+999999999 ->  9E+999999999 Inexact Lost_digits Rounded
+maxx231 max 9E+999999999 +1.23456789012345E-0 ->  9E+999999999 Inexact Lost_digits Rounded
+maxx232 max +0.100 9E-999999999               ->  0.100
+maxx233 max 9E-999999999 +0.100               ->  0.100
+maxx235 max -1.23456789012345E-0 9E+999999999 ->  9E+999999999 Inexact Lost_digits Rounded
+maxx236 max 9E+999999999 -1.23456789012345E-0 ->  9E+999999999 Inexact Lost_digits Rounded
+maxx237 max -0.100 9E-999999999               ->  9E-999999999
+maxx238 max 9E-999999999 -0.100               ->  9E-999999999
+
+maxx239 max 1e-599999999 1e-400000001   ->  1E-400000001
+maxx240 max 1e-599999999 1e-400000000   ->  1E-400000000
+maxx241 max 1e-600000000 1e-400000000   ->  1E-400000000
+maxx242 max 9e-999999998 0.01           ->  0.01
+maxx243 max 9e-999999998 0.1            ->  0.1
+maxx244 max 0.01 9e-999999998           ->  0.01
+maxx245 max 1e599999999 1e400000001     ->  1E+599999999
+maxx246 max 1e599999999 1e400000000     ->  1E+599999999
+maxx247 max 1e600000000 1e400000000     ->  1E+600000000
+maxx248 max 9e999999998 100             ->  9E+999999998
+maxx249 max 9e999999998 10              ->  9E+999999998
+maxx250 max 100  9e999999998            ->  9E+999999998
+-- signs
+maxx251 max  1e+777777777  1e+411111111 ->  1E+777777777
+maxx252 max  1e+777777777 -1e+411111111 ->  1E+777777777
+maxx253 max -1e+777777777  1e+411111111 ->  1E+411111111
+maxx254 max -1e+777777777 -1e+411111111 -> -1E+411111111
+maxx255 max  1e-777777777  1e-411111111 ->  1E-411111111
+maxx256 max  1e-777777777 -1e-411111111 ->  1E-777777777
+maxx257 max -1e-777777777  1e-411111111 ->  1E-411111111
+maxx258 max -1e-777777777 -1e-411111111 -> -1E-777777777
