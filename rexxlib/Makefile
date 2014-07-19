@@ -33,7 +33,11 @@ OBJECTS = $(SOURCES:.cpp=.o)
 $(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
 	@ar ruv $@ $(OBJECTS)
 
-all:	$(LIBDIR)/lib$(LIBNAME).a
+all:	full
+noxml: CXXFLAGS += -D COM_JAXO_YAXX_DENY_XML
+
+full noxml:	$(LIBDIR)/lib$(LIBNAME).a
+	-rm $(OBJECTS)
 
 clean:
 	-rm $(OBJECTS) $(LIBDIR)/lib$(LIBNAME).a

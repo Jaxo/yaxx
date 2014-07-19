@@ -35,7 +35,7 @@ static void usage() {
 }
 
 /*--------------------------------------------------------reassembleArguments-+
-| Reassemble arguments form the command line as one string.                   |
+| Reassemble arguments from the command line as one string.                   |
 +----------------------------------------------------------------------------*/
 void reassembleArguments(
    char ** argv,

@@ -1,36 +1,50 @@
-/* $Id: main.cpp,v 1.3 2002-01-26 03:52:21 jlatone Exp $ */
-
 #include <string.h>
-#include "../toolslib/StringBuffer.h"
+#include <fstream>
+#include "../toolslib/SystemContext.h"
+#include "../toolslib/StdFileStream.h"
 #include "../rexxlib/Rexx.h"
+
+#ifndef YAXX_NAMESPACE
+#define YAXX_NAMESPACE
+#endif
+
+#ifndef TOOLS_NAMESPACE
+#define TOOLS_NAMESPACE
+#endif
+
+#ifndef COM_JAXO_YAXX_DENY_XML
+#error Bare REXX must deny XML extension
+#endif
+
+/*----------------------------------------------------------------------usage-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+static void usage() {
+   cout << "Usage: \trexx rexxFile\n" << endl;
+}
 
 /*-----------------------------------------------------------------------main-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int main(int argc, char ** argv)
 {
-   StringBuffer strArgs;
-   int rc;
+   YAXX_NAMESPACE::Rexx rexx;
 
-   if ((argc < 2) || (argv[1][0] == '?')) {
-      puts("\nsyntax: rexx_test (filename | '-') [args]");
-      return 0;
-   }
+   // -- need a SystemContext, red priority!
+   char * fileBaseUri = TOOLS_NAMESPACE::StdFileStreamBuf::makeBaseUri();
+   TOOLS_NAMESPACE::SystemContext context(
+      fileBaseUri,
+      TOOLS_NAMESPACE::StdFileSchemeHandler()
+   );
+   free(fileBaseUri);
 
-   if (argc > 2) {
-      int i = 2;
-      for (;;) {
-         strArgs.append(argv[i], strlen(argv[i]));
-         if (++i >= argc) break;
-         strArgs.append(' ');
-      }
-   }
-   if ((argv[1][0] == '-') && (argv[1][1] == 0)) {
-      rc = YAXX_NAMESPACE::run(argv[0], 0, strArgs);
+   if (argc != 2) {
+      usage();
+      return -1;
    }else {
-      rc = YAXX_NAMESPACE::run(argv[0], argv[1], strArgs);
+      YAXX_NAMESPACE::Rexx::Script script(argv[1]); // create the script
+      return rexx.interpret(script);
    }
-   return rc;
 }
 
 /*===========================================================================*/
