@@ -1,5 +1,3 @@
-# $Id: Makefile,v 1.5 2002-03-21 05:52:37 pgr Exp $
-
 SOURCES = \
 	ecm.cpp \
 	ecmc.cpp \
@@ -13,10 +11,11 @@ SOURCES = \
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-$(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
-	@ar ruv $@ $(OBJECTS)
-
 all:	$(LIBDIR)/lib$(LIBNAME).a
 
 clean:
-	-rm $(OBJECTS) $(LIBDIR)/lib$(LIBNAME).a
+	-rm $(OBJECTS)
+
+$(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
+	@ar ruv $@ $(OBJECTS)
+

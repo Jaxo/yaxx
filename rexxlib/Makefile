@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.12 2002-10-16 11:52:11 pgr Exp $
+.PHONY: bare full clean
 
 SOURCES = \
 	Arguments.cpp \
@@ -30,14 +30,21 @@ SOURCES = \
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
+bare: bare.chk $(LIBDIR)/lib$(LIBNAME).a
+
+full: full.chk $(LIBDIR)/lib$(LIBNAME).a
+
+bare.chk:
+	-rm $(OBJECTS) full.chk
+	touch bare.chk
+
+full.chk:
+	-rm $(OBJECTS) bare.chk
+	touch full.chk
+
+clean:
+	-rm $(OBJECTS)
+
 $(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
 	@ar ruv $@ $(OBJECTS)
 
-all:	full
-noxml: CXXFLAGS += -D COM_JAXO_YAXX_DENY_XML
-
-full noxml:	$(LIBDIR)/lib$(LIBNAME).a
-	-rm $(OBJECTS)
-
-clean:
-	-rm $(OBJECTS) $(LIBDIR)/lib$(LIBNAME).a

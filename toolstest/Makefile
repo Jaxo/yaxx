@@ -1,5 +1,3 @@
-# $Id: Makefile,v 1.6 2002-05-29 13:23:16 pgr Exp $
-
 SOURCES = \
 	main.cpp \
 	testFileStream.cpp \
@@ -20,4 +18,4 @@ all:	$(OBJECTS)
 		-L/usr/local/lib -lstdc++ \
 
 clean:
-	-rm $(OBJECTS) $(EXENAME)
+	-rm $(OBJECTS)

@@ -1,5 +1,3 @@
-# $Id: Makefile,v 1.15 2003-01-21 15:52:34 pgr Exp $
-
 SOURCES = \
 	arglist.cpp \
 	BinarySearch.cpp \
@@ -14,7 +12,7 @@ SOURCES = \
 	MemStream.cpp \
 	miscutil.cpp \
 	Reader.cpp \
-        RegisteredURI.cpp \
+	RegisteredURI.cpp \
 	RefdItem.cpp \
 	RefdKey.cpp \
 	RWBuffer.cpp \
@@ -36,10 +34,11 @@ SOURCES = \
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-$(LIBDIR)/lib$(LIBNAME).a:      $(OBJECTS)
-	@ar ruv $@ $(OBJECTS)
-
 all:	$(LIBDIR)/lib$(LIBNAME).a
 
 clean:
-	-rm $(OBJECTS) $(LIBDIR)/lib$(LIBNAME).a
+	-rm $(OBJECTS)
+
+$(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
+	@ar ruv $@ $(OBJECTS)
+
