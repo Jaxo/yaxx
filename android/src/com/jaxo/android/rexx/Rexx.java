@@ -11,10 +11,15 @@
 */
 package com.jaxo.android.rexx;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -55,9 +60,20 @@ public class Rexx extends Activity
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
 
-      Bundle extras = getIntent().getExtras();
-      if ((extras != null) && extras.containsKey(SCRIPT_CONTENT_KEY)) {
-         final String content = extras.getString(SCRIPT_CONTENT_KEY);
+      final String content;
+      Intent intent = getIntent();
+      if (intent.getAction() == null) {  // explicit (from ScriptEditor)
+         Bundle extras = getIntent().getExtras();
+         if ((extras != null) && extras.containsKey(SCRIPT_CONTENT_KEY)) {
+            content = extras.getString(SCRIPT_CONTENT_KEY);
+         }else {
+            content = null;
+         }
+      }else {                            // implicit
+         content = getIntentData(intent);
+      }
+
+      if (content != null) {
          m_console = new RexxConsole(
             this,
             (TextView)findViewById(R.id.say_view)
@@ -76,20 +92,20 @@ public class Rexx extends Activity
                   int resultCode;
                   m_speaker.close();
                   m_console.flush();
-                  Intent intent = new Intent();
-                  intent.putExtra(RESULT_KEY, m_console.m_result);
+                  Intent intentR = new Intent();
+                  intentR.putExtra(RESULT_KEY, m_console.m_result);
                   if (rc == 0) {
                      resultCode = RESULTCODE_OK;
                   }else {
-                     intent.putExtra(REXX_ERRORCODE_KEY, rc);
+                     intentR.putExtra(REXX_ERRORCODE_KEY, rc);
                      if (rc == -1) {
                         resultCode = RESULTCODE_EXCEPTION_THROWN;
-                     }else {  // rc has the standard Rexx value of the "regular" error
+                     }else {
+                        // rc has the standard Rexx value of the error
                         resultCode = RESULTCODE_ERROR;
                      }
-
                   }
-                  setResult(resultCode, intent);
+                  setResult(resultCode, intentR);
                   if (rc != 0) finish();
                }
             }
@@ -98,6 +114,37 @@ public class Rexx extends Activity
          setResult(RESULT_CANCELED);
          finish();
       }
+   }
+
+   /*-----------------------------------------------------------getIntentData-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private String getIntentData(Intent intent) {
+      String contents = null;
+      Uri uri;
+      if ((uri=intent.getData()) != null) {
+         try {
+            byte[] data = null;
+            InputStream in;
+            long len;
+            if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+               ContentResolver solver = getContentResolver();
+               len = solver.openAssetFileDescriptor(uri, "r").getLength();
+               in = solver.openInputStream(uri);
+            }else {
+               File file = new File(uri.getEncodedPath());
+               len = file.length();
+               in = new FileInputStream(file);
+            }
+            data = new byte[(int)len];
+            in.read(data, 0, (int)len);
+            contents = new String(data);
+         }catch (Exception e) {
+            contents = null;
+         }
+      }
+      return contents;
    }
 
    /*---------------------------------------------------------------interpret-+
