@@ -12,7 +12,7 @@ SOURCES = \
 OBJECTS = $(SOURCES:.cpp=.o)
 
 all:	$(OBJECTS)
-	g++ $(CPPFLAGS) -o $(EXENAME) \
+	$(CXX) $(CXXFLAGS) -o $(EXENAME) \
 		$(OBJECTS) \
 		-L$(LIBDIR) -ltools -lencoding \
 		-L/usr/local/lib -lstdc++ \

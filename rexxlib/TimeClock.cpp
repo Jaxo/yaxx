@@ -5,6 +5,7 @@
 #ifdef __MWERKS__
 #include "iostream.h"
 #else
+#include <iostream>
 #include <iomanip>
 #endif
 
@@ -27,7 +28,7 @@ unsigned short const TimeClock::sumMonthDays[] = {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 void StopWatch::formatElapsedTime(
-   StopWatch const & base, 
+   StopWatch const & base,
    std::ostream & result
 ) const {
    long secs = base.m_secs - m_secs;
@@ -39,11 +40,11 @@ void StopWatch::formatElapsedTime(
    if (!usecs && !secs) {
       result << '0';
    }else {
-      result 
-         << secs 
-         << '.' 
-         << std::setfill('0') 
-         << std::setw(6) << usecs 
+      result
+         << secs
+         << '.'
+         << std::setfill('0')
+         << std::setw(6) << usecs
          << std::setfill(' ');
    }
 }
@@ -387,10 +388,10 @@ void TimeClock::formatDays(std::ostream & result) const {
 +----------------------------------------------------------------------------*/
 void TimeClock::formatEuropeanDate(std::ostream & result, char s) const
 {
-   char sep[2] = {'x','\0'};  
+   char sep[2] = {'x','\0'};
    //char * sep = "x";  // On the Palm, we're using compiler flags that
                        // make doing this a no-no, causing it to core dump
-                      // with "illegal access" on the next line.  
+                      // with "illegal access" on the next line.
    sep[0] = s;
    result
       << std::setfill('0')
@@ -411,7 +412,7 @@ void TimeClock::formatMonthName(std::ostream & result) const {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 void TimeClock::formatNormalDate(std::ostream & result, char s) const {
-   char sep[2] = {'x','\0'};  
+   char sep[2] = {'x','\0'};
    sep[0] = s;
    result << std::setfill('0') << m_tm.tm_mday << sep;
    result.write(::getMonthName(m_tm.tm_mon), 3);
@@ -423,7 +424,7 @@ void TimeClock::formatNormalDate(std::ostream & result, char s) const {
 +----------------------------------------------------------------------------*/
 void TimeClock::formatOrderedDate(std::ostream & result, char s) const
 {
-   char sep[2] = {'x','\0'};  
+   char sep[2] = {'x','\0'};
    sep[0] = s;
    result
       << std::setfill('0')
@@ -438,7 +439,7 @@ void TimeClock::formatOrderedDate(std::ostream & result, char s) const
 +----------------------------------------------------------------------------*/
 void TimeClock::formatStandardDate(std::ostream & result, char s) const
 {
-   char sep[2] = {'x','\0'};  
+   char sep[2] = {'x','\0'};
    sep[0] = s;
    result
       << std::setfill('0')
@@ -453,7 +454,7 @@ void TimeClock::formatStandardDate(std::ostream & result, char s) const
 +----------------------------------------------------------------------------*/
 void TimeClock::formatUsaDate(std::ostream & result, char s) const
 {
-   char sep[2] = {'x','\0'};  
+   char sep[2] = {'x','\0'};
    sep[0] = s;
    result
       << std::setfill('0')

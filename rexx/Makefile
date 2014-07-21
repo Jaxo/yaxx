@@ -1,15 +1,15 @@
+.PHONY: all
+
 SOURCES = \
 	main.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-all: CXXFLAGS += -D COM_JAXO_YAXX_DENY_XML
-
 all:	$(OBJECTS)
-	g++ -o $(EXENAME) $(CPPFLAGS) -D COM_JAXO_YAXX_DENY_XML \
+	$(CXX) -o $(EXENAME) $(CPPFLAGS) -D COM_JAXO_YAXX_DENY_XML \
 		$(OBJECTS) \
 		-L$(LIBDIR) -lbarerexx -ldecnb -ltools -lencoding -lres -lm \
-		-L/usr/local/lib -lstdc++ \
+		-L/usr/local/lib
 
 clean:
 	-rm $(OBJECTS)

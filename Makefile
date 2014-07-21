@@ -1,46 +1,68 @@
-# $Id: Makefile,v 1.14 2002-04-05 09:28:16 pgr Exp $
-# To make a debug version, do:
-# make -e "CXXFLAGS=-O0 -g -D _DEBUG"
+# Usage: make
+#         (debug=1)? (os=win32)? (clean)?
+#         (rexx | yaxx | dectest | toolstest | all)
 
 .PHONY: all clean yaxx rexx dectest toolstest
 HERE := $(shell pwd)
-MISC = "LIBDIR=$(HERE)/lib"
+ifdef $(debug)
+CPPFLAGS += -O0 -g -D _DEBUG
+else
+CPPFLAGS += -O2 -D NDEBUG
+endif
 
-yaxx: CXXFLAGS += -O2 -D NDEBUG
+ifeq ($(os),win32)
+ export CXX := i686-w64-mingw32-g++   # i586-mingw32msvc-g++
+ export CC :=  i686-w64-mingw32-gcc   # i586-mingw32msvc-gcc
+ export AR :=  i686-w64-mingw32-ar    # i586-mingw32msvc-ar
+ RUN_EXT := .exe
+ CPPFLAGS += -D _WIN32 -D WIN32 -D NODLL -static-libgcc -static-libstdc++
+endif
+
+export LIBDIR := $(HERE)/lib
+export CPPFLAGS
+
 yaxx:
 	mkdir -p $(HERE)/lib
-	@cd decnblib          ; $(MAKE) "LIBNAME=decnb" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd reslib            ; $(MAKE) "LIBNAME=res" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolslib          ; $(MAKE) "LIBNAME=tools" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd rexxlib           ; $(MAKE) full "LIBNAME=rexx" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd yasp3lib          ; $(MAKE) "LIBNAME=yasp3" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd yaxx              ; $(MAKE) "EXENAME=yaxx" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
+	@cd decnblib          ; $(MAKE) "LIBNAME=decnb"
+	@cd reslib            ; $(MAKE) "LIBNAME=res"
+	@cd toolslib          ; $(MAKE) "LIBNAME=tools"
+	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding"
+	@cd rexxlib           ; $(MAKE) full "LIBNAME=rexx"
+	@cd yasp3lib          ; $(MAKE) "LIBNAME=yasp3"
+	@cd yaxx              ; $(MAKE) "EXENAME=yaxx$(RUN_EXT)"
 
-rexx: CXXFLAGS += -O2 -D NDEBUG
+rexx: CPPFLAGS += -D COM_JAXO_YAXX_DENY_XML
 rexx:
 	mkdir -p $(HERE)/lib
-	@cd decnblib          ; $(MAKE) "LIBNAME=decnb" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd reslib            ; $(MAKE) "LIBNAME=res" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolslib          ; $(MAKE) "LIBNAME=tools" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd rexxlib           ; $(MAKE) bare "LIBNAME=barerexx" "CXXFLAGS=$(CXXFLAGS) -D COM_JAXO_YAXX_DENY_XML" $(MISC)
-	@cd rexx              ; $(MAKE) "EXENAME=rexx" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
+	@cd decnblib          ; $(MAKE) "LIBNAME=decnb"
+	@cd reslib            ; $(MAKE) "LIBNAME=res"
+	@cd toolslib          ; $(MAKE) "LIBNAME=tools"
+	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding"
+	@cd rexxlib           ; $(MAKE) bare "LIBNAME=barerexx"
+	@cd rexx              ; $(MAKE) "EXENAME=rexx$(RUN_EXT)"
 
-dectest: CXXFLAGS += -O2 -D NDEBUG
 dectest:
 	mkdir -p $(HERE)/lib
-	@cd decnblib          ; $(MAKE) "LIBNAME=decnb" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd dectest           ; $(MAKE) "EXENAME=dectest" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
+	@cd decnblib          ; $(MAKE) "LIBNAME=decnb"
+	@cd dectest           ; $(MAKE) "EXENAME=dectest$(RUN_EXT)"
 
-toolstest: CXXFLAGS += -O2 -D NDEBUG
 toolstest:
 	mkdir -p $(HERE)/lib
-	@cd toolslib          ; $(MAKE) "LIBNAME=tools" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
-	@cd toolstest         ; $(MAKE) "EXENAME=toolstest" "CXXFLAGS=$(CXXFLAGS)" $(MISC)
+	@cd toolslib          ; $(MAKE) "LIBNAME=tools"
+	@cd toolslib/encoding ; $(MAKE) "LIBNAME=encoding"
+	@cd toolstest         ; $(MAKE) "EXENAME=toolstest$(RUN_EXT)"
 
-all: yaxx rexx dectest toolstest                        q
+all: yaxx rexx dectest toolstest
 
 clean:
+	@cd decnblib          ; $(MAKE) clean
+	@cd reslib            ; $(MAKE) clean
+	@cd toolslib          ; $(MAKE) clean
+	@cd toolslib/encoding ; $(MAKE) clean
+	@cd rexxlib           ; $(MAKE) clean
+	@cd yasp3lib          ; $(MAKE) clean
+	@cd yaxx              ; $(MAKE) clean
+	@cd rexx              ; $(MAKE) clean
+	@cd dectest           ; $(MAKE) clean
+	@cd toolstest         ; $(MAKE) clean
 	rm -rf $(HERE)/lib

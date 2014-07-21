@@ -39,6 +39,6 @@ all:	$(LIBDIR)/lib$(LIBNAME).a
 clean:
 	-rm $(OBJECTS)
 
-$(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
-	@ar ruv $@ $(OBJECTS)
+$(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS) dlmalloc.o
+	@$(AR) ruv $@ $(OBJECTS) dlmalloc.o
 

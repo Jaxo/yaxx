@@ -105,7 +105,7 @@ const uint32_t powers[] = {
 #endif
 
 #ifdef _WIN32
-#include "..\toolslib\dlmalloc.h"
+#include "../toolslib/dlmalloc.h"
 #define malloc(a) dlmalloc(a)
 #define free(a) dlfree(a)
 #endif

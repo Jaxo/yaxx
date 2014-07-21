@@ -46,5 +46,5 @@ clean:
 	-rm $(OBJECTS)
 
 $(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
-	@ar ruv $@ $(OBJECTS)
+	@$(AR) ruv $@ $(OBJECTS)
 
