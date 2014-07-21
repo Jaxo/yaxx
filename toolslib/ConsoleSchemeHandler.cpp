@@ -72,7 +72,7 @@ iostream * ConsoleSchemeHandler::Rep::makeStream(
       io = new iostream(getCerr().rdbuf());
       break;
    }
-   #if defined _WIN32
+   #if defined _MSC_VER
       /*
       | delbuf(0), in Microsoft stream jargon, means that the stream buffer
       | won't be deleted when the stream is deleted.  For Metrowerks, we
