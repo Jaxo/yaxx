@@ -1,3 +1,10 @@
+echo
+echo "This SCRIPT is OBSOLETE.  Please use 'make'"
+echo "   make"
+echo "    (debug=1)? (os=win32)? (clean)?"
+echo "    (rexx | yaxx | dectest | toolstest | all)"
+exit
+
 echo Making the reslib....
 cd reslib
 g++ -c *cpp

@@ -1,61 +1,45 @@
 Note: this readme is far to be finished and I hope to complete it over time&hellip;
 
+<b>NEW REVISION</b> (July, 22nd 21014) "Horseshoe" See <a href="NEWS.md">what's new</a>
+
 #What is YAXX?
-One could consider YAXX as a collection of many pieces of code that have been
-developed along a period of 20 years of fun at doing programming.
+One could consider YAXX as a collection of many pieces of code that have been developed along a period of 20 years of fun at doing programming.
 
-- **toolslib** gathers C++ objects that were missing from the original C++
-libraries (and, in my opinion, the gap was never filled
-the way Java designers did it later.)
+- **toolslib** gathers C++ objects that were missing from the original C++ libraries (and, in my opinion, the gap was never filled the way Java designers did it later.)
 
-- **decnblib** is Mike Cowlishaw's decimal number library, getting rid of the
-16-bit arithmetic barrier
+- **decnblib** is Mike Cowlishaw's decimal number library, getting rid of the 16-bit arithmetic barrier
 
-- **stdiolib** makes a bridge from the C-stdio to java, easing the exchange of
-data via streams.
+- **stdiolib** makes a bridge from the C-stdio to java, easing the  exchange of data via streams.
 
 - **yasp3lib** is an SGML Parser (SGML being the precursor of XML)
 
-- **rexxlib** provides all objects and methods required by the implementation
-of the Rexx interpreter (Restructured extended editor)
+- **rexxlib** provides all objects and methods required by the implementation of the Rexx interpreter (Restructured extended editor)
 
-Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull)
-routines.  It provides the means to build a _REXX interpreter_, and this is how
-most people will understand YAXX.
-
-#Running REXX on my Android Device
-You say *"I don't want to build Rexxoid, I just want to install it on my device"*.<br/>
-OK, then get the already-built Rexxoid.apk
-<br/><br/>
-Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>,
+Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull) routines.  It provides the means to build a _REXX interpreter_, and this is how most people will understand YAXX.
+####Any doc?
+No real detailed documentation. After all, Rexx is &hellip; Rexx, a well documented programming language and the Rexxoid application should be enough intuitive to get you up and running quite immediately. Nevertheless, you will find <a href="docs/android/rexx.md">here</a> a series of screenshots describing in short how Rexx shows up on an Android device.
+<br/>Code name of the latest version is "*Horseshoe*".
+#Install REXX on my Android Device
+You say *"I don't want to build Rexxoid, I just want to install it on my device"*.
+<br/>OK, then get the already-built Rexxoid.apk
+<br/><br/>Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>,
 <ol>
 <li>in the list above this README, find <i>Rexxoid.apk</i> and click on it;
 <li>in the page that appears, click the <i>Raw</i> tab;
 <li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
 <li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ol>
-Code name of the latest version is "*Horseshoe*".
-
 ####Importing my beloved REXX scripts
-Insert a comment in the first line of each script, with a couple of words identifying the script.
-
-Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
-Start REXX and press to the (hardware) left button on your phone.  In the options menu, choose import.
-
-####Any doc?
-No real detailed documentation. After all, Rexx is &hellip; Rexx,
-a well documented programming language and the Rexxoid application
-should be enough intuitive to get you up and running quite immediately.
-Nevertheless, you will find <a href="docs/android/rexx.md">here</a>
-a series of screenshots describing in short how Rexx shows up
-on an Android device.
-
+<ul>
+<li>Insert a comment in the first line of each script, with a couple of words identifying the script.
+<li>Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
+<li>Start REXX and press to the (hardware) left button on your phone.  In the options menu, choose import.
+</ul>
+#Install REXX on my computer
+The repository contains as well a Linux and (yes!) a Windows version: the download process is identical: <i>Raw</i> + <i>Save</i>. Note that those executables are found <u>under the REXX directory.</u>
+However, given the many flavors these OS's are declined into, I would suggest you to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.  
 #Building REXX
-The libraries have been tested in several OS environments, which ascertains
-their portability and robustness.
-Besides classical OSes (Linux, MS Windows), Palm OS was one of the first
-candidate for writing "REXX for Palm OS" at the beginning of the 2000's.
-In 2010, REXX was ported to Android...
+The libraries have been tested in several OS environments, which ascertains their portability and robustness.  Besides classical OS's (Linux, MS Windows), Palm OS was one of the first candidate for writing "REXX for Palm OS" at the beginning of the 2000's. In 2010, REXX was ported to Android...
 
 ##Rexx on Android
 You need the appropriate android / eclipse project, and to build the .so libraries.
@@ -72,8 +56,7 @@ cd ~/yaxx/android
 </pre>
 This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
 "libs/armeabi" needs to be <i>ln -s'ed</i> from your Android project directory.
-<br/>
-<br/><u>My Personal Cheatsheet</u>
+<br/><br/><u>My Personal Cheatsheet</u>
 <ul><li>the ~/yaxx/android/jni directory contains the android makefiles;
 <br/>
 <li>to examine .so entries, do
@@ -87,15 +70,12 @@ This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
    emulator -avd petrus
 </pre>
 </ul>
-
-
 ###Detailed Instructions
-
 <ul>
 <li><i>These instructions have been tested on Linux Ubuntu 12.04</i>
 <br>
-<li><i>In what follows, you must replace the symbol <b>[$home]</b> with the fully qualified name of your home directory.<br/>
-Ex: <i>[$home]</i> -> /home/myuserid
+<li><i>In what follows, you must replace the symbol <b>[\$home]</b> with the fully qualified name of your home directory.<br></i>
+Ex: <i>[\$home]</i> -> /home/myuserid
 </ul>
 
 #### Building the .so files
@@ -105,7 +85,7 @@ Ex: <i>[$home]</i> -> /home/myuserid
 cd ~
 git clone https://github.com/Jaxo/yaxx.git
 </pre>
-creates the yaxx directory in your home (<i>i.e.:</i>&nbsp; <code><i>[$home]<i>/yaxx</code>)
+creates the yaxx directory in your home (<i>i.e.:</i>&nbsp; <code><i>[$home]</i>/yaxx</code>)
 <br/>
 <li>Install Eclipse.&nbsp; you can download it from <a href="http://www.eclipse.orgs/downloads/" target="_blank">here</a>
 <br/>
@@ -191,4 +171,22 @@ cp ~/yaxx/android/bin/rexxoid.apk .
 adb install rexxoid.apk
 rm rexxoid.apk
 </pre>
+##Rexx on Linux, Windows, &hellip;
+On a Linux build machine, to produce the Linux-executable REXX module requires the build tools to be installed first:
+<pre>
+sudo apt-get upgrade
+sudo apt-get install build-essential
+</pre>
+Then, enter:
+<pre>
+make clean rexx
+</pre>
+This is it!
 
+To produce a WIN32 executable, (aka <i><b>rexx.exe</b></i>) is also doable. You need a cross-compiler, that is, <i>mingw-w64</i>:
+<pre>
+sudo apt-get install mingw-w64
+make os=win32 clean rexx
+</pre>
+
+On a MS Windows machine, you might be able to produce an executable using MS development tools. The repository has still the dsp/dsw files required by Visual C++ and the like. I didn't test it -- I have no more Windows since decades -- but it has chances to work. The "makeall.bat" file might help.

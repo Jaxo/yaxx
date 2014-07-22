@@ -7,7 +7,6 @@ android/obj
 android/proguard
 rexxlib/*.chk
 yaxx/yaxx
-rexx/rexx
 dectest/dectest
 toolstest/toolstest
 lib
