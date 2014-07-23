@@ -1,7 +1,7 @@
-Note: this readme is far to be finished and I hope to complete it over time&hellip;
-
-<b>NEW REVISION</b> (July, 22nd 21014) "Horseshoe" See <a href="NEWS.md">what's new</a>
-
+<table border="0" align="top">
+<tr><td><img src="rexx/rexx.png"/></td>
+<td>
+<b><a href="https://github.com/Jaxo/yaxx/releases/latest">LATEST RELEASE</a></b> July, 22nd 2014 - "Horseshoe"</td></tr></table>
 #What is YAXX?
 One could consider YAXX as a collection of many pieces of code that have been developed along a period of 20 years of fun at doing programming.
 
@@ -18,26 +18,22 @@ One could consider YAXX as a collection of many pieces of code that have been de
 Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull) routines.  It provides the means to build a _REXX interpreter_, and this is how most people will understand YAXX.
 ####Any doc?
 No real detailed documentation. After all, Rexx is &hellip; Rexx, a well documented programming language and the Rexxoid application should be enough intuitive to get you up and running quite immediately. Nevertheless, you will find <a href="docs/android/rexx.md">here</a> a series of screenshots describing in short how Rexx shows up on an Android device.
-<br/>Code name of the latest version is "*Horseshoe*".
-#Install REXX on my Android Device
-You say *"I don't want to build Rexxoid, I just want to install it on my device"*.
-<br/>OK, then get the already-built Rexxoid.apk
-<br/><br/>Assuming you read this README from <a href="https://github.com/Jaxo/yaxx" target="_blank">the Jaxo github</a>,
-<ol>
-<li>in the list above this README, find <i>Rexxoid.apk</i> and click on it;
-<li>in the page that appears, click the <i>Raw</i> tab;
-<li>this should open a dialog offering a <i>Save File</i> option (at least <a href="www.mozilla.org/en-US/firefox/" target="_blank">Firefox</a> does it!)
-<li>Save the file and install it on your device.<br/>The easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
-</ol>
-####Importing my beloved REXX scripts
+#Installing REXX
+If you don't want to build Rexx or Rexxoid, but just install it, pre-built executables are provided for Android, Linux and Windows.
+<ul>
+<li>Navigate to the <a href="https://github.com/Jaxo/yaxx/releases/latest">releases page</a>
+<li>Download the appropriate version and file
+<li>Install it on your device.
+<br/>For Rexxoid (REXX on Android), the easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
+</ul>
+If the proposed pre-builts do not match your OS versions, you will have to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.  
+####Importing my beloved REXX scripts in Android
 <ul>
 <li>Insert a comment in the first line of each script, with a couple of words identifying the script.
 <li>Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
-<li>Start REXX and press to the (hardware) left button on your phone.  In the options menu, choose import.
+<li>Start REXX and press to the (hardware) left button on your phone. In the options menu, choose import.
 </ul>
-#Install REXX on my computer
-The repository contains as well a Linux and (yes!) a Windows version: the download process is identical: <i>Raw</i> + <i>Save</i>. Note that those executables are found <u>under the REXX directory.</u>
-However, given the many flavors these OS's are declined into, I would suggest you to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.  
+Note that tapping on a file or on an email attachment with a <b>.rexx</b> extension automatically launch Android REXX.
 #Building REXX
 The libraries have been tested in several OS environments, which ascertains their portability and robustness.  Besides classical OS's (Linux, MS Windows), Palm OS was one of the first candidate for writing "REXX for Palm OS" at the beginning of the 2000's. In 2010, REXX was ported to Android...
 
@@ -190,3 +186,6 @@ make os=win32 clean rexx
 </pre>
 
 On a MS Windows machine, you might be able to produce an executable using MS development tools. The repository has still the dsp/dsw files required by Visual C++ and the like. I didn't test it -- I have no more Windows since decades -- but it has chances to work. The "makeall.bat" file might help.
+
+
+  [1]: file:///home/pgr/yaxx/rexx/rexx.png
