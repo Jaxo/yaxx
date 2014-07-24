@@ -170,7 +170,7 @@ rm rexxoid.apk
 ##Rexx on Linux, Windows, &hellip;
 On a Linux build machine, to produce the Linux-executable REXX module requires the build tools to be installed first:
 <pre>
-sudo apt-get upgrade
+sudo apt-get update
 sudo apt-get install build-essential
 </pre>
 Then, enter:
