@@ -69,7 +69,9 @@ int jsprintf(char * target, char const * format, ...)
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int jvsprintf(char * target, char const * format, va_list arg) {
-   return ivformat(format, arg, stringOutFct, (char **)&target);
+   return ivformat(
+      (unsigned char const *)format, arg, stringOutFct, (char **)&target
+   );
 }
 
 /*---------------------------------------------------------------stringOutFct-+
@@ -101,7 +103,9 @@ int jfprintf(JFILE * pFile, char const * format, ...)
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int jvfprintf(JFILE * pFile, char const * format, va_list arg) {
-   return ivformat(format, arg, fileOutFct, pFile);
+   return ivformat(
+      (unsigned char const *)format, arg, fileOutFct, pFile
+   );
 }
 
 /*-----------------------------------------------------------------fileOutFct-+
@@ -208,8 +212,8 @@ static int ivformat(
    s_p = format - 1;                       /* dummy entry */
    while (*++s_p) {
       if (*(s_p0 = s_p) != '%') {
-         if (0 == (s_p = strchr(s_p0, '%'))) {
-            length = strlen(s_p0);
+         if (0 == (s_p = (unsigned char const *)strchr((char const *)s_p0, '%'))) {
+            length = strlen((char const *)s_p0);
             s_p = s_p0 + length-1;
          }else {
             if (*(s_p+1) == '%') {
@@ -254,7 +258,7 @@ static int ivformat(
       switch(*s_p) {
       case 's':
          radix = 0;
-         length = strlen(c_p = va_arg(arg_p, unsigned char *));
+         length = strlen((char const *)(c_p = va_arg(arg_p, unsigned char *)));
          if (flag.b.precision && precision<length) length=precision;
          break;
       case 'c':

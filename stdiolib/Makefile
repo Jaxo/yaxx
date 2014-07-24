@@ -8,20 +8,25 @@ SOURCES= \
 #	java2c.c \
 #	jniio.c \
 
-OBJECTS=$(SOURCES:.c=.o)
+LIBDIR ?= ../lib
+LIBNAME ?= stdio
+OBJECTS = $(SOURCES:.c=.o)
 
-override CFLAGS+=-DLIBMAKER_$(LIBNAME) -DUSE_INPROC $(STDIO_INCLUDE)
+all:	$(LIBDIR)/lib$(LIBNAME).a
+-include $(SOURCES:.c=.d)
+
+override CFLAGS+=-DLIBMAKER_$(LIBNAME) -DUSE_INPROC $(STDIO_INCLUDE) -MMD
+
+
+clean:
+	-rm -f $(OBJECTS) $(SOURCES:.c=.d) $(LIBDIR)/lib$(LIBNAME).a
+
+depend:
+	g++ -E -MMD $(CFLAGS) $(SOURCES) > /dev/null
 
 $(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS)
 	@$(AR) ruv $@ $(OBJECTS)
 
-all:	$(LIBDIR)/lib$(LIBNAME).a
+#makedepend -- $(CFLAGS) -- *.[ch]
 
-clean:
-	-rm -f $(OBJECTS) $(LIBDIR)/lib$(LIBNAME).a
-
-depend:
-	makedepend -- $(CFLAGS) -- *.[ch]
-
-# DO NOT DELETE THIS LINE -- make depend depends on it.
-
+# DO NOT DELETE THIS LINE --															   make depend depends on it.
