@@ -26,7 +26,7 @@ import android.view.inputmethod.InputConnection;
 * @author  Pierre G. Richard
 * @version $Id: EditText.java,v 1.1 2013-08-05 08:14:10 pgr Exp $
 */
-class EditText extends android.widget.EditText {
+public class EditText extends android.widget.EditText {
    public EditText(Context context) {
       super(context);
    }
