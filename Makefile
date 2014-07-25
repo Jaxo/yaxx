@@ -4,7 +4,7 @@
 
 .PHONY: all clean yaxx rexx dectest toolstest
 HERE := $(shell pwd)
-ifdef $(debug)
+ifdef debug
 CPPFLAGS += -O0 -g -D _DEBUG
 else
 CPPFLAGS += -O2 -D NDEBUG
