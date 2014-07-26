@@ -1,23 +1,70 @@
 #!/bin/csh
 
-# #-- to make an annotated tag, after the version has been published on github
+# # This script is called by 'make' to set the appropriate flags
+# # required for building a specific version of YAXX.
+# # It also may be used independently to check the current checked-out
+# # version.
+# #
+# # Publishing a new release
+# # ^^^^^^^^^^^^^^^^^^^^^^^^
+# #
+# # Releases use the "publish" feature of Github which tags the code:
+# # with a version number "v1.x" and a "title". For YAXX, the title
+# # is a "code name", taken out of the names of Colorado Summits
+# # see http://www.100summits.com/full-summit-list.
+# #
+# # Unfortunately, Github tags are only lightweight, nor signed,
+# # nor annotated. Signatures inforce security, annotations allow to
+# # add important information, as, for instance the code name of a
+# # particular release.  This code name appears in many sections of
+# # our source code, and doing the change manually is tedious while
+# # error prone.
+# #
+# # Hence, after version v1.x has been published on github, fist thing
+# # to do is make it an annotated tag from which the proper code name
+# # is extracted each time the revision is rebuilt.
+#
 # git checkout v1.x
 # git tag -d v1.x
 # setenv GIT_COMMITTER_DATE `git show --format=%aD | head -1`
+# #
+# # Before to start the signing process. Make sure that your gpg matches!
+# check 'gpg --list-key'
 # git tag -s -a v1.x
-# # enter the codename, see http://www.100summits.com/full-summit-list
+# # You'll be presented with a nano editor screen. First line must be
+# # the code name, matching the title that you gave at publish time.
+# # The next lines is whatever you judge to be appropriate.
+# #
+# # Then, replace the tag on github:
 # git push origin :refs/tags/v1.x
 # git push --tags
-
-# gpg --list-key
-# gpg --gen-key
+# #
+# #
+# # Working on a branch
+# # ^^^^^^^^^^^^^^^^^^^
+# #
+# # On development branches (i.e.: not the master branch) there should
+# # be no tags -- or it must be exceptionnal. Therefore, the "codename"
+# # is indicated in the first line of the branch's annotation, until it
+# # later becomes the release's code name when merged back to master.
+# #
+# # To add an annotation to the branch, do:
+# git branch --edit-description
+# # You'll be presented with a nano editor screen. First line must be
+# # the code name. Note that the branch name might differ, although it
+# # is better to have some intuitive correspondance between both.
 
 set DESCRIBE = `git describe --long`
 set VERSION = `echo $DESCRIBE | cut -d- -f1`
-set CODENAME = `git cat-file tag $VERSION | tail -n+6 | head -n 1`
+set BRANCH = `git rev-parse --abbrev-ref HEAD`
+if ($BRANCH == "master") then
+  set CODENAME = `git cat-file tag $VERSION | tail -n+6 | head -n 1`
+else
+  set CODENAME = `git config branch.$BRANCH.description | head -n 1`
+endif
 set VERSION = `echo $VERSION | sed 's/\./_/'`
 set COMMIT = `echo $DESCRIBE | cut -d- -f2`
 set UXTIME = `git show --format=%at | head -1`
 set DATE = `date --date=@$UXTIME '+%d %b %Y'`
-sed 's|<string name="versionname">.*</string>|<string name="versionname">'$CODENAME'</string>|' < ./android/res/values/strings.xml >./android/res/values/strings.xml.tmp && mv ./android/res/values/strings.xml.tmp ./android/res/values/strings.xml
-echo CPPFLAGS += -D VERSION=\"REXX-Jaxo-$VERSION-$COMMIT 4.04 $DATE\" -D CODENAME=$CODENAME
+sed 's|<string name="versionname">.*</string>|<string name="versionname">'"$CODENAME"'</string>|' < ./android/res/values/strings.xml >./android/res/values/strings.xml.tmp && mv ./android/res/values/strings.xml.tmp ./android/res/values/strings.xml
+echo CPPFLAGS += -D VERSION=\"REXX-Jaxo-$VERSION-$COMMIT 4.04 $DATE\" -D CODENAME=\"$CODENAME\"
