@@ -1,0 +1,21 @@
+#!/bin/csh
+
+# -- to make an annotated tag, after the version has been published on github
+# git checkout v1.x
+# git tag -d v1.x
+# setenv GIT_COMMITTER_DATE `git show --format=%aD | head -1`
+# git tag -s -a v1.x
+# git push origin :refs/tags/v1.x
+# git push --tags
+
+# gpg --list-key
+# gpg --gen-key
+
+set DESCRIBE = `git describe --long`
+set VERSION = `echo $DESCRIBE | cut -d- -f1`
+set CODENAME = `git cat-file tag $VERSION | tail -n+6 | head -n 1`
+set VERSION = `echo $VERSION | sed 's/\./_/'`
+set COMMIT = `echo $DESCRIBE | cut -d- -f2`
+set UXTIME = `git show --format=%at | head -1`
+set DATE = `date --date=@$UXTIME '+%d %b %Y'`
+echo REXX-Jaxo-$VERSION-$COMMIT 4.04 $DATE

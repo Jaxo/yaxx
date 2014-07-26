@@ -47,6 +47,9 @@ namespace YAXX_NAMESPACE {
 #define system SystemContext::system
 #endif
 
+#define XSTR(s) STR(s)
+#define STR(s) #s
+
 /*---------------------------------------------------Interpreter::Interpreter-+
 | Constructor                                                                 |
 +----------------------------------------------------------------------------*/
@@ -1479,63 +1482,12 @@ int Interpreter::execCommand(
 }
 
 /*------------------------------------------------Interpreter::getYaxxVersion-+
-| strip off CVS keys                                                          |
+|                                                                             |
 +----------------------------------------------------------------------------*/
 RexxString Interpreter::getYaxxVersion()
 {
    // see the Rexx programming language p.58
-   static char const VERSION[] = "REXX-Jaxo-$Revision: 1.277 $ $Date: 2013-08-03 07:34:23 $";
-   static char const LEVEL[] = "4.04";
-   static char const REV[] = "$Revision: ";
-   static char const DATE[] = "$ $Date: ";
-
-   char buf[sizeof VERSION];
-   char * beg;
-   char * src;
-   char * tgt;
-
-   int iLen = sizeof VERSION - 1;
-   memcpy(buf, VERSION, iLen+1);
-   printf("\"%s\"\n", buf);
-
-   beg = buf;
-   tgt = (char *)memchr(beg, '$', iLen);
-   src = tgt + sizeof REV - 1;
-   iLen -= (src - beg);
-   memcpy(tgt, src, iLen+1);
-   // replace the revision period (no period may not be included)
-   tgt[1] = ':';
-
-   beg = tgt;
-   tgt = (char *)memchr(beg, '$', iLen);
-   src = tgt + sizeof DATE - 1;
-   // iLen -= (src - beg);
-   // memcpy(tgt, src, iLen+1);
-
-   // catenate the language level description
-   memcpy(tgt, LEVEL, sizeof LEVEL - 1);
-   tgt += sizeof LEVEL-1;
-   *(tgt++) = ' ';
-
-   // translate yyyy-mm-dd to DATE() in default format, as in 21 Feb 1985
-   {
-      char date[11];
-      int i = -1;
-      int monthNo = src[6] - '0';
-
-      if (src[5] == '1') monthNo += 10;
-      if (src[8] != '0') date[++i] = src[8]; // no leading zero
-      date[++i] = src[9];
-      date[++i] = ' ';
-      memcpy(date + ++i, ::getMonthName(monthNo-1), 3);
-      i += 3;
-      date[i] = ' ';
-      memcpy(date + ++i, src, 4);
-      i += 4;
-      memcpy(tgt, date, i);
-      tgt[i] = '\0';
-   }
-   return RexxString(buf);
+   return RexxString(XSTR(VERSION));
 }
 
 /*---------------------------------------------Interpreter::handleSyntaxError-+
