@@ -18,7 +18,7 @@ ifeq ($(os),win32)
  CPPFLAGS += -D _WIN32 -D WIN32 -D NODLL -static-libgcc -static-libstdc++
 endif
 
-$(eval $(shell csh version))
+$(eval $(shell csh version CPPFLAGS))
 
 export LIBDIR := $(HERE)/lib
 export CPPFLAGS

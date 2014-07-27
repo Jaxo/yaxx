@@ -111,6 +111,7 @@ include $(CLEAR_VARS)
 LOCAL_LDLIBS := -llog -lz
 LOCAL_MODULE := rexxlib
 LOCAL_CFLAGS += -DCOM_JAXO_YAXX_DENY_XML
+$(eval $(shell csh $(LOCAL_PATH)/../../version LOCAL_CFLAGS))
 LOCAL_SHARED_LIBRARIES := toolslib reslib decnblib
 LOCAL_SRC_FILES := \
    ../../rexxlib/Arguments.cpp \

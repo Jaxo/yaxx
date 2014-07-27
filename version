@@ -2,8 +2,7 @@
 
 # # This script is called by 'make' to set the appropriate flags
 # # required for building a specific version of YAXX.
-# # It also may be used independently to check the current checked-out
-# # version.
+# # It may be used independently to display what is currently checked-out.
 # #
 # # Publishing a new release
 # # ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -54,6 +53,7 @@
 # # the code name. Note that the branch name might differ, although it
 # # is better to have some intuitive correspondance between both.
 
+cd `dirname $0`
 set DESCRIBE = `git describe --long`
 set VERSION = `echo $DESCRIBE | cut -d- -f1`
 set BRANCH = `git rev-parse --abbrev-ref HEAD`
@@ -67,4 +67,13 @@ set COMMIT = `echo $DESCRIBE | cut -d- -f2`
 set UXTIME = `git show --format=%at | head -1`
 set DATE = `date --date=@$UXTIME '+%d %b %Y'`
 sed 's|<string name="versionname">.*</string>|<string name="versionname">'"$CODENAME"'</string>|' < ./android/res/values/strings.xml >./android/res/values/strings.xml.tmp && mv ./android/res/values/strings.xml.tmp ./android/res/values/strings.xml
-echo CPPFLAGS += -D VERSION=\"REXX-Jaxo-$VERSION-$COMMIT 4.04 $DATE\" -D CODENAME=\"$CODENAME\"
+if ($#argv == 0) then
+   echo "# Codename: '$CODENAME' (branch $BRANCH)"
+   echo "# Version:  $VERSION"
+   echo "# Patch:    $COMMIT"
+   echo "# Date:     $DATE"
+else
+   echo $1 += \
+   -DVERSION=\"REXX-Jaxo-$VERSION-$COMMIT 4.04 $DATE\" \
+   -DCODENAME=\"$CODENAME\"
+endif
