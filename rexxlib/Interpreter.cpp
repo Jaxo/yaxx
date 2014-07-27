@@ -1003,7 +1003,7 @@ void Interpreter::processTemplate(RexxString const toParse)
 
 /*---------------------------------------------------Interpreter::processCall-+
 | IMPLEMENTATION:                                                             |
-| 1) Commands and Built-in's differs from Internals.  If they fail, the       |
+| 1) Commands and Built-in's differ from Internals.  If they fail, the        |
 |    calling Internal is failing.  Also they don't use the interpreter stack. |
 | 2) LOAD is processed by the Interpreter class: it modifies the clauses      |
 |    and code buffer which are fields that we don't want to share.            |
