@@ -12,6 +12,7 @@
 package com.jaxo.android.rexx;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import android.widget.TextView;
 public class RexxConsole implements OnKeyListener
 {
    Activity m_activity;
+   URI m_baseUri;
    Object m_lock;
    Editable m_outBuf;
    StringBuilder m_inBuf;
@@ -46,8 +48,9 @@ public class RexxConsole implements OnKeyListener
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   public RexxConsole(Activity activity, TextView view) {
+   public RexxConsole(Activity activity, URI baseUri, TextView view) {
       m_activity = activity;
+      m_baseUri = baseUri;
       m_lock = new Object();
       m_outBuf = view.getEditableText();
       view.setOnKeyListener(this);
@@ -67,6 +70,9 @@ public class RexxConsole implements OnKeyListener
       Process process = null;
       int rc = -1;
       flush();
+      /*
+      |
+      */
       try {
          process = new ProcessBuilder().
          command(argsList).

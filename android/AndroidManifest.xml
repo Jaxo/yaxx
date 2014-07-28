@@ -114,5 +114,10 @@
 
       <activity android:name=".Preferences"/>
       <activity android:name=".About"/>
+      <service
+         android:name=".Speech"
+         android:label="Rexx Speaker"
+      />
    </application>
 </manifest>
+

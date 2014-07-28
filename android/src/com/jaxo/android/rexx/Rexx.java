@@ -14,6 +14,7 @@ package com.jaxo.android.rexx;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -46,7 +47,6 @@ public class Rexx extends Activity
    public static int RESULTCODE_ERROR = RESULT_FIRST_USER + 1;
    public static int RESULTCODE_EXCEPTION_THROWN = RESULT_FIRST_USER + 2;
 
-   private RexxConsole m_console;
    private Speaker m_speaker;
 
    @Override
@@ -73,47 +73,69 @@ public class Rexx extends Activity
          content = getIntentData(intent);
       }
 
+      // FIXME (NLS: FRANCE)
+      m_speaker = new Speaker(Rexx.this, Locale.FRANCE);
       if (content != null) {
-         m_console = new RexxConsole(
-            this,
-            (TextView)findViewById(R.id.say_view)
-         );
-         m_speaker = new Speaker(this, Locale.FRANCE);  // FIXME (NLS: FRANCE)
-         new Thread(
-            new Runnable() {
-               public void run() {
-                  final int rc = interpret(
+         new Thread() {
+            public void run() {
+               try {
+                  runInterpretThread(
                      content,
-                     m_console,
-                     "file:///" +
-                     getBaseContext().getFilesDir().getAbsolutePath() + "/",
-                     m_speaker
+                     new URI("file://" + getFilesDir().getAbsolutePath() + "/")
                   );
-                  int resultCode;
-                  m_speaker.close();
-                  m_console.flush();
-                  Intent intentR = new Intent();
-                  intentR.putExtra(RESULT_KEY, m_console.m_result);
-                  if (rc == 0) {
-                     resultCode = RESULTCODE_OK;
-                  }else {
-                     intentR.putExtra(REXX_ERRORCODE_KEY, rc);
-                     if (rc == -1) {
-                        resultCode = RESULTCODE_EXCEPTION_THROWN;
-                     }else {
-                        // rc has the standard Rexx value of the error
-                        resultCode = RESULTCODE_ERROR;
-                     }
-                  }
-                  setResult(resultCode, intentR);
-                  if (rc != 0) finish();
+               }catch (Exception e) {          // hope not!
+                  setResult(RESULT_CANCELED);
+                  finish();
                }
             }
-         ).start();
+         }.start();
       }else {
          setResult(RESULT_CANCELED);
          finish();
       }
+   }
+
+   @Override
+   /*---------------------------------------------------------------onDestroy-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   public void onDestroy() {
+      super.onDestroy();
+      m_speaker.close();
+   }
+   /*------------------------------------------------------runInterpretThread-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private void runInterpretThread(String content, URI baseUri) {
+      RexxConsole console = new RexxConsole(
+         (Activity)Rexx.this,
+         baseUri,
+         (TextView)findViewById(R.id.say_view)
+      );
+      int rc = interpret(
+         content,
+         console,
+         baseUri.toString(),
+         m_speaker
+      );
+      console.flush();
+      int resultCode;
+      Intent intent = new Intent();
+      intent.putExtra(RESULT_KEY, console.m_result);
+      if (rc == 0) {
+         resultCode = RESULTCODE_OK;
+      }else {
+         intent.putExtra(REXX_ERRORCODE_KEY, rc);
+         if (rc == -1) {
+            resultCode = RESULTCODE_EXCEPTION_THROWN;
+         }else { // rc has the standard Rexx value of the error
+            resultCode = RESULTCODE_ERROR;
+         }
+      }
+      setResult(resultCode, intent);
+      if (rc != 0) finish();
    }
 
    /*-----------------------------------------------------------getIntentData-+

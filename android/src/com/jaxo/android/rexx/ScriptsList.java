@@ -54,6 +54,7 @@ public class ScriptsList extends ListActivity
    private static final int IMPORT_ID = Menu.FIRST + 6;
 
    private RexxDatabase m_rexxDb;
+   private Speaker m_speaker;  // just to keep the service alive
 
    @Override
    /*----------------------------------------------------------------onCreate-+
@@ -64,6 +65,7 @@ public class ScriptsList extends ListActivity
       super.onCreate(savedInstanceState);
       overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
       setTitle(R.string.RexxGallery);
+      m_speaker = new Speaker(this, null);
       m_rexxDb = new RexxDatabase(this);
       refreshList();
       registerForContextMenu(getListView());
@@ -76,6 +78,7 @@ public class ScriptsList extends ListActivity
    +-------------------------------------------------------------------------*/
    public void onDestroy() {
       super.onDestroy();
+      m_speaker.close();
       m_rexxDb.close();
    }
 
