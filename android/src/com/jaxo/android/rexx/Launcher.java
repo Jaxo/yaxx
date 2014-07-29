@@ -49,7 +49,7 @@ public class Launcher extends Activity
             }
          }
       };
-      handler.sendMessageDelayed(handler.obtainMessage(STOP_SPLASH), 500);
+      handler.sendMessage(handler.obtainMessage(STOP_SPLASH));
    }
 
 // @Override
