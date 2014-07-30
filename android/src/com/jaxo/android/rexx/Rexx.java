@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -73,8 +72,7 @@ public class Rexx extends Activity
          content = getIntentData(intent);
       }
 
-      // FIXME (NLS: FRANCE)
-      m_speaker = new Speaker(Rexx.this, Locale.FRANCE);
+      m_speaker = new Speaker(Rexx.this);
       if (content != null) {
          new Thread() {
             public void run() {

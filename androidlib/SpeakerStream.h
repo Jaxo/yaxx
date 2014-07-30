@@ -17,11 +17,43 @@
 +---------*/
 #include <jni.h>
 #include <iostream>
+#include "../toolslib/ucstring.h"
 #include "../toolslib/URI.h"
 
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
 #endif
+
+/*-------------------------------------------------------SpeakerSchemeHandler-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+class SpeakerSchemeHandler : public URI::SchemeHandler {
+   friend class SpeakerStream;
+   friend class SpeakerStreamBuf;
+public:
+   SpeakerSchemeHandler(JNIEnv * env, jobject speaker);
+
+private:
+   class Rep : public URI::SchemeHandler::Rep {
+      friend class SpeakerStreamBuf;
+   public:
+      Rep(JNIEnv * env, jobject speaker);
+   private:
+      JNIEnv * m_env;
+      jobject m_speaker;
+      jmethodID m_sayMethod;
+
+      char const * getID() const;
+      iostream * makeStream(URI const & uri, ios__openmode om);
+      void say(UnicodeString what, UnicodeString language);
+   };
+};
+
+/* -- INLINES -- */
+inline SpeakerSchemeHandler::SpeakerSchemeHandler(
+   JNIEnv * env, jobject speaker
+) : SchemeHandler(new Rep(env, speaker)) {
+}
 
 /*-----------------------------------------------------------SpeakerStreamBuf-+
 |                                                                             |
@@ -29,10 +61,9 @@ namespace TOOLS_NAMESPACE {
 class SpeakerStreamBuf : public streambuf {
    friend class SpeakerStream;
 private:
-   SpeakerStreamBuf(JNIEnv * env, jobject & speaker, jmethodID say);
-   JNIEnv * m_env;
-   jobject & m_speaker;
-   jmethodID m_sayMethod;
+   SpeakerStreamBuf(SpeakerSchemeHandler::Rep * rep, UnicodeString locale);
+   SpeakerSchemeHandler::Rep * m_handlerRep;
+   UnicodeString m_locale;
 
    streamsize xsputn(char const *, streamsize);
    int overflow(int);
@@ -45,9 +76,9 @@ private:
 
 /* -- INLINES -- */
 inline SpeakerStreamBuf::SpeakerStreamBuf(
-   JNIEnv * env, jobject & speaker, jmethodID say
+   SpeakerSchemeHandler::Rep * handlerRep, UnicodeString locale
 ) :
-   m_env(env), m_speaker(speaker), m_sayMethod(say)
+   m_handlerRep(handlerRep), m_locale(locale)
 {}
 inline int SpeakerStreamBuf::overflow(int = EOF) { return EOF; }
 inline int SpeakerStreamBuf::underflow()         { return EOF; }
@@ -65,7 +96,7 @@ inline streampos SpeakerStreamBuf::seekpos(streampos, ios::openmode) {
 +----------------------------------------------------------------------------*/
 class SpeakerStream: public iostream {
 public:
-   SpeakerStream(JNIEnv * env, jobject & speaker, jmethodID say);
+   SpeakerStream(SpeakerSchemeHandler::Rep * handlerRep, UnicodeString locale);
 private:
    SpeakerStreamBuf m_buf;
    SpeakerStream & operator=(SpeakerStream const & source); // no!
@@ -74,41 +105,9 @@ private:
 
 /* -- INLINES -- */
 inline SpeakerStream::SpeakerStream(
-   JNIEnv * env, jobject & speaker, jmethodID say
-) : iostream(&m_buf), m_buf(env, speaker, say)
+   SpeakerSchemeHandler::Rep * handlerRep, UnicodeString locale
+) : iostream(&m_buf), m_buf(handlerRep, locale)
 {
-}
-
-/*-------------------------------------------------------SpeakerSchemeHandler-+
-|                                                                             |
-+----------------------------------------------------------------------------*/
-class SpeakerSchemeHandler : public URI::SchemeHandler {
-public:
-   SpeakerSchemeHandler(JNIEnv * env, jobject speaker);
-
-private:
-   class Rep : public URI::SchemeHandler::Rep {
-   public:
-      Rep(JNIEnv * env, jobject speaker);
-   private:
-      JNIEnv * m_env;
-      jobject m_speaker;
-      jmethodID m_sayMethod;
-
-      char const * getID() const;
-      iostream * makeStream(URI const & uri, ios__openmode om);
-   };
-};
-
-/* -- INLINES -- */
-inline SpeakerSchemeHandler::SpeakerSchemeHandler(
-   JNIEnv * env, jobject speaker
-) : SchemeHandler(new Rep(env, speaker)) {
-}
-inline iostream * SpeakerSchemeHandler::Rep::makeStream(
-   URI const &, ios__openmode
-) {
-   return new SpeakerStream(m_env, m_speaker, m_sayMethod);
 }
 
 #ifdef TOOLS_NAMESPACE

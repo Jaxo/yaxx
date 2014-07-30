@@ -65,7 +65,7 @@ public class ScriptsList extends ListActivity
       super.onCreate(savedInstanceState);
       overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
       setTitle(R.string.RexxGallery);
-      m_speaker = new Speaker(this, null);
+      m_speaker = new Speaker(this);
       m_rexxDb = new RexxDatabase(this);
       refreshList();
       registerForContextMenu(getListView());

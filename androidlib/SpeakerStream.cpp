@@ -13,6 +13,8 @@
 /*---------+
 | Includes |
 +---------*/
+#include <string.h>
+#include <alloca.h>
 #include "SpeakerStream.h"
 #include "../toolslib/ucstring.h"
 #include "../toolslib/Encoder.h"
@@ -24,13 +26,10 @@ namespace TOOLS_NAMESPACE {
 /*---------------------------------------------------SpeakerStreamBuf::xsputn-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
-streamsize SpeakerStreamBuf::xsputn(char const * buf, streamsize length)
-{
-   UnicodeString temp(buf, Encoder(EncodingModule::UTF_8), length);
-   m_env->CallVoidMethod(
-      m_speaker,
-      m_sayMethod,
-      m_env->NewString(temp, temp.length())
+streamsize SpeakerStreamBuf::xsputn(char const * buf, streamsize length) {
+   m_handlerRep->say(
+      UnicodeString(buf, Encoder(EncodingModule::UTF_8), length),
+      m_locale
    );
    return length;
 }
@@ -45,13 +44,62 @@ SpeakerSchemeHandler::Rep::Rep(JNIEnv * env, jobject speaker) {
       m_sayMethod = 0;
       m_speaker = 0;
    }else {
-      m_sayMethod = env->GetMethodID(clazz, "say", "(Ljava/lang/String;)V");
+      m_sayMethod = env->GetMethodID(
+         clazz, "say", "(Ljava/lang/String;Ljava/lang/String;)V"
+      );
       if (!m_sayMethod) {
          m_speaker = 0;
       }else {
          m_speaker = speaker;
       }
    }
+}
+
+
+/*--------------------------------------SpeakerSchemeHandler::Rep::makeStream-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+iostream * SpeakerSchemeHandler::Rep::makeStream(
+   URI const & uri, ios__openmode
+) {
+   /*
+   | extract the value of `lang' form the uri:
+   | speaker:lang=fr-FR
+   */
+   char const * path = uri.getPath();
+   char * options;
+   strcpy((options=(char *)alloca(1+strlen(path))), path);
+   char * s;
+   char const * lang = "";
+   int langLen = 0;
+   for (
+      char * option = strtok_r(options, "=", &s), * val=0;
+      option && ((val = strtok_r(0, "&", &s)) != 0);
+      option = strtok_r(0, "=", &s)
+   ) {
+      if (strcmp(option, "lang") == 0) {
+         lang = val;
+         break;
+      }
+   }
+   // create the stream
+   return new SpeakerStream(
+      this,
+      UnicodeString(lang, Encoder(EncodingModule::UTF_8))
+   );
+}
+
+/*---------------------------------------------SpeakerSchemeHandler::Rep::say-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+void SpeakerSchemeHandler::Rep::say(UnicodeString what, UnicodeString how)
+{
+   m_env->CallVoidMethod(
+      m_speaker,
+      m_sayMethod,
+      m_env->NewString(what, what.length()),
+      m_env->NewString(how, how.length())
+   );
 }
 
 /*-------------------------------------------SpeakerSchemeHandler::Rep::getID-+

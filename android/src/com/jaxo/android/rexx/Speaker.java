@@ -11,7 +11,6 @@
 */
 package com.jaxo.android.rexx;
 
-import java.util.Locale;
 import java.util.Vector;
 
 import android.content.Context;
@@ -24,11 +23,11 @@ import android.os.Handler;
 * @author  Pierre G. Richard
 * @version $Id: Speaker.java,v 1.5 2012-03-10 16:40:53 pgr Exp $
 */
-public class Speaker implements Speech.MonitorListener
+class Speaker implements Speech.MonitorListener
 {
    // private static final String TAG = "Speaker";
    private Context m_context;
-   private Vector<String> m_msgQueue;
+   private Vector<String[]> m_msgQueue;
    private ServiceConnection m_speechMonitor;
    private Handler m_speech;
 
@@ -36,9 +35,9 @@ public class Speaker implements Speech.MonitorListener
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   Speaker(Context context, Locale locale) {
+   Speaker(Context context) {
       m_context = context;
-      m_msgQueue = new Vector<String>(10);
+      m_msgQueue = new Vector<String[]>(10);
       Speech.bind(context, this);
    }
 
@@ -47,18 +46,21 @@ public class Speaker implements Speech.MonitorListener
    * The JNI side is deemed to have public access to this method
    *//*
    +-------------------------------------------------------------------------*/
-   public void say(String what)
+   public void say(String what, String how)
    {
-      String copy = new StringBuffer(what).toString(); // deep copy
+      String[] args = {
+         new StringBuffer(what).toString(),  // deep copies
+         new StringBuffer(how).toString()
+      };
       if (m_speech == null) {
          synchronized (m_msgQueue) {
             if (m_speech == null) {
-               m_msgQueue.add(copy);
+               m_msgQueue.add(args);
                return;
             }
          }
       }
-      m_speech.sendMessage(m_speech.obtainMessage(Speech.SPEAK, copy));
+      m_speech.sendMessage(m_speech.obtainMessage(Speech.SPEAK, args));
    }
 
    /*-----------------------------------------------------------------dispose-+
@@ -85,9 +87,9 @@ public class Speaker implements Speech.MonitorListener
          m_speechMonitor = monitor;
          // destack all pending messages
          while (m_msgQueue.size() > 0) {
-            String what = m_msgQueue.get(0);
+            String[] args = m_msgQueue.get(0);
             m_msgQueue.remove(0);
-            m_speech.sendMessage(m_speech.obtainMessage(Speech.SPEAK, what));
+            m_speech.sendMessage(m_speech.obtainMessage(Speech.SPEAK, args));
          }
       }
    }

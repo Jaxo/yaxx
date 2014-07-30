@@ -1,11 +1,11 @@
 /*
-* (C) Copyright 2011-2014 Jaxo Inc.  All rights reserved.
+* (C) Copyright 2014 Jaxo Inc.  All rights reserved.
 * This work contains confidential trade secrets of Jaxo.
 * Use, examination, copying, transfer and disclosure to others
 * are prohibited, except with the express written agreement of Jaxo.
 *
 * Author:  Pierre G. Richard
-* Written: 8/15/2011
+* Written: 7/28/2014
 */
 package com.jaxo.android.rexx;
 
@@ -188,7 +188,14 @@ Runnable
       }
       if (msg.what == SPEAK) {
          if (m_isTtsAvailable) {
-            m_tts.speak(msg.obj.toString(), TextToSpeech.QUEUE_ADD, null);
+            String[] args = (String[])msg.obj;
+            // FIXME: do setLanguage only if args[1] is not the one used (?)
+            if (args[1].length() == 0) {
+               m_tts.setLanguage(Locale.getDefault());
+            }else {
+               m_tts.setLanguage(new Locale(args[1]));
+            }
+            m_tts.speak(args[0], TextToSpeech.QUEUE_ADD, null);
             m_isSomethingSaid = true;
          }
       }else {   // CLOSE
@@ -228,7 +235,6 @@ Runnable
       synchronized (m_lock) {
          m_isInited = true;
          if (status == TextToSpeech.SUCCESS) {
-            m_tts.setLanguage(Locale.getDefault());
             m_isTtsAvailable = true;
          }
          m_lock.notifyAll();  // in case a "say" is waiting...
