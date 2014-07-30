@@ -1,57 +1,9 @@
 #!/bin/csh
 
-# # This script is called by 'make' to set the appropriate flags
-# # required for building a specific version of YAXX.
-# # It may be used independently to display what is currently checked-out.
-# #
-# # Publishing a new release
-# # ^^^^^^^^^^^^^^^^^^^^^^^^
-# #
-# # Releases use the "publish" feature of Github which tags the code:
-# # with a version number "v1.x" and a "title". For YAXX, the title
-# # is a "code name", taken out of the names of Colorado Summits
-# # see http://www.100summits.com/full-summit-list.
-# #
-# # Unfortunately, Github tags are only lightweight, nor signed,
-# # nor annotated. Signatures inforce security, annotations allow to
-# # add important information, as, for instance the code name of a
-# # particular release.  This code name appears in many sections of
-# # our source code, and doing the change manually is tedious while
-# # error prone.
-# #
-# # Hence, after version v1.x has been published on github, fist thing
-# # to do is make it an annotated tag from which the proper code name
-# # is extracted each time the revision is rebuilt.
-#
-# git checkout v1.x
-# git tag -d v1.x
-# setenv GIT_COMMITTER_DATE `git show --format=%aD | head -1`
-# #
-# # Before to start the signing process. Make sure that your gpg matches!
-# check 'gpg --list-key'
-# git tag -s -a v1.x
-# # You'll be presented with a nano editor screen. First line must be
-# # the code name, matching the title that you gave at publish time.
-# # The next lines is whatever you judge to be appropriate.
-# #
-# # Then, replace the tag on github:
-# git push origin :refs/tags/v1.x
-# git push --tags
-# #
-# #
-# # Working on a branch
-# # ^^^^^^^^^^^^^^^^^^^
-# #
-# # On development branches (i.e.: not the master branch) there should
-# # be no tags -- or it must be exceptionnal. Therefore, the "codename"
-# # is indicated in the first line of the branch's annotation, until it
-# # later becomes the release's code name when merged back to master.
-# #
-# # To add an annotation to the branch, do:
-# git branch --edit-description
-# # You'll be presented with a nano editor screen. First line must be
-# # the code name. Note that the branch name might differ, although it
-# # is better to have some intuitive correspondance between both.
+# This script is called by 'make' to set the appropriate flags
+# required for building a specific version of YAXX.
+# It may be used independently to display what is currently checked-out.
+# Please, read "Versionning.md" in the docs.
 
 cd `dirname $0`
 set DESCRIBE = `git describe --long`
