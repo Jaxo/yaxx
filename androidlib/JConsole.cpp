@@ -36,7 +36,7 @@ JConsole::JConsole(JNIEnv * env, jobject console)
    if (clazz) {
       m_putMethod = env->GetMethodID(clazz, "put", "(I)V");
       m_getMethod = env->GetMethodID(clazz, "get", "()I");
-      m_systemMethod = env->GetMethodID(clazz, "system", "([Ljava/lang/String;)I");
+      m_systemMethod = env->GetMethodID(clazz, "system", "(Ljava/lang/String;)I");
       m_resultField = env->GetFieldID(clazz, "m_result", "Ljava/lang/String;");
       if (m_putMethod && m_getMethod && m_systemMethod && m_resultField) {
          m_console = console; // env->NewWeakGlobalRef(console);
@@ -75,7 +75,11 @@ bool JConsole::isValid() {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::system(char const * command) {
-  return m_env->CallIntMethod(m_console, m_systemMethod, buildArgs(command));
+   return m_env->CallIntMethod(
+      m_console,
+      m_systemMethod,
+      m_env->NewStringUTF(command)
+   );
 }
 
 /*--------------------------------------------------------JConsole::underflow-+
@@ -93,67 +97,6 @@ int JConsole::underflow() {
 +----------------------------------------------------------------------------*/
 int JConsole::overflow(int c) {
    m_env->CallVoidMethod(m_console, m_putMethod, c);
-}
-
-/*--------------------------------------------------------JConsole::buildArgs-+
-|                                                                             |
-+----------------------------------------------------------------------------*/
-jobjectArray JConsole::buildArgs(char const * cmdLine)
-{
-   int argsCount = 0;
-   jstring * args = 0;
-   jobjectArray array;
-
-   if (cmdLine) {
-      char * tempBuf;
-      char ch;
-      bool isBkslash = false;
-      char chQuoteStart = 0;
-      int argsLength = 0;
-      while ((*cmdLine) && (*cmdLine <= 0x20)) ++cmdLine;
-      tempBuf = (char *)malloc(1+strlen(cmdLine));
-      do {
-         char * arg = tempBuf;
-         if (argsCount >= argsLength) {
-            argsLength += 8;
-            args = (jstring *)realloc(args, argsLength * sizeof (jstring));
-         }
-         for (
-            char ch = *cmdLine;
-            (ch && ((ch > 0x20) || chQuoteStart || isBkslash));
-            ch = *++cmdLine
-         ) {
-            if (isBkslash) {
-               isBkslash = false;
-               *arg++ = ch;
-            }else if (ch == '\\') {
-               isBkslash = true;
-            }else if (chQuoteStart) {
-               if (ch == chQuoteStart) {
-                  chQuoteStart = 0;
-               }else {
-                  *arg++ = ch;
-               }
-            }else if ((ch == '\'') || (ch == '"')) {
-               chQuoteStart = ch;
-            }else {
-               *arg++ = ch;
-            }
-         }
-         *arg = 0;
-         args[argsCount++] = m_env->NewStringUTF(tempBuf);
-         while ((*cmdLine) && (*cmdLine <= 0x20)) ++cmdLine;
-      }while (*cmdLine);
-      free(tempBuf);
-   }
-   array = m_env->NewObjectArray(
-      argsCount, m_env->FindClass("java/lang/String"), 0
-   );
-   for (int i=0; i < argsCount; ++i) {
-      m_env->SetObjectArrayElement(array, i, args[i]);
-   }
-   free(args);
-   return array;
 }
 
 /*--------------------------------------------------------JConsole::setResult-+

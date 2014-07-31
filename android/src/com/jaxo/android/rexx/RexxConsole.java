@@ -13,8 +13,6 @@ package com.jaxo.android.rexx;
 
 import java.io.InputStream;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -63,94 +61,89 @@ public class RexxConsole implements OnKeyListener
    /*------------------------------------------------------------------system-+
    *//**
    * The JNI side is deemed to have public access to this method
+   *
+   * See if this is a shortcut for am start ...
+   * For now (7/30/14) we only consider x.rexx being passed
+   * to a new instance of the interpreter:
+   * Ex:
+   *   "xyz.rexx a b c"
+   * will go:
+   *   "am start -a android.intent.action.view " +
+   *   "-d file:///sdcard/download/xyz.rexx a b c" +
+   *   "-n com.jaxo.android.rexx/Rexx "
+   *
+   * am command line parameters (burried deeply in the doc, order matters!)
+   * ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   * [-a [ACTION]] [-d [DATA_URI]] [-t [MIME_TYPE]]
+   * [-c [CATEGORY] [-c [CATEGORY]] ...]
+   * [-e|--es [EXTRA_KEY] [EXTRA_STRING_VALUE] ...]
+   * [--esn [EXTRA_KEY] ...]
+   * [--ez [EXTRA_KEY] [EXTRA_BOOLEAN_VALUE] ...]
+   * [--ei [EXTRA_KEY] [EXTRA_INT_VALUE] ...]
+   * [--el [EXTRA_KEY] [EXTRA_LONG_VALUE] ...]
+   * [--eu [EXTRA_KEY] [EXTRA_URI_VALUE] ...]
+   * [--eia [EXTRA_KEY] [EXTRA_INT_VALUE][,[EXTRA_INT_VALUE...]]
+   * [--ela [EXTRA_KEY] [EXTRA_LONG_VALUE][,[EXTRA_LONG_VALUE...]]
+   * [-n [COMPONENT]] [-f [FLAGS]]
+   * [--grant-read-uri-permission] [--grant-write-uri-permission]
+   * [--debug-log-resolution] [--exclude-stopped-packages]
+   * [--include-stopped-packages]
+   * [--activity-brought-to-front] [--activity-clear-top]
+   * [--activity-clear-when-task-reset] [--activity-exclude-from-recents]
+   * [--activity-launched-from-history] [--activity-multiple-task]
+   * [--activity-no-animation] [--activity-no-history]
+   * [--activity-no-user-action] [--activity-previous-is-top]
+   * [--activity-reorder-to-front] [--activity-reset-task-if-needed]
+   * [--activity-single-top] [--activity-clear-task]
+   * [--activity-task-on-home]
+   * [--receiver-registered-only] [--receiver-replace-pending]
+   * [--selector]
    *//*
    +-------------------------------------------------------------------------*/
-   public int system(String[] args)
-   {
-      List<String> argsList = null;
-      Process process = null;
+   public int system(String cmdLine) {
+      Exploder exploder = new Exploder(cmdLine);
       int rc = -1;
       flush();
-      /*
-      | See if this is a shortcut for am start ...
-      | For now (7/30/14) we only consider x.rexx being passed
-      | to a new instance of the interpreter:
-      | Ex:
-      |   "xyz.rexx a b c"
-      | will go:
-      |   "am start -a android.intent.action.view " +
-      |   "-n com.jaxo.android.rexx/Rexx " +
-      |   "-d file:///sdcard/download/xyz.rexx a b c"
-      */
-//  [-a <ACTION>] [-d <DATA_URI>] [-t <MIME_TYPE>]
-//  [-c <CATEGORY> [-c <CATEGORY>] ...]
-//  [-e|--es <EXTRA_KEY> <EXTRA_STRING_VALUE> ...]
-//  [--esn <EXTRA_KEY> ...]
-//  [--ez <EXTRA_KEY> <EXTRA_BOOLEAN_VALUE> ...]
-//  [--ei <EXTRA_KEY> <EXTRA_INT_VALUE> ...]
-//  [--el <EXTRA_KEY> <EXTRA_LONG_VALUE> ...]
-//  [--eu <EXTRA_KEY> <EXTRA_URI_VALUE> ...]
-//  [--eia <EXTRA_KEY> <EXTRA_INT_VALUE>[,<EXTRA_INT_VALUE...]]
-//  [--ela <EXTRA_KEY> <EXTRA_LONG_VALUE>[,<EXTRA_LONG_VALUE...]]
-//  [-n <COMPONENT>] [-f <FLAGS>]
-//  [--grant-read-uri-permission] [--grant-write-uri-permission]
-//  [--debug-log-resolution] [--exclude-stopped-packages]
-//  [--include-stopped-packages]
-//  [--activity-brought-to-front] [--activity-clear-top]
-//  [--activity-clear-when-task-reset] [--activity-exclude-from-recents]
-//  [--activity-launched-from-history] [--activity-multiple-task]
-//  [--activity-no-animation] [--activity-no-history]
-//  [--activity-no-user-action] [--activity-previous-is-top]
-//  [--activity-reorder-to-front] [--activity-reset-task-if-needed]
-//  [--activity-single-top] [--activity-clear-task]
-//  [--activity-task-on-home]
-//  [--receiver-registered-only] [--receiver-replace-pending]
-//  [--selector]
-
-      if ((args.length > 0) && (args[0].endsWith(".rexx"))) {
-         URI script = m_baseUri.resolve(args[0]);
-         if (script.getPath().endsWith(".rexx")) {
-            Vector<String> v = new Vector<String>();
-            v.addElement("am");
-            v.addElement("start");
-            v.addElement("-a");
-            v.addElement("android.intent.action.view");
-            v.addElement("-d");
-            v.addElement(script.toString());
-            if (args.length > 1) {
-               v.addElement("-e");
-               v.addElement(Rexx.SCRIPT_ARGS_KEY);
-               StringBuilder sb = new StringBuilder();
-               sb.append(args[1]);
-               for (int i=2, max=args.length; i < max; ++i) {
-                  sb.append(" ");
-                  sb.append(args[i]);
+      if (exploder.hasNext()) {
+         Vector<String> args = new Vector<String>();
+         String arg =  exploder.next();
+         if (arg.endsWith(".rexx")) {
+            URI script = m_baseUri.resolve(arg);
+            if (script.getPath().endsWith(".rexx")) {
+               args.addElement("am");
+               args.addElement("start");
+               args.addElement("-a");
+               args.addElement("android.intent.action.view");
+               args.addElement("-d");
+               args.addElement(script.toString());
+               if (exploder.hasNext()) {
+                  args.addElement("-e");
+                  args.addElement(Rexx.SCRIPT_ARGS_KEY);
+                  args.addElement(exploder.remainder());
                }
-               v.addElement(sb.toString());
+               args.addElement("-n");
+               args.addElement("com.jaxo.android.rexx/.Rexx");
             }
-            v.addElement("-n");
-            v.addElement("com.jaxo.android.rexx/.Rexx");
-            argsList = v;
+         }else {
+            args.add(arg);
+            while (exploder.hasNext()) args.add(exploder.next());
+         }
+         try {
+            Process process = new ProcessBuilder().
+            command(args).
+            redirectErrorStream(true).
+            start();
+            rc = process.waitFor();
+            InputStream in = process.getInputStream();
+            while ((m_tmpBufPos = in.read(m_tmpBuf)) != -1) {
+               flush();
+            }
+            m_tmpBufPos = 0;
+            // process.destroy(); => No! it throws "NoSuchProcessException"
+         }catch (Exception e) {
+            Log.e("RexxConsole", "system (Process)", e);
          }
       }
-      if (argsList == null) {
-         argsList = Arrays.asList(args);
-      }
-      try {
-         process = new ProcessBuilder().
-         command(argsList).
-         redirectErrorStream(true).
-         start();
-         rc = process.waitFor();
-         InputStream in = process.getInputStream();
-         while (-1 != (m_tmpBufPos = in.read(m_tmpBuf))) {
-            flush();
-         }
-         m_tmpBufPos = 0;
-      }catch (Exception e) {
-         Log.e("RexxConsole", "system (Process)", e);
-      }
-      // if (process != null) process.destroy(); No such process?
       return rc;
    }
 
