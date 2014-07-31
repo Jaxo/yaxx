@@ -39,6 +39,7 @@ public class Rexx extends Activity
       System.loadLibrary("androidlib");
    }
    public static String SCRIPT_CONTENT_KEY = "jaxo.rexx.script";   // String
+   public static String SCRIPT_ARGS_KEY = "jaxo.rexx.args";        // String
    public static String RESULT_KEY = "jaxo.rexx.result";           // String
    public static String REXX_MESSAGE_KEY = "jaxo.rexx.message";    // String
    public static String REXX_ERRORCODE_KEY = "jaxo.rexx.rexxcode"; // int
@@ -59,19 +60,25 @@ public class Rexx extends Activity
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
 
-      final String content;
       Intent intent = getIntent();
-      if (intent.getAction() == null) {  // explicit (from ScriptEditor)
-         Bundle extras = getIntent().getExtras();
-         if ((extras != null) && extras.containsKey(SCRIPT_CONTENT_KEY)) {
-            content = extras.getString(SCRIPT_CONTENT_KEY);
+      final String content;
+      final String args;
+      Bundle extras = intent.getExtras();
+      if (extras == null) {
+         content = getIntentData(intent);             // implicit
+         args = "";
+      }else {
+         if (!extras.containsKey(SCRIPT_CONTENT_KEY)) {
+            content = getIntentData(intent);          // implicit
          }else {
-            content = null;
+            content = extras.getString(SCRIPT_CONTENT_KEY);
          }
-      }else {                            // implicit
-         content = getIntentData(intent);
+         if (extras.containsKey(SCRIPT_ARGS_KEY)) {
+            args = extras.getString(SCRIPT_ARGS_KEY);
+         }else {
+            args = "";
+         }
       }
-
       m_speaker = new Speaker(Rexx.this);
       if (content != null) {
          new Thread() {
@@ -79,6 +86,7 @@ public class Rexx extends Activity
                try {
                   runInterpretThread(
                      content,
+                     args,
                      new URI("file://" + getFilesDir().getAbsolutePath() + "/")
                   );
                }catch (Exception e) {          // hope not!
@@ -106,7 +114,7 @@ public class Rexx extends Activity
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   private void runInterpretThread(String content, URI baseUri) {
+   private void runInterpretThread(String content, String args, URI baseUri) {
       RexxConsole console = new RexxConsole(
          (Activity)Rexx.this,
          baseUri,
@@ -114,6 +122,7 @@ public class Rexx extends Activity
       );
       int rc = interpret(
          content,
+         args,
          console,
          baseUri.toString(),
          m_speaker
@@ -141,7 +150,7 @@ public class Rexx extends Activity
    *//*
    +-------------------------------------------------------------------------*/
    private String getIntentData(Intent intent) {
-      String contents = null;
+      String content = null;
       Uri uri;
       if ((uri=intent.getData()) != null) {
          try {
@@ -159,12 +168,12 @@ public class Rexx extends Activity
             }
             data = new byte[(int)len];
             in.read(data, 0, (int)len);
-            contents = new String(data);
+            content = new String(data);
          }catch (Exception e) {
-            contents = null;
+            content = null;
          }
       }
-      return contents;
+      return content;
    }
 
    /*---------------------------------------------------------------interpret-+
@@ -173,6 +182,7 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    public native int interpret(
       String script,
+      String args,
       RexxConsole console,
       String baseUri,
       Speaker speaker

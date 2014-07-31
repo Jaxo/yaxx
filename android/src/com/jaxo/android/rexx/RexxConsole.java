@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 import android.app.Activity;
 import android.text.Editable;
@@ -66,13 +67,75 @@ public class RexxConsole implements OnKeyListener
    +-------------------------------------------------------------------------*/
    public int system(String[] args)
    {
-      List<String> argsList = Arrays.asList(args);
+      List<String> argsList = null;
       Process process = null;
       int rc = -1;
       flush();
       /*
-      |
+      | See if this is a shortcut for am start ...
+      | For now (7/30/14) we only consider x.rexx being passed
+      | to a new instance of the interpreter:
+      | Ex:
+      |   "xyz.rexx a b c"
+      | will go:
+      |   "am start -a android.intent.action.view " +
+      |   "-n com.jaxo.android.rexx/Rexx " +
+      |   "-d file:///sdcard/download/xyz.rexx a b c"
       */
+//  [-a <ACTION>] [-d <DATA_URI>] [-t <MIME_TYPE>]
+//  [-c <CATEGORY> [-c <CATEGORY>] ...]
+//  [-e|--es <EXTRA_KEY> <EXTRA_STRING_VALUE> ...]
+//  [--esn <EXTRA_KEY> ...]
+//  [--ez <EXTRA_KEY> <EXTRA_BOOLEAN_VALUE> ...]
+//  [--ei <EXTRA_KEY> <EXTRA_INT_VALUE> ...]
+//  [--el <EXTRA_KEY> <EXTRA_LONG_VALUE> ...]
+//  [--eu <EXTRA_KEY> <EXTRA_URI_VALUE> ...]
+//  [--eia <EXTRA_KEY> <EXTRA_INT_VALUE>[,<EXTRA_INT_VALUE...]]
+//  [--ela <EXTRA_KEY> <EXTRA_LONG_VALUE>[,<EXTRA_LONG_VALUE...]]
+//  [-n <COMPONENT>] [-f <FLAGS>]
+//  [--grant-read-uri-permission] [--grant-write-uri-permission]
+//  [--debug-log-resolution] [--exclude-stopped-packages]
+//  [--include-stopped-packages]
+//  [--activity-brought-to-front] [--activity-clear-top]
+//  [--activity-clear-when-task-reset] [--activity-exclude-from-recents]
+//  [--activity-launched-from-history] [--activity-multiple-task]
+//  [--activity-no-animation] [--activity-no-history]
+//  [--activity-no-user-action] [--activity-previous-is-top]
+//  [--activity-reorder-to-front] [--activity-reset-task-if-needed]
+//  [--activity-single-top] [--activity-clear-task]
+//  [--activity-task-on-home]
+//  [--receiver-registered-only] [--receiver-replace-pending]
+//  [--selector]
+
+      if ((args.length > 0) && (args[0].endsWith(".rexx"))) {
+         URI script = m_baseUri.resolve(args[0]);
+         if (script.getPath().endsWith(".rexx")) {
+            Vector<String> v = new Vector<String>();
+            v.addElement("am");
+            v.addElement("start");
+            v.addElement("-a");
+            v.addElement("android.intent.action.view");
+            v.addElement("-d");
+            v.addElement(script.toString());
+            if (args.length > 1) {
+               v.addElement("-e");
+               v.addElement(Rexx.SCRIPT_ARGS_KEY);
+               StringBuilder sb = new StringBuilder();
+               sb.append(args[1]);
+               for (int i=2, max=args.length; i < max; ++i) {
+                  sb.append(" ");
+                  sb.append(args[i]);
+               }
+               v.addElement(sb.toString());
+            }
+            v.addElement("-n");
+            v.addElement("com.jaxo.android.rexx/.Rexx");
+            argsList = v;
+         }
+      }
+      if (argsList == null) {
+         argsList = Arrays.asList(args);
+      }
       try {
          process = new ProcessBuilder().
          command(argsList).
@@ -87,7 +150,7 @@ public class RexxConsole implements OnKeyListener
       }catch (Exception e) {
          Log.e("RexxConsole", "system (Process)", e);
       }
-      if (process != null) process.destroy();
+      // if (process != null) process.destroy(); No such process?
       return rc;
    }
 

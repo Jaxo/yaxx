@@ -48,6 +48,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    JNIEnv * env,
    jobject thiz,
    jstring script,
+   jstring args,
    jobject console,
    jstring baseUri,
    jobject speaker
@@ -75,6 +76,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    YAXX_NAMESPACE::Rexx rexx;
 
    char const * pScript = env->GetStringUTFChars(script, 0);
+   char const * pArgs = env->GetStringUTFChars(args, 0);
    // >>>PGR (spent 2 hours on this)
    // Coming from Java, it's not obvious having to write all these args
    // just for a naive MemStream taking its contents from a stream...
@@ -88,7 +90,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       RexxString rexxResult;
       LOGI("About to interpret...");
       // rexx.interpret(script, "Rexx arguments go here", rexxResult);
-      rc = rexx.interpret(script, "", rexxResult); // 0 is everything is OK
+      rc = rexx.interpret(script, pArgs, rexxResult); // 0 is everything is OK
       char const * result = (char const *)rexxResult;
       jconsole.setResult(rexxResult);
       delete[] result;
@@ -96,9 +98,11 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       rc = -1;
    }
    env->ReleaseStringUTFChars(script, pScript);
+   env->ReleaseStringUTFChars(args, pArgs);
    env->ReleaseStringUTFChars(baseUri, pBaseUri);
    LOGI("Done interpreting. RC is %d", rc);
    return rc;
 }
+
 }
 /*===========================================================================*/
