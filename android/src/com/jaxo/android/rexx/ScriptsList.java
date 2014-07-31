@@ -14,7 +14,7 @@ package com.jaxo.android.rexx;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 
 import android.app.ListActivity;
@@ -218,7 +218,10 @@ public class ScriptsList extends ListActivity
                      )
                   ) {
                      ((TextView)view).setText(
-                        new SimpleDateFormat("yyyy/MM/dd HH:mm").format(
+                        DateFormat.getDateTimeInstance(
+                           DateFormat.SHORT, DateFormat.SHORT
+                        ).format(
+//                      new SimpleDateFormat("yyyy/MM/dd HH:mm").format(
                            new Date(cursor.getLong(columnIndex))
                         )
                      );
