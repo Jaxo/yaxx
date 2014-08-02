@@ -12,6 +12,8 @@
 
 #include "JConsole.h"
 #include "../toolslib/SystemContext.h"
+#include <android/log.h>
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
 
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
@@ -55,6 +57,7 @@ JConsole::JConsole(JNIEnv * env, jobject console)
 |                                                                             |
 +----------------------------------------------------------------------------*/
 JConsole::~JConsole() {
+   LOGI("JConsole DESTROYED");
    if (m_console) {
       // m_env->DeleteWeakGlobalRef(m_console);
       SystemContext::cin().rdbuf(m_previousInStreambuf);
@@ -75,11 +78,19 @@ bool JConsole::isValid() {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::system(char const * command) {
-   return m_env->CallIntMethod(
+   LOGI("System EXEC: \"%s\"\n", command);
+   int rc = m_env->CallIntMethod(
       m_console,
       m_systemMethod,
       m_env->NewStringUTF(command)
    );
+   LOGI("System RC=%d: \"%s\"\n", rc, command);
+   return rc;
+// return m_env->CallIntMethod(
+//    m_console,
+//    m_systemMethod,
+//    m_env->NewStringUTF(command)
+// );
 }
 
 /*--------------------------------------------------------JConsole::underflow-+

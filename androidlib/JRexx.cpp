@@ -68,10 +68,19 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       StdFileSchemeHandler(),
       SpeakerSchemeHandler(env, speaker)
    );
-   JConsole jconsole(env, console);
-   g_jconsole = &jconsole;
-   if (!jconsole.isValid()) {
-      LOGI("The console is a bit rotten");
+   if (g_jconsole != 0) {
+      LOGI(">>>>>>>>>>>>>> g_jconsole was initialized!!!!!!!!!!");
+   } /* else */
+   {
+//    JConsole jconsole(env, console);
+//    if (!jconsole.isValid()) {
+//       LOGI("The console is a bit rotten");
+//    }
+      g_jconsole = new JConsole(env, console);
+      // FIXME a nasty leak is here
+      if (!g_jconsole->isValid()) {
+         LOGI("The console is a bit rotten");
+      }
    }
    YAXX_NAMESPACE::Rexx rexx;
 
@@ -92,7 +101,8 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       // rexx.interpret(script, "Rexx arguments go here", rexxResult);
       rc = rexx.interpret(script, pArgs, rexxResult); // 0 is everything is OK
       char const * result = (char const *)rexxResult;
-      jconsole.setResult(rexxResult);
+//    jconsole.setResult(rexxResult);
+      g_jconsole->setResult(rexxResult);
       delete[] result;
    }catch (...) {
       rc = -1;

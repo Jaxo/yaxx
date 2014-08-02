@@ -123,6 +123,7 @@ public class RexxConsole implements OnKeyListener
                }
                args.addElement("-n");
                args.addElement("com.jaxo.android.rexx/.Rexx");
+               args.addElement("--activity-single-top");
             }
          }else {
             args.add(arg);
