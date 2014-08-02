@@ -25,9 +25,6 @@ class TOOLS_API SystemContext {
 public:
 
    SystemContext(
-      #ifdef ANDROID
-      int (*systemFunction)(char const *),
-      #endif
       char const * baseUri = 0,            // generally: "file://"
       URI::SchemeHandler sh0 = URI::SchemeHandler::Nil,
       URI::SchemeHandler sh1 = URI::SchemeHandler::Nil,
@@ -48,9 +45,7 @@ public:
    static iostream & cin();
    static iostream & cout();
    static iostream & cerr();
-   #ifdef ANDROID
    static int system(char const * command);
-   #endif
 
 private:
    static URI m_baseUri;
@@ -59,10 +54,6 @@ private:
    static iostream * m_pCerr;
    static void validateConsoles();
    static void invalidateConsoles();
-
-   #ifdef ANDROID
-   static int (* delegatedSystemFunction)(char const * command);
-   #endif
 };
 
 /* -- INLINES -- */

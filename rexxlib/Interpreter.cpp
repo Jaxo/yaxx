@@ -19,8 +19,10 @@
 
 #include <string.h>
 #include <assert.h>
+#ifdef ANDROID
 #include <android/log.h>
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
+#endif
 
 #include "../toolslib/SystemContext.h"
 #include "../reslib/DayMonth.h"
@@ -43,10 +45,6 @@ namespace YAXX_NAMESPACE {
 #ifndef S_IREAD
 #define S_IREAD 0
 #define S_IWRITE 1
-#endif
-
-#ifdef ANDROID
-#define system SystemContext::system
 #endif
 
 #define XSTR(s) STR(s)
@@ -283,10 +281,10 @@ RexxString Interpreter::mainLoop()
    OpCode op;
 
    for (;;) {
-      op = m_cb.readOpCode();
+//    op = m_cb.readOpCode();
 //    LOGI("Interpret OP: %s", debugClauses(op));
-      switch (op) {
-//    switch (op = m_cb.readOpCode()) {
+//    switch (op) {
+      switch (op = m_cb.readOpCode()) {
 
       case I_CLAUSE:                // beginning of a clause
          m_builtIn.onNewClause();
@@ -1549,7 +1547,7 @@ int Interpreter::execCommand(
    }
 
    /* --- Execute the command --- */
-   rc = system(cmd);
+   rc = SystemContext::system(cmd);
 
    /* --- restore input --- */
    if (qmodeIn != DataQueueMgr::NONE) {

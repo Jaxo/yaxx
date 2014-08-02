@@ -17,17 +17,11 @@ URI SystemContext::m_baseUri;
 iostream * SystemContext::m_pCin = 0;
 iostream * SystemContext::m_pCout = 0;
 iostream * SystemContext::m_pCerr= 0;
-#ifdef ANDROID
-int (*SystemContext::delegatedSystemFunction)(char const *);
-#endif
 
 /*-----------------------------------------------SystemContext::SystemContext-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
 SystemContext::SystemContext(
-   #ifdef ANDROID
-   int (*systemFunction)(char const *),
-   #endif
    char const * baseUri,
    URI::SchemeHandler sh0,
    URI::SchemeHandler sh1,
@@ -40,10 +34,6 @@ SystemContext::SystemContext(
    URI::SchemeHandler sh8,
    URI::SchemeHandler sh9
 ) {
-   #ifdef ANDROID
-   delegatedSystemFunction = systemFunction;
-   #endif
-   RegisteredURI::registerScheme(ConsoleSchemeHandler());
    if (sh0.isPresent()) RegisteredURI::registerScheme(sh0);
    if (sh1.isPresent()) RegisteredURI::registerScheme(sh1);
    if (sh2.isPresent()) RegisteredURI::registerScheme(sh2);
@@ -54,6 +44,12 @@ SystemContext::SystemContext(
    if (sh7.isPresent()) RegisteredURI::registerScheme(sh7);
    if (sh8.isPresent()) RegisteredURI::registerScheme(sh8);
    if (sh9.isPresent()) RegisteredURI::registerScheme(sh9);
+   if (RegisteredURI::getSchemeHandler(
+          ConsoleSchemeHandler::scheme
+      ) == URI::SchemeHandler::Nil
+   ) {                                   // ConsoleHandler is required
+      RegisteredURI::registerScheme(ConsoleSchemeHandler());
+   }
    if (baseUri && strlen(baseUri)) m_baseUri = RegisteredURI(baseUri);
 }
 
@@ -67,12 +63,12 @@ SystemContext::~SystemContext() {
 /*------------------------------------------------------SystemContext::system-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
-#ifdef ANDROID
 int SystemContext::system(char const * command) {
-   return delegatedSystemFunction(command);
+   URI::SchemeHandler h = RegisteredURI::getSchemeHandler(
+      ConsoleSchemeHandler::scheme
+   );
+   ((ConsoleSchemeHandler *)&h)->system(command);
 }
-#endif
-
 
 /*------------------------------------------SystemContext::invalidateConsoles-+
 |                                                                             |

@@ -392,13 +392,8 @@ URI::URI(URI const & source) {
       source.m_handler->toStream(source.m_data, temp);
       temp << '\0';
       char const * spec = temp.str();
-      char const * a1 = spec;
-      URI a2 = URI::Nil;
       DefaultSchemeHandlerFactory factory(source.m_handler);
       new(this) URI(spec, URI::Nil, factory);
-//    new(this) URI(
-//       spec, URI::Nil, DefaultSchemeHandlerFactory(source.m_handler)
-//    );
       temp.rdbuf()->freeze(0);
    }else {
       new(this) URI;

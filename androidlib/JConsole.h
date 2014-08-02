@@ -21,6 +21,7 @@
 
 #include "../toolslib/toolsgendef.h"
 #include "../toolslib/migstream.h"
+#include "../toolslib/ConsoleSchemeHandler.h"
 
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
@@ -57,6 +58,40 @@ private:
    streambuf * m_previousOutStreambuf;
    streambuf * m_previousErrStreambuf;
 };
+
+class K_SchemeHandler : public ConsoleSchemeHandler {
+public:
+   class Rep : public ConsoleSchemeHandler::Rep {
+   public:
+      Rep(JNIEnv * env, jobject console);
+      virtual int system(char const * command);
+      void setResult(char const * result);
+   private:
+      JConsole m_console;
+   };
+   K_SchemeHandler(JNIEnv * env, jobject console);
+   void setResult(char const * result);
+};
+
+/* -- INLINES -- */
+inline K_SchemeHandler::K_SchemeHandler(JNIEnv * env, jobject console) :
+   ConsoleSchemeHandler(new K_SchemeHandler::Rep(env, console)) {
+}
+inline void K_SchemeHandler::setResult(char const * result) {
+   ((Rep *)inqData())->setResult(result);
+}
+inline void K_SchemeHandler::Rep::setResult(char const * result) {
+   m_console.setResult(result);
+}
+inline int K_SchemeHandler::Rep::system(char const * command) {
+   return m_console.system(command);
+}
+inline K_SchemeHandler::Rep::Rep(JNIEnv * env, jobject console) :
+m_console(env, console) {
+   if (!m_console.isValid()) {
+//    LOGI("The console is a bit rotten");
+   }
+}
 
 #ifdef TOOLS_NAMESPACE
 }

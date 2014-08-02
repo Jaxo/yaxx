@@ -26,20 +26,7 @@
 #define TOOLS_NAMESPACE
 #endif
 
-static JConsole * g_jconsole = 0;
-
 extern "C" {
-
-/*-------------------------------------------------------------android_system-+
-| Delegates the system() method to the JConsole                               |
-+----------------------------------------------------------------------------*/
-static int android_system(char const * command) {
-   if (g_jconsole) {
-      return g_jconsole->system(command);
-   }else {
-      return -1;
-   }
-}
 
 /*----------------------------------Java_com_jaxo_android_rexx_Rexx_interpret-+
 |                                                                             |
@@ -62,26 +49,14 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    | see yaxx/yaxx/main.cpp and yaxx/mwerks/irexx2 for examples
    */
    char const * pBaseUri = env->GetStringUTFChars(baseUri, 0);
+   K_SchemeHandler droidConsole(env, console);
    SystemContext context(
-      android_system,
       pBaseUri,
       StdFileSchemeHandler(),
+      droidConsole, // K_SchemeHandler(env, console),
       SpeakerSchemeHandler(env, speaker)
    );
-   if (g_jconsole != 0) {
-      LOGI(">>>>>>>>>>>>>> g_jconsole was initialized!!!!!!!!!!");
-   } /* else */
-   {
-//    JConsole jconsole(env, console);
-//    if (!jconsole.isValid()) {
-//       LOGI("The console is a bit rotten");
-//    }
-      g_jconsole = new JConsole(env, console);
-      // FIXME a nasty leak is here
-      if (!g_jconsole->isValid()) {
-         LOGI("The console is a bit rotten");
-      }
-   }
+   SystemContext::system("JRexx.cpp l59");
    YAXX_NAMESPACE::Rexx rexx;
 
    char const * pScript = env->GetStringUTFChars(script, 0);
@@ -101,8 +76,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
       // rexx.interpret(script, "Rexx arguments go here", rexxResult);
       rc = rexx.interpret(script, pArgs, rexxResult); // 0 is everything is OK
       char const * result = (char const *)rexxResult;
-//    jconsole.setResult(rexxResult);
-      g_jconsole->setResult(rexxResult);
+      droidConsole.setResult(rexxResult);
       delete[] result;
    }catch (...) {
       rc = -1;

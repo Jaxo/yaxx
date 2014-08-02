@@ -11,7 +11,6 @@
 */
 
 #include "JConsole.h"
-#include "../toolslib/SystemContext.h"
 #include <android/log.h>
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
 
@@ -42,12 +41,12 @@ JConsole::JConsole(JNIEnv * env, jobject console)
       m_resultField = env->GetFieldID(clazz, "m_result", "Ljava/lang/String;");
       if (m_putMethod && m_getMethod && m_systemMethod && m_resultField) {
          m_console = console; // env->NewWeakGlobalRef(console);
-         m_previousInStreambuf = SystemContext::cin().rdbuf();
-         m_previousOutStreambuf = SystemContext::cout().rdbuf();
-         m_previousErrStreambuf = SystemContext::cerr().rdbuf();
-         SystemContext::cin().rdbuf(this);
-         SystemContext::cout().rdbuf(this);
-         SystemContext::cerr().rdbuf(this);
+         m_previousInStreambuf = std::cin.rdbuf();
+         m_previousOutStreambuf = std::cout.rdbuf();
+         m_previousErrStreambuf = std::cerr.rdbuf();
+         std::cin.rdbuf(this);
+         std::cout.rdbuf(this);
+         std::cout.rdbuf(this);
       }
       // env->DeleteLocalRef(clazz);
    }
@@ -59,10 +58,10 @@ JConsole::JConsole(JNIEnv * env, jobject console)
 JConsole::~JConsole() {
    LOGI("JConsole DESTROYED");
    if (m_console) {
+      std::cin.rdbuf(m_previousInStreambuf);
+      std::cout.rdbuf(m_previousOutStreambuf);
+      std::cerr.rdbuf(m_previousErrStreambuf);
       // m_env->DeleteWeakGlobalRef(m_console);
-      SystemContext::cin().rdbuf(m_previousInStreambuf);
-      SystemContext::cout().rdbuf(m_previousOutStreambuf);
-      SystemContext::cerr().rdbuf(m_previousErrStreambuf);
       m_console = 0;
    }
 }

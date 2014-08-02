@@ -8,6 +8,7 @@
 /*---------+
 | Includes |
 +---------*/
+#include <stdlib.h>
 #include "URI.h"
 #include "MemStream.h"
 
@@ -26,13 +27,16 @@ public:
    static char const * cerrUri;
 
    ConsoleSchemeHandler();
+   int system(char const * command);
 
 protected:
    class Rep : public URI::SchemeHandler::Rep {
+   friend class ConsoleSchemeHandler;
    protected:
       virtual istream & getCin();
       virtual ostream & getCout();
       virtual ostream & getCerr();
+      virtual int system(char const * command);
    private:
       char const * getID() const;
       void onNew(URI::Data & uri);
@@ -50,6 +54,13 @@ protected:
 inline ConsoleSchemeHandler::ConsoleSchemeHandler(RefdItemRep * pRep) :
    URI::SchemeHandler(pRep)
 {}
+
+inline int ConsoleSchemeHandler::Rep::system(char const * command) {
+   return ::system(command);
+}
+inline int ConsoleSchemeHandler::system(char const * command) {
+   return ((ConsoleSchemeHandler::Rep *)inqData())->system(command);
+}
 
 #if defined __MWERKS__
 inline istream & ConsoleSchemeHandler::Rep::getCin()  { return  nilDevice; }
