@@ -28,6 +28,47 @@
 
 extern "C" {
 
+JNIEnv * g_jniEnv = 0;
+
+/*---------------------------------Java_com_jaxo_android_rexx_Rexx_initialize-+
+| A SystemContext (kind of singleton) is required for cin, cout, etc)         |
+| That should be done at the very first place.                                |
+| Extra SchemeHandler's can be added                                          |
+| see yaxx/yaxx/main.cpp and yaxx/mwerks/irexx2 for examples                  |
++----------------------------------------------------------------------------*/
+jint Java_com_jaxo_android_rexx_Rexx_initialize(
+   JNIEnv * env,
+   jobject thiz,
+   jobject console,
+   jstring baseUri,
+   jobject speaker
+) {
+   LOGI("JRexx: SystemContext constructor");
+   char const * pBaseUri = env->GetStringUTFChars(baseUri, 0);
+   env->SetLongField(
+      thiz,
+      env->GetFieldID(env->GetObjectClass(thiz), "context", "J"),
+      (jlong)new SystemContext (
+         pBaseUri,
+         StdFileSchemeHandler(),
+         K_SchemeHandler(env, console),
+         SpeakerSchemeHandler(env, speaker)
+      )
+   );
+   env->ReleaseStringUTFChars(baseUri, pBaseUri);
+}
+
+/*-----------------------------------Java_com_jaxo_android_rexx_Rexx_finalize-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+jint Java_com_jaxo_android_rexx_Rexx_finalize(JNIEnv * env, jobject thiz) {
+   LOGI("JRexx: SystemContext destructor");
+   delete (SystemContext *)env->GetLongField(
+      thiz,
+      env->GetFieldID(env->GetObjectClass(thiz), "context", "J")
+   );
+}
+
 /*----------------------------------Java_com_jaxo_android_rexx_Rexx_interpret-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
@@ -35,28 +76,11 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    JNIEnv * env,
    jobject thiz,
    jstring script,
-   jstring args,
-   jobject console,
-   jstring baseUri,
-   jobject speaker
+   jstring args
 ) {
-   LOGI("Starting interpret");
-
-   /*
-   | A SystemContext (kind of singleton) is required for cin, cout, etc)
-   | That should be done at the very first place.
-   | Extra SchemeHandler's can be added
-   | see yaxx/yaxx/main.cpp and yaxx/mwerks/irexx2 for examples
-   */
-   char const * pBaseUri = env->GetStringUTFChars(baseUri, 0);
-   K_SchemeHandler droidConsole(env, console);
-   SystemContext context(
-      pBaseUri,
-      StdFileSchemeHandler(),
-      droidConsole, // K_SchemeHandler(env, console),
-      SpeakerSchemeHandler(env, speaker)
-   );
-   SystemContext::system("JRexx.cpp l59");
+   LOGI("JRexx: starting interpret");
+   JNIEnv * oldJniEnv = g_jniEnv;
+   g_jniEnv = env;
    YAXX_NAMESPACE::Rexx rexx;
 
    char const * pScript = env->GetStringUTFChars(script, 0);
@@ -70,21 +94,20 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    );
    int rc;
    try {
-      Rexx::Script script(scriptStream, "current script");
+      Rexx::Script script(scriptStream, "current script"); // FIXME
       RexxString rexxResult;
-      LOGI("About to interpret...");
-      // rexx.interpret(script, "Rexx arguments go here", rexxResult);
       rc = rexx.interpret(script, pArgs, rexxResult); // 0 is everything is OK
-      char const * result = (char const *)rexxResult;
-      droidConsole.setResult(rexxResult);
-      delete[] result;
+      URI::SchemeHandler h = RegisteredURI::getSchemeHandler(
+         ConsoleSchemeHandler::scheme
+      );
+      ((K_SchemeHandler *)&h)->setResult((char const *)rexxResult);
    }catch (...) {
       rc = -1;
    }
    env->ReleaseStringUTFChars(script, pScript);
    env->ReleaseStringUTFChars(args, pArgs);
-   env->ReleaseStringUTFChars(baseUri, pBaseUri);
    LOGI("Done interpreting. RC is %d", rc);
+   g_jniEnv = oldJniEnv;
    return rc;
 }
 

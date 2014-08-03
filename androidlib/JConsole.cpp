@@ -14,6 +14,8 @@
 #include <android/log.h>
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
 
+extern JNIEnv * g_jniEnv;
+
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
 #endif
@@ -23,7 +25,7 @@ namespace TOOLS_NAMESPACE {
 +----------------------------------------------------------------------------*/
 JConsole::JConsole(JNIEnv * env, jobject console)
 {
-   m_env = env;
+   LOGI("JConsole:%08x constructor - env:%08x, console:%08x", (int)this, (int)env, (int)console);
    m_console = 0;
    /*
    | Hear this!  MacroMerde got a new pal in Shitland.
@@ -40,7 +42,9 @@ JConsole::JConsole(JNIEnv * env, jobject console)
       m_systemMethod = env->GetMethodID(clazz, "system", "(Ljava/lang/String;)I");
       m_resultField = env->GetFieldID(clazz, "m_result", "Ljava/lang/String;");
       if (m_putMethod && m_getMethod && m_systemMethod && m_resultField) {
-         m_console = console; // env->NewWeakGlobalRef(console);
+//       m_console = console;
+//       m_console = env->NewWeakGlobalRef(console);
+         m_console = env->NewGlobalRef(console);
          m_previousInStreambuf = std::cin.rdbuf();
          m_previousOutStreambuf = std::cout.rdbuf();
          m_previousErrStreambuf = std::cerr.rdbuf();
@@ -48,7 +52,6 @@ JConsole::JConsole(JNIEnv * env, jobject console)
          std::cout.rdbuf(this);
          std::cout.rdbuf(this);
       }
-      // env->DeleteLocalRef(clazz);
    }
 }
 
@@ -56,12 +59,13 @@ JConsole::JConsole(JNIEnv * env, jobject console)
 |                                                                             |
 +----------------------------------------------------------------------------*/
 JConsole::~JConsole() {
-   LOGI("JConsole DESTROYED");
+   LOGI("JConsole:%08x destructor - console:%08x", (int)this, (int)m_console);
    if (m_console) {
       std::cin.rdbuf(m_previousInStreambuf);
       std::cout.rdbuf(m_previousOutStreambuf);
       std::cerr.rdbuf(m_previousErrStreambuf);
-      // m_env->DeleteWeakGlobalRef(m_console);
+//    g_jniEnv->DeleteWeakGlobalRef(m_console);
+      g_jniEnv->DeleteGlobalRef(m_console);
       m_console = 0;
    }
 }
@@ -77,18 +81,18 @@ bool JConsole::isValid() {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::system(char const * command) {
-   LOGI("System EXEC: \"%s\"\n", command);
-   int rc = m_env->CallIntMethod(
+   LOGI("JConsole:%08x system EXEC: \"%s\"\n", (int)this, command);
+   int rc = g_jniEnv->CallIntMethod(
       m_console,
       m_systemMethod,
-      m_env->NewStringUTF(command)
+      g_jniEnv->NewStringUTF(command)
    );
-   LOGI("System RC=%d: \"%s\"\n", rc, command);
+   LOGI("JConsole:%08x system RC=%d: \"%s\"\n", (int)this, rc, command);
    return rc;
-// return m_env->CallIntMethod(
+// return g_jniEnv->CallIntMethod(
 //    m_console,
 //    m_systemMethod,
-//    m_env->NewStringUTF(command)
+//    g_jniEnv->NewStringUTF(command)
 // );
 }
 
@@ -96,7 +100,7 @@ int JConsole::system(char const * command) {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::underflow() {
-   int c = m_env->CallIntMethod(m_console, m_getMethod);
+   int c = g_jniEnv->CallIntMethod(m_console, m_getMethod);
    *_M_buf = c;
    _M_in_cur = _M_buf;
    return c;
@@ -106,7 +110,7 @@ int JConsole::underflow() {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::overflow(int c) {
-   m_env->CallVoidMethod(m_console, m_putMethod, c);
+   g_jniEnv->CallVoidMethod(m_console, m_putMethod, c);
 }
 
 /*--------------------------------------------------------JConsole::setResult-+
@@ -114,10 +118,10 @@ int JConsole::overflow(int c) {
 +----------------------------------------------------------------------------*/
 void JConsole::setResult(char const * result) {
    if (result) {
-      m_env->SetObjectField(
+      g_jniEnv->SetObjectField(
          m_console,
          m_resultField,
-         m_env->NewStringUTF(result)
+         g_jniEnv->NewStringUTF(result)
       );
    }
 }

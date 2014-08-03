@@ -19,6 +19,8 @@
 #include "../toolslib/ucstring.h"
 #include "../toolslib/Encoder.h"
 
+extern JNIEnv * g_jniEnv;
+
 #ifdef TOOLS_NAMESPACE
 namespace TOOLS_NAMESPACE {
 #endif
@@ -38,7 +40,6 @@ streamsize SpeakerStreamBuf::xsputn(char const * buf, streamsize length) {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 SpeakerSchemeHandler::Rep::Rep(JNIEnv * env, jobject speaker) {
-   m_env = env;
    jclass clazz = env->GetObjectClass(speaker);
    if (!clazz) {
       m_sayMethod = 0;
@@ -50,11 +51,18 @@ SpeakerSchemeHandler::Rep::Rep(JNIEnv * env, jobject speaker) {
       if (!m_sayMethod) {
          m_speaker = 0;
       }else {
-         m_speaker = speaker;
+//       m_speaker = speaker;
+         m_speaker = env->NewGlobalRef(speaker);
       }
    }
 }
 
+/*--------------------------------------------SpeakerSchemeHandler::Rep::~Rep-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+SpeakerSchemeHandler::Rep::~Rep() {
+   g_jniEnv->DeleteGlobalRef(m_speaker);
+}
 
 /*--------------------------------------SpeakerSchemeHandler::Rep::makeStream-+
 |                                                                             |
@@ -94,11 +102,11 @@ iostream * SpeakerSchemeHandler::Rep::makeStream(
 +----------------------------------------------------------------------------*/
 void SpeakerSchemeHandler::Rep::say(UnicodeString what, UnicodeString how)
 {
-   m_env->CallVoidMethod(
+   g_jniEnv->CallVoidMethod(
       m_speaker,
       m_sayMethod,
-      m_env->NewString(what, what.length()),
-      m_env->NewString(how, how.length())
+      g_jniEnv->NewString(what, what.length()),
+      g_jniEnv->NewString(how, how.length())
    );
 }
 

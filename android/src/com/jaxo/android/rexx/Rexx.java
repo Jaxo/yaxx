@@ -1,7 +1,5 @@
 /*
-* $Id: Rexx.java,v 1.15 2011-10-28 08:06:16 pgr Exp $
-*
-* (C) Copyright 2011 Jaxo Inc.  All rights reserved.
+* (C) Copyright 2011-2014 Jaxo Inc.  All rights reserved.
 * This work contains confidential trade secrets of Jaxo.
 * Use, examination, copying, transfer and disclosure to others
 * are prohibited, except with the express written agreement of Jaxo.
@@ -26,9 +24,7 @@ import android.util.Log;
 
 /*-- class Rexx --+
 *//**
-*
 * @author  Pierre G. Richard
-* @version $Id: Rexx.java,v 1.15 2011-10-28 08:06:16 pgr Exp $
 */
 public class Rexx extends Activity
 {
@@ -48,7 +44,6 @@ public class Rexx extends Activity
    public static int RESULTCODE_ERROR = RESULT_FIRST_USER + 1;
    public static int RESULTCODE_EXCEPTION_THROWN = RESULT_FIRST_USER + 2;
 
-   private URI m_baseUri;
    private Speaker m_speaker;
    private RexxConsole m_console;
 
@@ -65,13 +60,12 @@ public class Rexx extends Activity
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
       try {
-         m_baseUri = new URI("file://" + getFilesDir().getAbsolutePath() + "/");
+         URI base = new URI("file://" + getFilesDir().getAbsolutePath() + "/");
          m_speaker = new Speaker(Rexx.this);
          m_console = new RexxConsole(
-            (Activity)Rexx.this,
-            m_baseUri,
-            (TextView)findViewById(R.id.say_view)
+            (Activity)Rexx.this, base, (TextView)findViewById(R.id.say_view)
          );
+         initialize(m_console, base.toString(), m_speaker);
          new InterpreterThread(getIntent()).start();
       }catch (Exception e) {
          setResult(RESULT_CANCELED);
@@ -101,6 +95,7 @@ public class Rexx extends Activity
       Log.i("REXX", "onDestroy");
       m_console.flush();
       m_speaker.close();
+      finalize();
    }
 
    /*----------------------------------------------- class InterpreterThread -+
@@ -139,13 +134,7 @@ public class Rexx extends Activity
       *//*
       +----------------------------------------------------------------------*/
       public void run() {
-         int rc = interpret(
-            m_content,
-            m_args,
-            m_console,
-            m_baseUri.toString(),
-            m_speaker
-         );
+         int rc = interpret(m_content, m_args);
          m_console.flush();
          int resultCode;
          Intent intent = new Intent();
@@ -196,16 +185,15 @@ public class Rexx extends Activity
       return content;
    }
 
-   /*---------------------------------------------------------------interpret-+
+   /*--------------------------------------------------------------- Natives -+
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   public native int interpret(
-      String script,
-      String args,
-      RexxConsole console,
-      String baseUri,
-      Speaker speaker
-   );
+   // this field is meant to be accessed by the  JNI side
+   private long context;
+
+   public native void initialize(RexxConsole console, String baseUri, Speaker speaker);
+   public native int interpret(String script, String args);
+   public native void finalize();
 }
 /*===========================================================================*/

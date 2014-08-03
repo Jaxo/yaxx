@@ -38,8 +38,8 @@ private:
       friend class SpeakerStreamBuf;
    public:
       Rep(JNIEnv * env, jobject speaker);
+      virtual ~Rep();
    private:
-      JNIEnv * m_env;
       jobject m_speaker;
       jmethodID m_sayMethod;
 

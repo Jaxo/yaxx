@@ -46,7 +46,6 @@ private:
    streampos seekpos(streampos sp, ios__openmode om) { return EOF; }
    jobjectArray buildArgs(char const * input);
 
-   JNIEnv * m_env;
    char _M_buf[1];
 // jweak m_console;
    jobject m_console;
