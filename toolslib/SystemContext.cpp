@@ -57,6 +57,8 @@ SystemContext::SystemContext(
 |                                                                             |
 +----------------------------------------------------------------------------*/
 SystemContext::~SystemContext() {
+   m_baseUri = RegisteredURI();
+   RegisteredURI::unregisterSchemes();
    invalidateConsoles();
 }
 

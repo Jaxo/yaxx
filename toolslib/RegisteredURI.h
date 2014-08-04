@@ -96,12 +96,14 @@ public:
    RegisteredURI & operator=(char const * pszUri);
 
    static void registerScheme(SchemeHandler handler);
+   static void unregisterSchemes();
    static SchemeHandler getSchemeHandler(char const * pszUri);
 
 private:
    class TOOLS_API SchemeHandlerFactory : public URI::SchemeHandlerFactory {
    public:
       static void registerScheme(SchemeHandler handler);
+      static void unregisterSchemes();
       SchemeHandler findHandler(char const * scheme, int len);
       class TOOLS_API List : public TpList {
       public:
@@ -136,6 +138,9 @@ inline RegisteredURI::RegisteredURI() : URI() {
 }
 inline void RegisteredURI::registerScheme(SchemeHandler handler) {
    m_factory.registerScheme(handler);
+}
+inline void RegisteredURI::unregisterSchemes() {
+   m_factory.unregisterSchemes();
 }
 inline URI::SchemeHandler RegisteredURI::getSchemeHandler(
    char const * scheme

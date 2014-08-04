@@ -15,8 +15,10 @@
 #include "../toolslib/SystemContext.h"
 #include "JConsole.h"
 #include "SpeakerStream.h"
+#ifdef ANDROID
 #include <android/log.h>
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
+#endif
 
 #ifndef YAXX_NAMESPACE
 #define YAXX_NAMESPACE
@@ -43,12 +45,11 @@ jint Java_com_jaxo_android_rexx_Rexx_initialize(
    jstring baseUri,
    jobject speaker
 ) {
-   LOGI("JRexx: SystemContext constructor");
    char const * pBaseUri = env->GetStringUTFChars(baseUri, 0);
    env->SetLongField(
       thiz,
       env->GetFieldID(env->GetObjectClass(thiz), "context", "J"),
-      (jlong)new SystemContext (
+      (jlong)new SystemContext(
          pBaseUri,
          StdFileSchemeHandler(),
          K_SchemeHandler(env, console),
@@ -62,7 +63,7 @@ jint Java_com_jaxo_android_rexx_Rexx_initialize(
 |                                                                             |
 +----------------------------------------------------------------------------*/
 jint Java_com_jaxo_android_rexx_Rexx_finalize(JNIEnv * env, jobject thiz) {
-   LOGI("JRexx: SystemContext destructor");
+   g_jniEnv = env;
    delete (SystemContext *)env->GetLongField(
       thiz,
       env->GetFieldID(env->GetObjectClass(thiz), "context", "J")

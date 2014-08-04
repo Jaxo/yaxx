@@ -36,6 +36,16 @@ void RegisteredURI::SchemeHandlerFactory::registerScheme(
    m_schemes.add(newHandler);
 }
 
+/*STATIC---------------RegisteredURI::SchemeHandlerFactory::unregisterSchemes-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+void RegisteredURI::SchemeHandlerFactory::unregisterSchemes() {
+   int max = m_schemes.count();
+   for (int ix=0; ix < max; ++ix) {
+      m_schemes.removeFirst();
+   }
+}
+
 /*---------------------------RegisteredURI::SchemeHandlerFactory::findHandler-+
 | Get the scheme handler that is appropriate for a given scheme               |
 |                                                                             |

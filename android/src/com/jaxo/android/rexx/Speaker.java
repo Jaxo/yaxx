@@ -63,7 +63,7 @@ class Speaker implements Speech.MonitorListener
       m_speech.sendMessage(m_speech.obtainMessage(Speech.SPEAK, args));
    }
 
-   /*-----------------------------------------------------------------dispose-+
+   /*-------------------------------------------------------------------close-+
    *//**
    *  Stop the connection and release the resources
    *//*
