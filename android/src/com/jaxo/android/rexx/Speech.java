@@ -207,12 +207,13 @@ Runnable
             );
             m_tts.setOnUtteranceCompletedListener(Speech.this);
             m_tts.speak("", TextToSpeech.QUEUE_ADD, parms);
+            m_serviceLooper.quit();
          }else {
+            m_serviceLooper.quit();
             m_tts.stop();
             m_tts.shutdown();
             Log.i(TAG, "TextToSpeech closed");
          }
-         m_serviceLooper.quit();
       }
    }
 
