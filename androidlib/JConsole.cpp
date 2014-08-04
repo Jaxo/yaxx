@@ -11,8 +11,6 @@
 */
 
 #include "JConsole.h"
-#include <android/log.h>
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
 
 extern JNIEnv * g_jniEnv;
 
@@ -25,7 +23,6 @@ namespace TOOLS_NAMESPACE {
 +----------------------------------------------------------------------------*/
 JConsole::JConsole(JNIEnv * env, jobject console)
 {
-   LOGI("JConsole:%08x constructor - env:%08x, console:%08x", (int)this, (int)env, (int)console);
    m_console = 0;
    /*
    | Hear this!  MacroMerde got a new pal in Shitland.
@@ -59,7 +56,6 @@ JConsole::JConsole(JNIEnv * env, jobject console)
 |                                                                             |
 +----------------------------------------------------------------------------*/
 JConsole::~JConsole() {
-   LOGI("JConsole:%08x destructor - console:%08x", (int)this, (int)m_console);
    if (m_console) {
       std::cin.rdbuf(m_previousInStreambuf);
       std::cout.rdbuf(m_previousOutStreambuf);
@@ -81,19 +77,11 @@ bool JConsole::isValid() {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int JConsole::system(char const * command) {
-   LOGI("JConsole:%08x system EXEC: \"%s\"\n", (int)this, command);
-   int rc = g_jniEnv->CallIntMethod(
+   return g_jniEnv->CallIntMethod(
       m_console,
       m_systemMethod,
       g_jniEnv->NewStringUTF(command)
    );
-   LOGI("JConsole:%08x system RC=%d: \"%s\"\n", (int)this, rc, command);
-   return rc;
-// return g_jniEnv->CallIntMethod(
-//    m_console,
-//    m_systemMethod,
-//    g_jniEnv->NewStringUTF(command)
-// );
 }
 
 /*--------------------------------------------------------JConsole::underflow-+

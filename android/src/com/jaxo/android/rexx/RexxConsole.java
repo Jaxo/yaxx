@@ -1,7 +1,5 @@
 /*
-* $Id: RexxConsole.java,v 1.6 2012-03-10 16:40:27 pgr Exp $
-*
-* (C) Copyright 2011 Jaxo Inc.  All rights reserved.
+* (C) Copyright 2011-2014 Jaxo Inc.  All rights reserved.
 * This work contains confidential trade secrets of Jaxo.
 * Use, examination, copying, transfer and disclosure to others
 * are prohibited, except with the express written agreement of Jaxo.
@@ -28,7 +26,6 @@ import android.widget.TextView;
 * See "JConsole" as the C++/JNI counterpart class.
 *
 * @author  Pierre G. Richard
-* @version $Id: RexxConsole.java,v 1.6 2012-03-10 16:40:27 pgr Exp $
 */
 public class RexxConsole implements OnKeyListener
 {

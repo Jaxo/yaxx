@@ -19,10 +19,6 @@
 
 #include <string.h>
 #include <assert.h>
-#ifdef ANDROID
-#include <android/log.h>
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, "JREXX",__VA_ARGS__)
-#endif
 
 #include "../toolslib/SystemContext.h"
 #include "../reslib/DayMonth.h"
@@ -49,100 +45,6 @@ namespace YAXX_NAMESPACE {
 
 #define XSTR(s) STR(s)
 #define STR(s) #s
-
-static char const * debugClauses(OpCode op) {
-   switch(op) {
-   case I_CLAUSE: return "CLAUSE";
-   case I_LABEL: return "LABEL";
-   case I_PUSH: return "PUSH";
-   case I_PUSHLIT: return "PUSHLIT";
-   case I_PUSHTMP: return "PUSHTMP";
-   case I_POP: return "POP";
-   case I_COPY: return "COPY";
-   case I_COPY2TMP: return "COPY2TMP";
-   case I_LOAD_VAR: return "LOAD_VAR";
-   case I_CREATE_VAR: return "CREATE_VAR";
-   case I_DROP_VAR: return "DROP_VAR";
-   case I_DROP_REF: return "DROP_REF";
-   case I_SET_STEM: return "SET_STEM";
-   case I_LOAD_ARG: return "LOAD_ARG";
-   case I_IMM_VAL: return "IMM_VAL";
-   case I_IMM_STRING: return "IMM_STRING";
-   case I_JMP_ALWAYS: return "JMP_ALWAYS";
-   case I_JMP_FALSE: return "JMP_FALSE";
-   case I_JMP_TRUE: return "JMP_TRUE";
-   case I_JMP_LBL: return "JMP_LBL";
-   case I_JMP_VAL: return "JMP_VAL";
-   case I_NOP: return "NOP";
-   case I_CALL_ANY: return "CALL_ANY";
-   case I_CALL_EXT: return "CALL_EXT";
-   case I_CALL_REF: return "CALL_REF";
-   case I_INTERPRET: return "INTERPRET";
-   case I_SYSTEM: return "SYSTEM";
-   case I_RETURN_EMPTY: return "RETURN_EMPTY";
-   case I_RETURN_RESULT: return "RETURN_RESULT";
-   case I_EXIT_EMPTY: return "EXIT_EMPTY";
-   case I_EXIT_RESULT: return "EXIT_RESULT";
-   case I_ERROR: return "ERROR";
-   case I_PROC: return "PROC";
-   case I_PLUS: return "PLUS";
-   case I_MINUS: return "MINUS";
-   case I_NOT: return "NOT";
-   case I_AND: return "AND";
-   case I_OR: return "OR";
-   case I_XOR: return "XOR";
-   case I_ADD: return "ADD";
-   case I_SUB: return "SUB";
-   case I_MUL: return "MUL";
-   case I_DIV: return "DIV";
-   case I_IDIV: return "IDIV";
-   case I_MOD: return "MOD";
-   case I_POWER: return "POWER";
-   case I_CONCAT_A: return "CONCAT_A";
-   case I_CONCAT_B: return "CONCAT_B";
-   case I_NORMAL_GT: return "NORMAL_GT";
-   case I_NORMAL_EQ: return "NORMAL_EQ";
-   case I_NORMAL_GE: return "NORMAL_GE";
-   case I_NORMAL_LT: return "NORMAL_LT";
-   case I_NORMAL_NE: return "NORMAL_NE";
-   case I_NORMAL_LE: return "NORMAL_LE";
-   case I_STRICT_GT: return "STRICT_GT";
-   case I_STRICT_EQ: return "STRICT_EQ";
-   case I_STRICT_GE: return "STRICT_GE";
-   case I_STRICT_LT: return "STRICT_LT";
-   case I_STRICT_NE: return "STRICT_NE";
-   case I_STRICT_LE: return "STRICT_LE";
-   case I_SAY: return "SAY";
-   case I_OPTIONS: return "OPTIONS";
-   case I_GET_PROP: return "GET_PROP";
-   case I_SET_PROP: return "SET_PROP";
-   case I_DO_CTL_INIT: return "DO_CTL_INIT";
-   case I_DO_TO_INIT: return "DO_TO_INIT";
-   case I_DO_BY_INIT: return "DO_BY_INIT";
-   case I_DO_FOR_INIT: return "DO_FOR_INIT";
-   case I_DO_TO_BY_TEST: return "DO_TO_BY_TEST";
-   case I_DO_TO_TEST: return "DO_TO_TEST";
-   case I_DO_FOR_TEST: return "DO_FOR_TEST";
-   case I_DO_BY_STEP: return "DO_BY_STEP";
-   case I_DO_STEP: return "DO_STEP";
-   case I_TEMPLATE_START: return "TEMPLATE_START";
-   case I_TARGET_VAR: return "TARGET_VAR";
-   case I_TARGET_DOT: return "TARGET_DOT";
-   case I_TRIG_SPACE: return "TRIG_SPACE";
-   case I_TRIG_LIT: return "TRIG_LIT";
-   case I_TRIG_ABS: return "TRIG_ABS";
-   case I_TRIG_PLUS_REL: return "TRIG_PLUS_REL";
-   case I_TRIG_MINUS_REL: return "TRIG_MINUS_REL";
-   case I_TEMPLATE_END: return "TEMPLATE_END";
-   case I_STACK_QUEUE: return "STACK_QUEUE";
-   case I_STACK_PUSH: return "STACK_PUSH";
-   case I_STACK_PULL: return "STACK_PULL";
-   case I_STACK_LINEIN: return "STACK_LINEIN";
-   case I_UPPER: return "UPPER";
-   case I_EOF: return "EOF";
-   default: return "???";
-   }
-}
 
 /*---------------------------------------------------Interpreter::Interpreter-+
 | Constructor                                                                 |
@@ -281,9 +183,6 @@ RexxString Interpreter::mainLoop()
    OpCode op;
 
    for (;;) {
-//    op = m_cb.readOpCode();
-//    LOGI("Interpret OP: %s", debugClauses(op));
-//    switch (op) {
       switch (op = m_cb.readOpCode()) {
 
       case I_CLAUSE:                // beginning of a clause
@@ -452,10 +351,8 @@ RexxString Interpreter::mainLoop()
          continue;
 
       case I_SYSTEM:                // shell the system
-         LOGI("Interpreter - System processes command %08x[%d]", (int)m_stack, m_top);
          processCommand(*m_stack[m_top], *m_stack[m_top-1]);
          m_top -= 2;
-         LOGI("Interpreter - System returns %08x[%d]", (int)m_stack, m_top);
          continue;
 
       case I_RETURN_EMPTY:          // clear stack and return
@@ -732,7 +629,6 @@ RexxString Interpreter::mainLoop()
          continue;
 
       case I_SAY:                     // printf the string at the top
-         LOGI("Interpreter says: \"%.*s\"", m_stack[m_top]->length(), (char const *)(*m_stack[m_top]));
          SystemContext::cout().write(
             *m_stack[m_top],
             m_stack[m_top]->length()

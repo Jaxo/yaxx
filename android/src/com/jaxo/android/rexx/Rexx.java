@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.util.Log;
 
 /*-- class Rexx --+
 *//**
@@ -56,7 +55,6 @@ public class Rexx extends Activity
    public void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      Log.i("REXX", "onCreate");
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
       try {
@@ -80,7 +78,6 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    protected void onNewIntent(Intent intent) {
       super.onNewIntent(intent);
-      Log.i("REXX", "onNewIntent: console is " + m_console.toString());
       setIntent(intent);
       new InterpreterThread(intent).start();
    }
@@ -92,7 +89,6 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    public void onDestroy() {
       super.onDestroy();
-      Log.i("REXX", "onDestroy");
       m_console.flush();
       m_speaker.close();
       finalize();
