@@ -103,6 +103,7 @@ public class RexxConsole implements OnKeyListener
    public int system(String cmdLine) {
       Exploder exploder = new Exploder(cmdLine);
       int rc = -1;
+      boolean isRexx = false;
       flush();
       if (exploder.hasNext()) {
          Vector<String> args = new Vector<String>();
@@ -110,6 +111,7 @@ public class RexxConsole implements OnKeyListener
          if (arg.endsWith(".rexx")) {
             URI script = m_baseUri.resolve(arg);
             if (script.getPath().endsWith(".rexx")) {
+               isRexx = true;
                args.addElement("am");
                args.addElement("start");
                args.addElement("-a");
@@ -135,11 +137,13 @@ public class RexxConsole implements OnKeyListener
             redirectErrorStream(true).
             start();
             rc = process.waitFor();
-            InputStream in = process.getInputStream();
-            while ((m_tmpBufPos = in.read(m_tmpBuf)) != -1) {
-               flush();
+            if (!isRexx) {  //  AM is too verbose, remove this noise
+               InputStream in = process.getInputStream();
+               while ((m_tmpBufPos = in.read(m_tmpBuf)) != -1) {
+                  flush();
+               }
+               m_tmpBufPos = 0;
             }
-            m_tmpBufPos = 0;
             // process.destroy(); => No! it throws "NoSuchProcessException"
          }catch (Exception e) {
             Log.e("RexxConsole", "system (Process)", e);

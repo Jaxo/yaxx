@@ -61,7 +61,7 @@ public class Rexx extends Activity
       setTitle(R.string.RexxInterpreter);
       try {
          URI base = new URI("file://" + getFilesDir().getAbsolutePath() + "/");
-         m_speaker = new Speaker(Rexx.this);
+         m_speaker = new Speaker(this);
          m_console = new RexxConsole(
             (Activity)Rexx.this, base, (TextView)findViewById(R.id.say_view)
          );

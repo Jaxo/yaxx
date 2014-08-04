@@ -50,7 +50,7 @@ JConsole::JConsole(JNIEnv * env, jobject console)
          m_previousErrStreambuf = std::cerr.rdbuf();
          std::cin.rdbuf(this);
          std::cout.rdbuf(this);
-         std::cout.rdbuf(this);
+         std::cerr.rdbuf(this);
       }
    }
 }
