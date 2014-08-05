@@ -21,6 +21,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -53,6 +54,8 @@ public class ScriptsList extends ListActivity
    private static final int DELETE_ID = Menu.FIRST + 5;
    private static final int IMPORT_ID = Menu.FIRST + 6;
 
+   private static final String TAG = "ScriptsList";
+
    private RexxDatabase m_rexxDb;
    private Speaker m_speaker;  // just to keep the service alive
 
@@ -63,6 +66,7 @@ public class ScriptsList extends ListActivity
    +-------------------------------------------------------------------------*/
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      Log.i(TAG, "onCreate");
       overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
       setTitle(R.string.RexxGallery);
       m_speaker = new Speaker(this);
@@ -78,6 +82,7 @@ public class ScriptsList extends ListActivity
    +-------------------------------------------------------------------------*/
    public void onDestroy() {
       super.onDestroy();
+      Log.i(TAG, "onDestroy");
       m_speaker.close();
       m_rexxDb.close();
    }

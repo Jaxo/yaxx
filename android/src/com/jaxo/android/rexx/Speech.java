@@ -33,10 +33,7 @@ import android.util.Log;
 */
 public class Speech
 extends Service
-implements
-TextToSpeech.OnInitListener,
-TextToSpeech.OnUtteranceCompletedListener,
-Runnable
+implements TextToSpeech.OnInitListener, Runnable
 {
    private static final String TAG = "Speech";
    private TextToSpeech m_tts;
@@ -77,22 +74,22 @@ Runnable
    +-------------------------------------------------------------------------*/
    public void onDestroy() {
       super.onDestroy();
-      Log.i(TAG, "onDestroy() - " + whatState());
+      Log.i(TAG, "onDestroy - " + whatState());
       if (!m_isCloseRequested) {
          synchronized (m_lock) {
             if (m_isCloseRequested) return;
             m_isCloseRequested = true;
             m_serviceHandler.sendMessage(m_serviceHandler.obtainMessage(CLOSE));
-            m_lock.notifyAll();
+            Log.i(TAG, "onDestroy - closing");
+            try {
+               m_lock.wait(10000);
+               Log.i(TAG, "onDestroy - closed");
+            }catch (InterruptedException e) {
+               Log.i(TAG, "onDestroy - close forced");
+               m_tts.stop();
+               m_tts.shutdown();
+            }
          }
-//       try {
-//          m_worker.join(12000);
-//          Log.i(TAG, "close(): closed");
-//       }catch (InterruptedException e) {
-//          Log.i(TAG, "close(): close forced **");
-//          m_tts.stop();
-//          m_tts.shutdown();
-//       }
       }
    }
 
@@ -159,18 +156,17 @@ Runnable
    *//*
    +-------------------------------------------------------------------------*/
    public void run() {
-      try {
-         Looper.prepare(); // prepare the looper before creating the handler
-         m_serviceLooper = Looper.myLooper();
-         m_serviceHandler = new SpeechHandler(this);
-         synchronized (this) { notify(); }       // handler is ready
-         TextToSpeech.OnInitListener oil = this;
-         Context ctxt = this;
-         m_tts = new TextToSpeech(ctxt, oil);
-         Looper.loop();
-      }catch (Throwable t) {
-         Log.e(TAG, "Looper exception ", t);
-      }
+      Looper.prepare(); // prepare the looper before creating the handler
+      m_serviceLooper = Looper.myLooper();
+      m_serviceHandler = new SpeechHandler(this);
+      synchronized (this) { notify(); }       // handler is ready
+      TextToSpeech.OnInitListener oil = this;
+      Context ctxt = this;
+      m_tts = new TextToSpeech(ctxt, oil);
+      Looper.loop();
+      m_tts.stop();
+      m_tts.shutdown();
+      synchronized (m_lock) { m_lock.notifyAll(); } // handler is finished
    }
 
    /*-----------------------------------------------------------handleMessage-+
@@ -205,26 +201,20 @@ Runnable
                TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
                UTTERANCE_ID
             );
-            m_tts.setOnUtteranceCompletedListener(Speech.this);
+            m_tts.setOnUtteranceCompletedListener(
+               new TextToSpeech.OnUtteranceCompletedListener() {
+                  @Override
+                  public void onUtteranceCompleted(String utteranceId) {
+                     if (utteranceId.equals(UTTERANCE_ID)) {
+                        m_serviceLooper.quit();  // delay
+                     }
+                  }
+               }
+            );
             m_tts.speak("", TextToSpeech.QUEUE_ADD, parms);
-            m_serviceLooper.quit();
          }else {
             m_serviceLooper.quit();
-            m_tts.stop();
-            m_tts.shutdown();
-            Log.i(TAG, "TextToSpeech closed");
          }
-      }
-   }
-
-   /*----------------------------------------------------onUtteranceCompleted-+
-   *//**
-   *//*
-   +-------------------------------------------------------------------------*/
-   public void onUtteranceCompleted(String uttId) {
-      if (uttId.equals(UTTERANCE_ID)) {
-         m_tts.stop();
-         m_tts.shutdown();
       }
    }
 

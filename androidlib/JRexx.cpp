@@ -10,6 +10,7 @@
 * Written: 8/5/2011
 */
 #include <string.h>
+#include <stdio.h>
 #include <jni.h>
 #include "../rexxlib/Rexx.h"
 #include "../toolslib/SystemContext.h"
@@ -31,6 +32,8 @@
 extern "C" {
 
 JNIEnv * g_jniEnv = 0;
+
+static unsigned int getLibraryAddress(char const * libname);
 
 /*---------------------------------Java_com_jaxo_android_rexx_Rexx_initialize-+
 | A SystemContext (kind of singleton) is required for cin, cout, etc)         |
@@ -57,6 +60,7 @@ jint Java_com_jaxo_android_rexx_Rexx_initialize(
       )
    );
    env->ReleaseStringUTFChars(baseUri, pBaseUri);
+   LOGI("libtoolslib starts at 0x%08x\n", getLibraryAddress("libtoolslib.so"));
 }
 
 /*-----------------------------------Java_com_jaxo_android_rexx_Rexx_finalize-+
@@ -79,7 +83,7 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    jstring script,
    jstring args
 ) {
-   LOGI("JRexx: starting interpret");
+   LOGI("Starting interpret");
    JNIEnv * oldJniEnv = g_jniEnv;
    g_jniEnv = env;
    YAXX_NAMESPACE::Rexx rexx;
@@ -110,6 +114,55 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    LOGI("Done interpreting. RC is %d", rc);
    g_jniEnv = oldJniEnv;
    return rc;
+}
+
+/*----------------------------------------------------------getLibraryAddress-+
+| Debug helper                                                                |
+| Use: addr2line -j .text -e <libname> 0xnnnnn                                |
+| where 0xnnnn is <address of the bug> - <address of the library>             |
+| Other useful commands:                                                      |
+|   objdump -tT libtoolslib.so                                                |
+|   objdump -X libtoolslib.so                                                 |
+|   file libtoolslib.so                                                       |
+|   nm libtoolslib.so                                                         |
++----------------------------------------------------------------------------*/
+static unsigned int getLibraryAddress(char const * libname)
+{
+   // char path[256];
+   // snprintf(path, sizeof path, "/proc/%d/smaps", getpid());
+   FILE * file = fopen("/proc/self/maps", "rt");
+   if (!file) {
+      return 0;
+   }
+   unsigned int addr = 0;
+   int libnameLen = strlen(libname);
+   char buf[256];
+   while (fgets(buf, sizeof buf, file)) {
+      int len = strlen(buf);
+      if ((len > 0) && (buf[len-1] == '\n')) buf[--len] = '\0';
+      if (
+         (len > libnameLen) &&
+         (memcmp(buf+len-libnameLen, libname, libnameLen) == 0)
+      ) {
+         unsigned int start, end, offset;
+         char flags[4];
+         if (
+            (
+               7 == sscanf(
+                  buf, "%zx-%zx %c%c%c%c %zx",
+                  &start, &end, &flags[0], &flags[1], &flags[2], &flags[3],
+                  &offset
+               )
+            )
+            && (flags[0]=='r') /*&& (flags[1]=='-')*/ && (flags[2]=='x')
+         ) {
+            addr = start - offset;
+            break;
+         }
+      }
+   }
+   fclose(file);
+   return addr;
 }
 
 }

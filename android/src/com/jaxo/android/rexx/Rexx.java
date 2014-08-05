@@ -19,6 +19,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 /*-- class Rexx --+
@@ -43,6 +44,8 @@ public class Rexx extends Activity
    public static int RESULTCODE_ERROR = RESULT_FIRST_USER + 1;
    public static int RESULTCODE_EXCEPTION_THROWN = RESULT_FIRST_USER + 2;
 
+   private static final String TAG = "Rexx";
+
    private Speaker m_speaker;
    private RexxConsole m_console;
 
@@ -55,6 +58,7 @@ public class Rexx extends Activity
    public void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
+      Log.i(TAG, "onCreate");
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
       try {
@@ -89,7 +93,8 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    public void onDestroy() {
       super.onDestroy();
-      m_console.flush();
+      Log.i(TAG, "onDestroy");
+      // m_console.flush();
       m_speaker.close();
       finalize();
    }
