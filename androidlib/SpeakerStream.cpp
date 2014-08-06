@@ -40,7 +40,7 @@ streamsize SpeakerStreamBuf::xsputn(char const * buf, streamsize length) {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 SpeakerSchemeHandler::Rep::Rep(JNIEnv * env, jobject speaker) {
-   jclass clazz = env->GetObjectClass(speaker);
+   jclass clazz = (speaker)? env->GetObjectClass(speaker) : 0;
    if (!clazz) {
       m_sayMethod = 0;
       m_speaker = 0;
@@ -102,12 +102,14 @@ iostream * SpeakerSchemeHandler::Rep::makeStream(
 +----------------------------------------------------------------------------*/
 void SpeakerSchemeHandler::Rep::say(UnicodeString what, UnicodeString how)
 {
-   g_jniEnv->CallVoidMethod(
-      m_speaker,
-      m_sayMethod,
-      g_jniEnv->NewString(what, what.length()),
-      g_jniEnv->NewString(how, how.length())
-   );
+   if (m_speaker) {
+      g_jniEnv->CallVoidMethod(
+         m_speaker,
+         m_sayMethod,
+         g_jniEnv->NewString(what, what.length()),
+         g_jniEnv->NewString(how, how.length())
+      );
+   }
 }
 
 /*-------------------------------------------SpeakerSchemeHandler::Rep::getID-+
