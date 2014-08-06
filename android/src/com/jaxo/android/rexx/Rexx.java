@@ -127,7 +127,6 @@ public class Rexx extends Activity
                m_args = "";
             }
          }
-         if (m_content == null) throw new IllegalArgumentException();
       }
       @Override
       /*------------------------------------------------------------------run-+
@@ -135,23 +134,28 @@ public class Rexx extends Activity
       *//*
       +----------------------------------------------------------------------*/
       public void run() {
-         int rc = interpret(m_content, m_args);
-         m_console.flush();
-         int resultCode;
-         Intent intent = new Intent();
-         intent.putExtra(RESULT_KEY, m_console.m_result);
-         if (rc == 0) {
-            resultCode = RESULTCODE_OK;
+         if (m_content == null) {
+            Log.e(TAG, "No REXX script found");
+            finish();
          }else {
-            intent.putExtra(REXX_ERRORCODE_KEY, rc);
-            if (rc == -1) {
-               resultCode = RESULTCODE_EXCEPTION_THROWN;
-            }else { // rc has the standard Rexx value of the error
-               resultCode = RESULTCODE_ERROR;
+            int rc = interpret(m_content, m_args);
+            m_console.flush();
+            int resultCode;
+            Intent intent = new Intent();
+            intent.putExtra(RESULT_KEY, m_console.m_result);
+            if (rc == 0) {
+               resultCode = RESULTCODE_OK;
+            }else {
+               intent.putExtra(REXX_ERRORCODE_KEY, rc);
+               if (rc == -1) {
+                  resultCode = RESULTCODE_EXCEPTION_THROWN;
+               }else { // rc has the standard Rexx value of the error
+                  resultCode = RESULTCODE_ERROR;
+               }
             }
+            setResult(resultCode, intent);
+            if (rc != 0) finish(); // otherwise, wait so the user can read!
          }
-         setResult(resultCode, intent);
-         if (rc != 0) finish(); // otherwise, wait so the user can read!
       }
    }
 
@@ -161,8 +165,8 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    private String getIntentData(Intent intent) {
       String content = null;
-      Uri uri;
-      if ((uri=intent.getData()) != null) {
+      Uri uri = intent.getData();
+      if (uri != null) {
          try {
             byte[] data = null;
             InputStream in;

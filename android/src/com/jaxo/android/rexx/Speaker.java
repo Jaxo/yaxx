@@ -30,12 +30,14 @@ class Speaker implements Speech.MonitorListener
    private Vector<String[]> m_msgQueue;
    private ServiceConnection m_speechMonitor;
    private Handler m_speech;
+   private boolean m_isAlive;
 
    /*-----------------------------------------------------------------Speaker-+
    *//**
    *//*
    +-------------------------------------------------------------------------*/
    Speaker(Context context) {
+      m_isAlive = false;
       m_context = context;
       m_msgQueue = new Vector<String[]>(10);
       Speech.bind(context, this);
@@ -52,9 +54,9 @@ class Speaker implements Speech.MonitorListener
          new StringBuffer(what).toString(),  // deep copies
          new StringBuffer(how).toString()
       };
-      if (m_speech == null) {
+      if (!m_isAlive) {
          synchronized (m_msgQueue) {
-            if (m_speech == null) {
+            if (!m_isAlive) {
                m_msgQueue.add(args);
                return;
             }
@@ -69,10 +71,9 @@ class Speaker implements Speech.MonitorListener
    *//*
    +-------------------------------------------------------------------------*/
    public void close() {
-      if (m_speechMonitor != null) {
+      if (m_isAlive) {
          m_context.unbindService(m_speechMonitor);
-         m_speechMonitor = null;
-         m_speech = null;
+         m_isAlive = false;
       }
    }
 
@@ -85,6 +86,7 @@ class Speaker implements Speech.MonitorListener
       synchronized (m_msgQueue) {
          m_speech = speech;
          m_speechMonitor = monitor;
+         m_isAlive = true;
          // destack all pending messages
          while (m_msgQueue.size() > 0) {
             String[] args = m_msgQueue.get(0);
@@ -102,6 +104,7 @@ class Speaker implements Speech.MonitorListener
    public void onSpeechEnded() {
       m_speechMonitor = null;
       m_speech = null;
+      m_isAlive = false;  // redundant...
    }
 }
 /*===========================================================================*/
