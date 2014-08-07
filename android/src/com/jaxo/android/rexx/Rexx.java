@@ -55,10 +55,9 @@ public class Rexx extends Activity
    *//*
    * Activity is single-top when started from REXX
    +-------------------------------------------------------------------------*/
-   public void onCreate(Bundle savedInstanceState)
-   {
-      super.onCreate(savedInstanceState);
-      Log.i(TAG, "onCreate");
+   protected void onStart() {
+      super.onStart();
+      Log.i(TAG, "onStart");
       setContentView(R.layout.console);
       setTitle(R.string.RexxInterpreter);
       try {
@@ -82,22 +81,28 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    protected void onNewIntent(Intent intent) {
       super.onNewIntent(intent);
+      Log.i(TAG, "onNewIntent");
       setIntent(intent);
       new InterpreterThread(intent).start();
    }
 
    @Override
-   /*---------------------------------------------------------------onDestroy-+
+   /*------------------------------------------------------------------onStop-+
    *//**
    *//*
    +-------------------------------------------------------------------------*/
-   public void onDestroy() {
-      super.onDestroy();
-      Log.i(TAG, "onDestroy");
+   protected void onStop() {
+      Log.i(TAG, "onStop");
+      super.onStop();
       // m_console.flush();
-      m_speaker.close();
+      if (m_speaker != null) m_speaker.close();
       finalize();
    }
+
+   // @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); Log.i(TAG, "onCreate"); }
+   // @Override protected void onResume() { super.onResume(); Log.i(TAG, "onResume"); }
+   // @Override protected void onPause() { super.onPause(); Log.i(TAG, "onPause"); }
+   // @Override protected void onDestroy() { super.onDestroy(); Log.i(TAG, "onDestroy"); }
 
    /*----------------------------------------------- class InterpreterThread -+
    *//**

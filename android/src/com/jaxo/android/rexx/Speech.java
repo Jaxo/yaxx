@@ -56,6 +56,7 @@ implements TextToSpeech.OnInitListener, Runnable
    +-------------------------------------------------------------------------*/
    public void onCreate() {
       super.onCreate();
+      Log.i(TAG, "onCreate");
       synchronized (this) {
          if (m_serviceLooper == null) {
             m_lock = new Object();
