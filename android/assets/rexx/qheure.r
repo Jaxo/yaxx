@@ -103,7 +103,7 @@ if \stack
    then do
       say
       say ot
-      Call Charout "Speaker:", ot
+      Call Charout "Speaker:lang=fr-FR", ot
       if mod=0 & mn//15=0
          then call chime
       say

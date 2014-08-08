@@ -41,6 +41,7 @@ implements TextToSpeech.OnInitListener, Runnable
    private Looper m_serviceLooper;
    private Thread m_worker;
    private Object m_lock;
+   private String m_language;
    private boolean m_isInited;
    private boolean m_isTtsAvailable;
    private boolean m_isSomethingSaid;
@@ -186,12 +187,7 @@ implements TextToSpeech.OnInitListener, Runnable
       if (msg.what == SPEAK) {
          if (m_isTtsAvailable) {
             String[] args = (String[])msg.obj;
-            // FIXME: do setLanguage only if args[1] is not the one used (?)
-            if (args[1].length() == 0) {
-               m_tts.setLanguage(Locale.getDefault());
-            }else {
-               m_tts.setLanguage(new Locale(args[1]));
-            }
+            setLanguage(args[1]);
             m_tts.speak(args[0], TextToSpeech.QUEUE_ADD, null);
             m_isSomethingSaid = true;
          }
@@ -233,7 +229,62 @@ implements TextToSpeech.OnInitListener, Runnable
       }
    }
 
+   /*-------------------------------------------------------------setLanguage-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private void setLanguage(String language) {
+      boolean isChangeRequired = false;
+      if (m_language == null) {
+         if (
+            (language.length() > 0) &&
+            !language.equals(getDefaultLanguage())
+         ) {
+            isChangeRequired = true;
+            m_language = language;
+         }
+      }else if (language.length() == 0) {
+         isChangeRequired = true;
+         m_language = null;
+      }else if (!m_language.equals(language)) {
+         isChangeRequired = true;
+         if (language.equals(getDefaultLanguage())) {
+            m_language = null;
+         }else {
+            m_language = language;
+         }
+      }
+      if (isChangeRequired) {
+         Locale locale;
+         if (m_language == null) {
+            locale = Locale.getDefault();
+         }else {
+            int p = m_language.indexOf('-');
+            if (p >= 0) {
+               locale = new Locale(
+                  m_language.substring(0, p),
+                  m_language.substring(p+1)
+               );
+            }else {
+               locale = new Locale(m_language);
+            }
+         }
+         m_tts.setLanguage(locale);
+      }
+   }
 
+   /*------------------------------------------------------getDefaultLanguage-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private String getDefaultLanguage() {
+      Locale deflt = Locale.getDefault();
+      String defltLang = deflt.getLanguage();
+      if (deflt.getCountry().length() > 0) {
+         defltLang += "-" + deflt.getCountry();
+      }
+      return defltLang;
+   }
    /*---------------------------------------------------------------whatState-+
    *//**
    *//*
