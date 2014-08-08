@@ -1,8 +1,8 @@
 <table border="0" align="top">
 <tr><td><img src="rexx/rexx.png"/></td>
 <td>
-<b><a href="https://github.com/Jaxo/yaxx/releases/latest">LATEST RELEASE</a></b> July, 22nd 2014 - "Horseshoe"</td></tr></table>
-#What is YAXX?
+<b><a href="https://github.com/Jaxo/yaxx/releases/latest">LATEST RELEASE</a></b> August, 8th 2014 - "Emerald"</td></tr></table>
+<h1>What is YAXX?</h1>
 One could consider YAXX as a collection of many pieces of code that have been developed along a period of 20 years of fun at doing programming.
 
 - **toolslib** gathers C++ objects that were missing from the original C++ libraries (and, in my opinion, the gap was never filled the way Java designers did it later.)
@@ -15,29 +15,33 @@ One could consider YAXX as a collection of many pieces of code that have been de
 
 - **rexxlib** provides all objects and methods required by the implementation of the Rexx interpreter (Restructured extended editor)
 
-Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull) routines.  It provides the means to build a _REXX interpreter_, and this is how most people will understand YAXX.
-####Any doc?
+Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull)
+routines.  It provides the means to build a _REXX interpreter_, and this is
+how most people will understand YAXX.
+<h3>Any doc?</h3>
 No real detailed documentation. After all, Rexx is &hellip; Rexx, a well documented programming language and the Rexxoid application should be enough intuitive to get you up and running quite immediately. Nevertheless, you will find <a href="docs/android/rexx.md">here</a> a series of screenshots describing in short how Rexx shows up on an Android device.
-#Installing REXX
-If you don't want to build Rexx or Rexxoid, but just install it, pre-built executables are provided for Android, Linux and Windows.
+<h1>Installing REXX</h1>
+If you don't want to build Rexx or Rexxoid, but just install it, pre-built
+executables are provided for Android, Linux and Windows.
+Also, Rexxoid -- Rexx for Android -- is available on Google Play Store.
 <ul>
 <li>Navigate to the <a href="https://github.com/Jaxo/yaxx/releases/latest">releases page</a>
 <li>Download the appropriate version and file
 <li>Install it on your device.
 <br/>For Rexxoid (REXX on Android), the easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ul>
-If the proposed pre-builts do not match your OS versions, you will have to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.  
-####Importing my beloved REXX scripts in Android
+If the proposed pre-builts do not match your OS versions, you will have to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.
+<h1>Importing my beloved REXX scripts in Android</h1>
 <ul>
 <li>Insert a comment in the first line of each script, with a couple of words identifying the script.
 <li>Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
 <li>Start REXX and press to the (hardware) left button on your phone. In the options menu, choose import.
 </ul>
 Note that tapping on a file or on an email attachment with a <b>.rexx</b> extension automatically launch Android REXX.
-#Building REXX
+<h1>Building REXX</h1>
 The libraries have been tested in several OS environments, which ascertains their portability and robustness.  Besides classical OS's (Linux, MS Windows), Palm OS was one of the first candidate for writing "REXX for Palm OS" at the beginning of the 2000's. In 2010, REXX was ported to Android...
 
-##Rexx on Android
+<h2>Rexx on Android</h2>
 You need the appropriate android / eclipse project, and to build the .so libraries.
 <ul>
 <li>The Android Eclipse project &mdash; the GUI layer &mdash; is named *Rexxoid*.
@@ -45,7 +49,7 @@ You need the appropriate android / eclipse project, and to build the .so librari
 whole edifice.
 </ul>
 
-###Summary, only for experts
+<h3>Summary, only for experts</h3>
 <pre>
 cd ~/yaxx/android
 /path/to/android_ndk/ndk-build
@@ -66,7 +70,7 @@ This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
    emulator -avd petrus
 </pre>
 </ul>
-###Detailed Instructions
+<h3>Detailed Instructions</h3>
 <ul>
 <li><i>These instructions have been tested on Linux Ubuntu 12.04</i>
 <br>
@@ -74,7 +78,7 @@ This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
 Ex: <i>[\$home]</i> -> /home/myuserid
 </ul>
 
-#### Building the .so files
+<h4>Building the .so files</h4>
 <ol>
 <li>First is to get <i>yaxx</i> from this git
 <pre>
@@ -103,7 +107,7 @@ The ".so" files are created in <code>~/yaxx/android/libs/armeabi</code>.&nbsp;
 Later, these will be symbolically linked from the Eclipse Android project.
 </ol>
 
-####Create and run the "Rexxoid" project in Eclipse
+<h4>Create and run the "Rexxoid" project in Eclipse</h4>
 Before to start, you may want you get acquainted to Android debug mechanism at reading
 <a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
 <br/>
@@ -151,14 +155,14 @@ The 3rd parameter (Target) is important: you <b>must</b> select a device with mi
 </ul><br/>
 <li>You must then see the Rexx <i>Android King</i>.  Run <i>qheure</i> to test that everything is OK.
 </ol>
-####Create the APK
+<h4>Create the APK</h4>
 <ol>
 <li>
 Right click on the project name "rexxoid" in the Package Explorer pane, then Android Tools -> Export Signed Application Package.
 <li>If you don't yet have a <i>keystore</i>, select <i>Create new keystore</i>
 <li>I suggest the target directory of your <i>rexxoid.apk</i> be <i>[$home]</i>/yaxx/android/bin
 </ol>
-####Install the APK on your device
+<h4>Install the APK on your device</h4>
 Use the Android <i>adb</i> tool, from your <i>[android sdk root]</i>/platform-tools directory.<br/>
 With your phone device adb-connected to your computer,
 <pre>
@@ -167,7 +171,7 @@ cp ~/yaxx/android/bin/rexxoid.apk .
 adb install rexxoid.apk
 rm rexxoid.apk
 </pre>
-##Rexx on Linux, Windows, &hellip;
+<h2>Rexx on Linux, Windows, &hellip;</h2>
 On a Linux build machine, to produce the Linux-executable REXX module requires the build tools to be installed first:
 <pre>
 sudo apt-get update

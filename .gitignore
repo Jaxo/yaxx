@@ -5,6 +5,7 @@ android/libs
 android/lint.xml
 android/obj
 android/proguard
+android/local.properties
 rexxlib/*.chk
 yaxx/yaxx
 dectest/dectest
