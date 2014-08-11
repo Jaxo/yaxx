@@ -74,6 +74,7 @@
 /*---------+
 | Includes |
 +---------*/
+#include <string.h>
 #include "URI.h"
 #include "tplist.h"
 

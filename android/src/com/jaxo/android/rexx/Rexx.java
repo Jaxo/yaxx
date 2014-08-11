@@ -50,7 +50,7 @@ public class Rexx extends Activity
    private RexxConsole m_console;
 
    @Override
-   /*----------------------------------------------------------------onCreate-+
+   /*-----------------------------------------------------------------onStart-+
    *//**
    *//*
    * Activity is single-top when started from REXX
