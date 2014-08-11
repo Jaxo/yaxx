@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rexx</string>
+    <string name="app_longname">Rexx For Android</string>
     <string name="madeby">Engineered by Jaxo, Inc.</string>
     <string name="copyright">© Jaxo, Inc. 2011&#8211;2014</string>
+    <string name="webaddr">http://www.jaxo.com</string>
     <!-- see: http://www.100summits.com/full-summit-list -->
     <!-- name="versionname">Silverheels (#1) -->
     <!-- name="versionname">Hagerman Peak (#2) -->
     <!-- name="versionname">Horseshoe (#3) -->
-    <string name="versionname">Emerald - b1</string>
+    <string name="versionname">Emerald Peak</string>
     <string name="forandroid">for Android&#8482; %1$s and up</string>
+    <string name="ImageDescription">(Image)</string>
+    <string name="Version">Version</string>
     <string name="Edition">%1$s Edition"</string>
-    <string name="Ok">OK</string>
     <string name="RexxGallery">Rexx Scripts Gallery</string>
     <string name="NewScript">New script</string>
     <string name="RunScript">Run this script</string>
@@ -33,7 +36,6 @@
     <string name="ReallyQuit">Yes, quit anyway</string>
     <string name="CancelQuit">No, don\'t quit!</string>
     <string name="OnItemClicked">Item clicked action&#8230;</string>
-    <string name="FileType">type</string>
     <string name="OnItemClickedSummary">When an item is clicked in the Scripts Gallery, interpret the script, if it is valid.  To rather edit it, use long press.</string>
     <string name="ImportFile">Import this file into Rexx Galery?</string>
     <string name="Yes">Yes</string>

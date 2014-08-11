@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -166,10 +165,11 @@ public class FileChooser extends ListActivity {
                R.layout.files_list_item, parent, false
             );
          }
-         ((TextView)view.findViewById(R.id.label)).setText(file.getName());
+         TextView textView = ((TextView)view.findViewById(R.id.label));
+         textView.setText(file.getName());
          if (file.isDirectory()) {
-            ((ImageView)view.findViewById(R.id.icon)).setImageResource(
-               R.drawable.folder_icon
+            textView.setCompoundDrawablesWithIntrinsicBounds(
+               R.drawable.folder_icon, 0, 0, 0
             );
          }
          return view;

@@ -28,6 +28,7 @@
         android:layout_marginTop="7dp"
         android:layout_height="wrap_content"
         android:src="@drawable/rexxoid_60x83"
+        android:contentDescription="@string/ImageDescription"
      />
      <LinearLayout
         android:layout_height="wrap_content"
@@ -38,12 +39,12 @@
         <TextView
             android:id="@+id/title"
             style="@style/AboutTitle"
-            android:text="Rexx for Android"
+            android:text="@string/app_longname"
         />
         <TextView
             android:id="@+id/edition"
             style="@style/AboutMedium"
-            android:text="Version"
+            android:text="@string/Version"
         />
         <TextView
             style="@style/AboutSmall"
@@ -65,7 +66,7 @@
       android:textColorLink="#FFFF9C"
       android:textColor="#FFF"
       android:autoLink="all"
-      android:text="http://www.jaxo.com"
+      android:text="@string/webaddr"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
       android:layout_alignParentRight="true"

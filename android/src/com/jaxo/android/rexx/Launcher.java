@@ -11,6 +11,8 @@
 */
 package com.jaxo.android.rexx;
 
+import java.lang.ref.WeakReference;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,29 +38,36 @@ public class Launcher extends Activity
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.splash);
-
-      Handler handler = new Handler() {
-         @Override
-         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == STOP_SPLASH) {
-               finish();
-               startActivity(
-                  new Intent(Launcher.this, ScriptsList.class)
-               );
-            }
-         }
-      };
+      Handler handler = new LaunchHandler(this);
+//    handler.sendMessageDelayed(handler.obtainMessage(STOP_SPLASH), 5000);
       handler.sendMessage(handler.obtainMessage(STOP_SPLASH));
    }
 
-// @Override
-// public boolean onTouchEvent(MotionEvent event) {
-//    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//       m_splashTicks = 0;
-//    }
-//    return true;
-// }
-}
+   /*-----------------------------------------------------------handleMessage-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   public void handleMessage(Message msg) {
+      if (msg.what == STOP_SPLASH) {
+         finish();
+         startActivity(new Intent(Launcher.this, ScriptsList.class));
+      }
+   }
 
+   /*-----------------------------------------------------------LaunchHandler-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private static class LaunchHandler extends Handler {
+      private final WeakReference<Launcher> m_launcher;
+      LaunchHandler(Launcher launcher) {
+         m_launcher = new WeakReference<Launcher>(launcher);
+      }
+      @Override
+      public void handleMessage(Message msg) {
+         Launcher launcher = m_launcher.get();
+         if (launcher != null) launcher.handleMessage(msg);
+      }
+   }
+}
 /*===========================================================================*/

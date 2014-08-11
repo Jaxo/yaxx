@@ -20,18 +20,19 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      android:layout_marginLeft="10px"
+      android:layout_marginLeft="10dp"
       android:layout_marginRight="10dp"
       android:src="@drawable/yellow_bullet"
+      android:contentDescription="@string/ImageDescription"
    />
    <TextView
       android:id="@+id/title"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="10"
       android:singleLine="true"
-      android:text="PI value"
    />
+<!--  android:text="PI value" -->
    <TextView
       android:id="@+id/date"
       android:layout_height="wrap_content"
@@ -39,6 +40,6 @@
       android:singleLine="true"
       android:paddingRight="5dp"
       android:layout_gravity="bottom|right"
-      android:text="2011/08/12 12:30"
-      android:textSize="10dp"/>
+      android:textSize="10sp"/>
+<!--  android:text="2011/08/12 12:30" -->
 </LinearLayout>
