@@ -31,7 +31,7 @@ Also, Rexxoid -- Rexx for Android -- is available on Google Play Store.
 <br/>For Rexxoid (REXX on Android), the easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ul>
 If the proposed pre-builts do not match your OS versions, you will have to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.
-<h1>Importing my beloved REXX scripts in Android</h1>
+<h2>Importing my beloved REXX scripts in Android</h2>
 <ul>
 <li>Insert a comment in the first line of each script, with a couple of words identifying the script.
 <li>Send the script(s) as mail attachments to your email account on your android device, open the mail, save the attachment.
@@ -42,20 +42,26 @@ Note that tapping on a file or on an email attachment with a <b>.rexx</b> extens
 The libraries have been tested in several OS environments, which ascertains their portability and robustness.  Besides classical OS's (Linux, MS Windows), Palm OS was one of the first candidate for writing "REXX for Palm OS" at the beginning of the 2000's. In 2010, REXX was ported to Android...
 
 <h2>Rexx on Android</h2>
-You need the appropriate android / eclipse project, and to build the .so libraries.
 <ul>
-<li>The Android Eclipse project &mdash; the GUI layer &mdash; is named *Rexxoid*.
-<li>YAXX (this GIT) only builds the .SO libraries, which represents 95% of the
-whole edifice.
+<li>First is to create the .so libraries required by the Java Native Interface.
+<li>Then, to build the <code>rexxoid.apk</code>. It adds the Android's Graphic User Interface
+(GUI layer) leading to the final and only piece to upload to the Android device.
+We will make this Application PacKage by creating an Android Project
+under the Eclipse IDE.
 </ul>
 
 <h3>Summary, only for experts</h3>
 <pre>
 cd ~/yaxx/android
-/path/to/android_ndk/ndk-build
+<i>(your path to the android ndk)</i>/ndk-build
 </pre>
 This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
 "libs/armeabi" needs to be <i>ln -s'ed</i> from your Android project directory.
+<pre>
+cd ~/yaxx/android
+ant clean release
+</pre>
+produces the final Rexxoid.apk in the android/bin directory.
 <br/><br/><u>My Personal Cheatsheet</u>
 <ul><li>the ~/yaxx/android/jni directory contains the android makefiles;
 <br/>
@@ -87,10 +93,6 @@ git clone https://github.com/Jaxo/yaxx.git
 </pre>
 creates the yaxx directory in your home (<i>i.e.:</i>&nbsp; <code><i>[$home]</i>/yaxx</code>)
 <br/>
-<li>Install Eclipse.&nbsp; you can download it from <a href="http://www.eclipse.orgs/downloads/" target="_blank">here</a>
-<br/>
-<li>Install the Android plugin for Eclipse.&nbsp; Go to <a href="http://developer.android.com/sdk/installing/installing-adt.html" target="_blank">that page</a> and carefully follow the instructions.
-<br/>
 <li>Install the Android NDK: android-ndk-r9-linux-x86.tar.bz2 from <a href="http://developer.android.com/tools/sdk/ndk/index.html" target="_blank">here</a>
 <br/><br/><i>"NDK" &mdash; not to be confused with "SDK" &mdash; is a complementary tool.</i>&nbsp; <br/>To install it, after download, I did:
 <pre>cd /usr/local
@@ -112,6 +114,10 @@ Before to start, you may want you get acquainted to Android debug mechanism at r
 <a href="http://developer.android.com/tools/index.html" target="_blank"> this document</a>.
 <br/>
 <ol>
+<li>Install Eclipse.&nbsp; you can download it from <a href="http://www.eclipse.orgs/downloads/" target="_blank">here</a>
+<br/>
+<li>Install the Android plugin for Eclipse.&nbsp; Go to <a href="http://developer.android.com/sdk/installing/installing-adt.html" target="_blank">that page</a> and carefully follow the instructions.
+<br/>
 <li>Start Eclipse,  File -> Import&hellip; -> Android -> Existing Android Code Into Workspace -> Next
 <br/>
 <li>In the dialog <i>Import Projects</i>:
@@ -162,9 +168,15 @@ Right click on the project name "rexxoid" in the Package Explorer pane, then And
 <li>If you don't yet have a <i>keystore</i>, select <i>Create new keystore</i>
 <li>I suggest the target directory of your <i>rexxoid.apk</i> be <i>[$home]</i>/yaxx/android/bin
 </ol>
+If you prefer, the <code>android</code> tool provides a mean to create a
+build.xml file for Apache Ant. Such one can be found under the android
+directory.  You could recreate it by entering
+<pre>
+(path to your SDK/tools directory)android update -p (your eclipse project directory)</code>
+</pre>
 <h4>Install the APK on your device</h4>
 Use the Android <i>adb</i> tool, from your <i>[android sdk root]</i>/platform-tools directory.<br/>
-With your phone device adb-connected to your computer,
+With your phone device adb-connected to your computer, do
 <pre>
 cd ~/android-sdks/platform-tools
 cp ~/yaxx/android/bin/rexxoid.apk .
@@ -189,7 +201,11 @@ sudo apt-get install mingw-w64
 make os=win32 clean rexx
 </pre>
 
-On a MS Windows machine, you might be able to produce an executable using MS development tools. The repository has still the dsp/dsw files required by Visual C++ and the like. I didn't test it -- I have no more Windows since decades -- but it has chances to work. The "makeall.bat" file might help.
+On a MS Windows machine, you might be able to produce an executable
+using MS development tools.
+The repository has still the dsp/dsw files required by Visual C++
+and the like. I didn't test it -- I no more use MS-Windows since years -- but
+it has chances to work. The "makeall.bat" file might help.
 
 
   [1]: file:///home/pgr/yaxx/rexx/rexx.png
