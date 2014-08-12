@@ -204,7 +204,9 @@ char * StdFileStreamBuf::makeTempPath(char * buf, char const * suffix) {
       }
    }
    strcat(buf, "RxXXXXXX");
+   #pragma GCC diagnostic ignored "-Wunused-result"
    mkstemp(buf);
+   #pragma GCC diagnostic pop
    strcat(buf, suffix);
    return buf;
 }
