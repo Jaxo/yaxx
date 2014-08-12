@@ -1,7 +1,5 @@
 /*
-* $Id: EditText.java,v 1.1 2013-08-05 08:14:10 pgr Exp $
-*
-* (C) Copyright 2013 Jaxo Inc.  All rights reserved.
+* (C) Copyright 2013-2014 Jaxo Inc.  All rights reserved.
 * This work contains confidential trade secrets of Jaxo Inc.
 * Use, examination, copying, transfer and disclosure to others
 * are prohibited, except with the express written agreement of Jaxo.
@@ -24,9 +22,8 @@ import android.view.inputmethod.InputConnection;
 * to the "onKey" method of the android.view.View.OnKeyListener
 *
 * @author  Pierre G. Richard
-* @version $Id: EditText.java,v 1.1 2013-08-05 08:14:10 pgr Exp $
 */
-public class EditText extends android.widget.EditText {
+public class EditText extends ZoomableText {
    public EditText(Context context) {
       super(context);
    }
