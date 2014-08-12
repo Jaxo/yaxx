@@ -61,7 +61,7 @@ This produces the .SO files in <code>~/yaxx/android/libs/armeabi</code><br/>
 cd ~/yaxx/android
 ant clean release
 </pre>
-produces the final Rexxoid.apk in the android/bin directory.
+produces the final Rexxoid-release.apk in the android/bin directory.
 <br/><br/><u>My Personal Cheatsheet</u>
 <ul><li>the ~/yaxx/android/jni directory contains the android makefiles;
 <br/>
@@ -172,7 +172,7 @@ If you prefer, the <code>android</code> tool provides a mean to create a
 build.xml file for Apache Ant. Such one can be found under the android
 directory.  You could recreate it by entering
 <pre>
-(path to your SDK/tools directory)android update -p (your eclipse project directory)</code>
+(path to your SDK/tools directory)android update project -p (your eclipse project directory)</code>
 </pre>
 <h4>Install the APK on your device</h4>
 Use the Android <i>adb</i> tool, from your <i>[android sdk root]</i>/platform-tools directory.<br/>
