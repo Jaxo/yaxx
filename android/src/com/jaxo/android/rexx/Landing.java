@@ -1,13 +1,12 @@
 /*
-* $Id: ScriptsList.java,v 1.7 2011-08-29 06:30:21 pgr Exp $
-*
-* (C) Copyright 2011 Jaxo Inc.  All rights reserved.
+* (C) Copyright 2011-2014 Jaxo Inc.  All rights reserved.
 * This work contains confidential trade secrets of Jaxo.
 * Use, examination, copying, transfer and disclosure to others
 * are prohibited, except with the express written agreement of Jaxo.
 *
 * Author:  Pierre G. Richard
 * Written: 08/05/2011
+* Migrated from ScriptsList.java
 */
 package com.jaxo.android.rexx;
 
@@ -20,7 +19,9 @@ import java.util.Date;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -33,14 +34,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
-/*-- class ScriptsList --+
+/*-- class Landing --+
 *//**
-*
 * @author  Pierre G. Richard
-* @version $Id: ScriptsList.java,v 1.7 2011-08-29 06:30:21 pgr Exp $
 */
-public class ScriptsList extends ListActivity
+public class Landing extends ListActivity
 {
    private static final int NEW_SCRIPT_REQCODE = 0;
    private static final int EDIT_SCRIPT_REQCODE = 1;
@@ -54,7 +54,7 @@ public class ScriptsList extends ListActivity
    private static final int DELETE_ID = Menu.FIRST + 5;
    private static final int IMPORT_ID = Menu.FIRST + 6;
 
-   private static final String TAG = "ScriptsList";
+   private static final String TAG = "Landing";
 
    private RexxDatabase m_rexxDb;
    private Speaker m_speaker;  // just to keep the service alive
@@ -67,12 +67,29 @@ public class ScriptsList extends ListActivity
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       Log.i(TAG, "onCreate");
-      overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
       setTitle(R.string.RexxGallery);
-      m_speaker = new Speaker(this);
-      m_rexxDb = new RexxDatabase(this);
-      refreshList();
-      registerForContextMenu(getListView());
+      setContentView(R.layout.landing);
+      new AsyncTask<Void, Void, Void>() {
+         @Override
+         protected Void doInBackground(Void... params) {
+            m_speaker = new Speaker(Landing.this);
+            m_rexxDb = new RexxDatabase(Landing.this);
+            registerForContextMenu(getListView());
+            return null;
+         }
+         @Override
+         protected void onPostExecute(Void v) {
+            refreshList();
+            new Handler().post(
+               new Runnable() {
+                  @Override
+                  public void run() {
+                    ((ViewAnimator)findViewById(R.id.viewanimator)).showNext();
+                  }
+               }
+            );
+         }
+      }.execute();
    }
 
    @Override
@@ -298,5 +315,4 @@ public class ScriptsList extends ListActivity
       refreshList();
    }
 }
-
 /*===========================================================================*/
