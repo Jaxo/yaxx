@@ -1,0 +1,23 @@
+-keep class com.jaxo.android.rexx.Rexx {
+    private long context;
+}
+
+-keep class com.jaxo.android.rexx.RexxConsole {
+    public int system(java.lang.String[]);
+    public int get();
+    public void put(int);
+    java.lang.String m_result;
+}
+
+-keep class com.jaxo.android.rexx.Speaker {
+    public void say(java.lang.String);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+

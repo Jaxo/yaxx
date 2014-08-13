@@ -200,7 +200,7 @@ public class Rexx extends Activity
    *//*
    +-------------------------------------------------------------------------*/
    // this field is meant to be accessed by the  JNI side
-   private long context;
+   private long context; // pointer to SystemContext
 
    public native void initialize(RexxConsole console, String baseUri, Speaker speaker);
    public native int interpret(String script, String args);
