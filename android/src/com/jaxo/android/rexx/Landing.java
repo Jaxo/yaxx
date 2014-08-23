@@ -204,6 +204,7 @@ public class Landing extends ListActivity
    +-------------------------------------------------------------------------*/
    private void refreshList()
    {
+      if (m_rexxDb == null) return;  // defense against unattended refreshList
       Cursor cursor = m_rexxDb.queryScripts();
       startManagingCursor(cursor);
       SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -304,6 +305,18 @@ public class Landing extends ListActivity
       int requestCode, int resultCode, Intent intent
    ) {
       super.onActivityResult(requestCode, resultCode, intent);
+      if (m_rexxDb == null) {
+         /*
+         | Don't rely on m_rexxDb not null: the AsynTask started in onCreate
+         | might be not yet finished..  How is that possible? Simply because
+         | this activity was destroyed after having called the Rexx intent.
+         | As a quick dirty fix, let's just forget about the activity result
+         | when the RexxDb has not been set: refreshList will be called
+         | as the AsynchTask's post-process. Regarding an ImportFile, I think
+         | this case has almost no changes to occur.
+         */
+         return;
+      }
       if ((requestCode == IMPORT_FILE_REQCODE) && (resultCode == RESULT_OK)) {
          try {
             m_rexxDb.importScript(
