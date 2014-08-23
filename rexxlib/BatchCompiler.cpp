@@ -69,9 +69,10 @@ void BatchCompiler::handleSyntaxError(UnicodeComposer::Message & msg)
 {
    Location loc;
    if (msg.inqSeverity() >= ECE__ERROR) {
+      MemStream details;
       m_clauses.locate(getLastPos(), loc);
-      Tracer::traceError(msg, loc);
-      throw FatalException(getRxMainCodeNo(msg.inqStringId()));
+      Tracer::traceError(details, msg, loc);
+      throw FatalException(getRxMainCodeNo(msg.inqStringId()), details);
    }else {
       Tracer::traceWarning(msg);
    }

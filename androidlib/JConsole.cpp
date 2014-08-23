@@ -38,7 +38,11 @@ JConsole::JConsole(JNIEnv * env, jobject console)
       m_getMethod = env->GetMethodID(clazz, "get", "()I");
       m_systemMethod = env->GetMethodID(clazz, "system", "(Ljava/lang/String;)I");
       m_resultField = env->GetFieldID(clazz, "m_result", "Ljava/lang/String;");
-      if (m_putMethod && m_getMethod && m_systemMethod && m_resultField) {
+      m_messageField = env->GetFieldID(clazz, "m_message", "Ljava/lang/String;");
+      if (
+         m_putMethod && m_getMethod && m_systemMethod &&
+         m_resultField && m_messageField
+      ) {
 //       m_console = console;
 //       m_console = env->NewWeakGlobalRef(console);
          m_console = env->NewGlobalRef(console);
@@ -110,6 +114,19 @@ void JConsole::setResult(char const * result) {
          m_console,
          m_resultField,
          g_jniEnv->NewStringUTF(result)
+      );
+   }
+}
+
+/*-------------------------------------------------------JConsole::setMessage-+
+|                                                                             |
++----------------------------------------------------------------------------*/
+void JConsole::setMessage(char const * message) {
+   if (message) {
+      g_jniEnv->SetObjectField(
+         m_console,
+         m_messageField,
+         g_jniEnv->NewStringUTF(message)
       );
    }
 }

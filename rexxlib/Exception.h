@@ -65,7 +65,20 @@ inline bool RecoverableException::isStmtSignal() const {
 class FatalException {
 public:
    FatalException(int codeNo) : m_codeNo(codeNo) {}
+
+   FatalException(int codeNo, MemStream & msg) :
+   m_codeNo(codeNo), m_msg(msg.str(), msg.pcount()) {
+      msg.rdbuf()->freeze(0); // thaw (after str)
+   }
+
+   // All exception types should be copyable
+   FatalException(FatalException const & source) :            // yes!
+   m_codeNo(source.m_codeNo), m_msg(source.m_msg, source.m_msg.length()) {}
+
+   FatalException & operator=(FatalException const & source); // no
+
    int const m_codeNo;
+   StringBuffer m_msg;
 };
 
 extern MsgTemplateId makeMsgTemplateId(RexxString::Exception::Reason r);

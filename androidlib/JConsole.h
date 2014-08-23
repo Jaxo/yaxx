@@ -36,6 +36,7 @@ public:
    ~JConsole();
    bool isValid();
    void setResult(char const * result);
+   void setMessage(char const * result);
    int system(char const * command);
 
 private:
@@ -53,6 +54,7 @@ private:
    jmethodID m_putMethod;
    jmethodID m_systemMethod;
    jfieldID m_resultField;
+   jfieldID m_messageField;
    streambuf * m_previousInStreambuf;
    streambuf * m_previousOutStreambuf;
    streambuf * m_previousErrStreambuf;
@@ -65,11 +67,13 @@ public:
       Rep(JNIEnv * env, jobject console);
       virtual int system(char const * command);
       void setResult(char const * result);
+      void setMessage(char const * message);
    private:
       JConsole m_console;
    };
    K_SchemeHandler(JNIEnv * env, jobject console);
    void setResult(char const * result);
+   void setMessage(char const * message);
 };
 
 /* -- INLINES -- */
@@ -81,6 +85,12 @@ inline void K_SchemeHandler::setResult(char const * result) {
 }
 inline void K_SchemeHandler::Rep::setResult(char const * result) {
    m_console.setResult(result);
+}
+inline void K_SchemeHandler::setMessage(char const * message) {
+   ((Rep *)inqData())->setMessage(message);
+}
+inline void K_SchemeHandler::Rep::setMessage(char const * message) {
+   m_console.setMessage(message);
 }
 inline int K_SchemeHandler::Rep::system(char const * command) {
    return m_console.system(command);

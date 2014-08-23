@@ -92,16 +92,12 @@ int Rexx::Script::interpret(
       result = pInterpreter->run();
       delete pInterpreter;
       return 0;
-   }catch (FatalException & e) {
-      delete pCompiler;
-      delete pInterpreter;
-      return e.m_codeNo;
    }catch (...) {
       delete pCompiler;
       delete pInterpreter;
       throw;
    }
-   return -1;
+   return -1;  // is never reached
 }
 
 /*-----------------------------------------------------------------Rexx::Rexx-+

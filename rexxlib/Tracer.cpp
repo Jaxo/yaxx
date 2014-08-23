@@ -164,21 +164,21 @@ void Tracer::traceInteractiveError(RecoverableException const & e) {
 |                                                                             |
 +----------------------------------------------------------------------------*/
 void Tracer::traceError(
+   MemStream & details,
    UnicodeComposer::Message const & msg,
    Location const & loc
 ) {
-   MemStream temp;
-   showSourceLine(loc, temp);
+   showSourceLine(loc, details);
    MsgTemplateId id = msg.inqStringId();
    int subCodeNo = ::getRxSubCodeNo(id);
-   temp << "Error " << ::getRxMainCodeNo(id);
+   details << "Error " << ::getRxMainCodeNo(id);
    if (subCodeNo !=0) {
-      temp << '.' << subCodeNo;
+      details << '.' << subCodeNo;
    }
-   temp << " in ";
-   temp.write((char const *)loc.m_path, loc.m_path.length());
-   temp << ", line " << loc.m_lineno << ": " << msg.stringize() << std::endl;
-   SystemContext::cerr() << temp.rdbuf() << std::flush;
+   details << " in ";
+   details.write((char const *)loc.m_path, loc.m_path.length());
+   details << ", line " << loc.m_lineno << ": " << msg.stringize() << std::endl;
+   SystemContext::cerr() << details.rdbuf() << std::flush;
 }
 
 /*-------------------------------------------------------Tracer::traceWarning-+

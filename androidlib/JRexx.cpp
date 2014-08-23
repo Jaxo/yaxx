@@ -101,11 +101,17 @@ jint Java_com_jaxo_android_rexx_Rexx_interpret(
    try {
       Rexx::Script script(scriptStream, "current script"); // FIXME
       RexxString rexxResult;
-      rc = rexx.interpret(script, pArgs, rexxResult); // 0 is everything is OK
+      rc = rexx.interpret(script, pArgs, rexxResult); // 0 if everything is OK
       URI::SchemeHandler h = RegisteredURI::getSchemeHandler(
          ConsoleSchemeHandler::scheme
       );
       ((K_SchemeHandler *)&h)->setResult((char const *)rexxResult);
+   }catch (FatalException & e) {
+      URI::SchemeHandler h = RegisteredURI::getSchemeHandler(
+         ConsoleSchemeHandler::scheme
+      );
+      ((K_SchemeHandler *)&h)->setMessage((char const *)e.m_msg);
+      rc = e.m_codeNo;
    }catch (...) {
       rc = -1;
    }

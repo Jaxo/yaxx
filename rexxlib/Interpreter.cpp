@@ -1494,11 +1494,12 @@ void Interpreter::handleSyntaxError(UnicodeComposer::Message & msg)
    if ((msg.inqSeverity() >= ECE__ERROR) && isRxMessage(msg.inqStringId())) {
 // if (msg.inqSeverity() >= ECE__ERROR) {
       if (!m_routines.canRecoverFromSyntax()) {
+         MemStream details;
          m_clauses.locate(
            m_curClauseNo, m_routines.getDepth(), m_loc
          );
-         m_tracer.traceError(msg, m_loc);
-         throw FatalException(getRxMainCodeNo(msg.inqStringId()));
+         Tracer::traceError(details, msg, m_loc);
+         throw FatalException(getRxMainCodeNo(msg.inqStringId()), details);
       }else {
          throw RecoverableException(::getRxMainId(msg.inqStringId()));
       }

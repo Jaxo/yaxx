@@ -96,7 +96,11 @@ public class Rexx extends Activity
       super.onStop();
       // m_console.flush();
       if (m_speaker != null) m_speaker.close();
+      Log.i(TAG, "Rexx finalize");
       finalize();
+      Log.i(TAG, "garbage collector starts");
+      System.gc();
+      Log.i(TAG, "garbage collector ends");
    }
 
    // @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); Log.i(TAG, "onCreate"); }
@@ -155,6 +159,7 @@ public class Rexx extends Activity
                if (rc == -1) {
                   resultCode = RESULTCODE_EXCEPTION_THROWN;
                }else { // rc has the standard Rexx value of the error
+                  intent.putExtra(REXX_MESSAGE_KEY, m_console.m_message);
                   resultCode = RESULTCODE_ERROR;
                }
             }

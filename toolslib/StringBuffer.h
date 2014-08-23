@@ -109,7 +109,6 @@ inline void StringBuffer::append(char const * str, int len) {
    m_count = newcount;
 }
 
-
 inline void StringBuffer::append(char c) {
    if (m_count >= m_capacity) {
       expandCapacity(m_count+1);

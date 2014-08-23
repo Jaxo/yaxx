@@ -65,6 +65,7 @@ public:
    void traceInteractiveError(RecoverableException const & e);
 
    static void traceError(
+      MemStream & out,
       UnicodeComposer::Message const & msg,
       Location const & loc
    );
