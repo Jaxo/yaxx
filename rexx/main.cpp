@@ -3,6 +3,7 @@
 #include "../toolslib/StdFileStream.h"
 #include "../toolslib/StringBuffer.h"
 #include "../toolslib/SystemContext.h"
+#include "../rexxlib/Exception.h"
 #include "../rexxlib/Rexx.h"
 
 #ifndef YAXX_NAMESPACE
@@ -36,23 +37,31 @@ int main(int argc, char ** argv)
       );
       free(fileBaseUri);
 
-      // create the script
-      YAXX_NAMESPACE::Rexx::Script script(argv[1]);
+      try {
+         // create the script
+         YAXX_NAMESPACE::Rexx::Script script(argv[1]);
 
-      // reassemble arguments for REXX if any
-      if (argc > 2) {
-         StringBuffer arg;
-         int i = 2;
-         for (;;) {
-            arg.append(argv[i], strlen(argv[i]));
-            if (++i >= argc) break;
-            arg.append(' ');
+         // reassemble arguments for REXX if any
+         if (argc > 2) {
+            StringBuffer arg;
+            int i = 2;
+            for (;;) {
+               arg.append(argv[i], strlen(argv[i]));
+               if (++i >= argc) break;
+               arg.append(' ');
+            }
+            // run the argued script
+            return rexx.interpret(script, arg);
+         }else {
+            // run the bare script
+            return rexx.interpret(script);
          }
-         // run the argued script
-         return rexx.interpret(script, arg);
-      }else {
-         // run the bare script
-         return rexx.interpret(script);
+      }catch (FatalException & e) {
+         // the exception was already printed
+         return e.m_codeNo;
+      }catch (...) {
+         // puts("Unhandled exception\n"); ???
+         return 1000;
       }
    }
 }

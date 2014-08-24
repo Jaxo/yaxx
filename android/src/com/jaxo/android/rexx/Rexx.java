@@ -95,7 +95,6 @@ public class Rexx extends Activity
       Log.i(TAG, "onStop");
       // m_console.flush();
       if (m_speaker != null) m_speaker.close();
-      Log.i(TAG, "Rexx terminate");
       terminate();
       System.gc();
       super.onStop();
