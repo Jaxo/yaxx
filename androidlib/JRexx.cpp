@@ -35,13 +35,13 @@ JNIEnv * g_jniEnv = 0;
 
 static unsigned int getLibraryAddress(char const * libname);
 
-/*---------------------------------Java_com_jaxo_android_rexx_Rexx_initialize-+
+/*-----------------------------------Java_com_jaxo_android_rexx_Rexx_commence-+
 | A SystemContext (kind of singleton) is required for cin, cout, etc)         |
 | That should be done at the very first place.                                |
 | Extra SchemeHandler's can be added                                          |
 | see yaxx/yaxx/main.cpp and yaxx/mwerks/irexx2 for examples                  |
 +----------------------------------------------------------------------------*/
-jint Java_com_jaxo_android_rexx_Rexx_initialize(
+jint Java_com_jaxo_android_rexx_Rexx_commence(
    JNIEnv * env,
    jobject thiz,
    jobject console,
@@ -63,10 +63,10 @@ jint Java_com_jaxo_android_rexx_Rexx_initialize(
    LOGI("libtoolslib starts at 0x%08x\n", getLibraryAddress("libtoolslib.so"));
 }
 
-/*-----------------------------------Java_com_jaxo_android_rexx_Rexx_finalize-+
+/*----------------------------------Java_com_jaxo_android_rexx_Rexx_terminate-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
-jint Java_com_jaxo_android_rexx_Rexx_finalize(JNIEnv * env, jobject thiz) {
+jint Java_com_jaxo_android_rexx_Rexx_terminate(JNIEnv * env, jobject thiz) {
    g_jniEnv = env;
    delete (SystemContext *)env->GetLongField(
       thiz,

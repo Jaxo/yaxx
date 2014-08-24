@@ -66,7 +66,7 @@ public class Rexx extends Activity
          m_console = new RexxConsole(
             (Activity)Rexx.this, base, (TextView)findViewById(R.id.say_view)
          );
-         initialize(m_console, base.toString(), m_speaker);
+         commence(m_console, base.toString(), m_speaker);
          new InterpreterThread(getIntent()).start();
       }catch (Exception e) {
          setResult(RESULT_CANCELED);
@@ -93,14 +93,12 @@ public class Rexx extends Activity
    +-------------------------------------------------------------------------*/
    protected void onStop() {
       Log.i(TAG, "onStop");
-      super.onStop();
       // m_console.flush();
       if (m_speaker != null) m_speaker.close();
-      Log.i(TAG, "Rexx finalize");
-      finalize();
-      Log.i(TAG, "garbage collector starts");
+      Log.i(TAG, "Rexx terminate");
+      terminate();
       System.gc();
-      Log.i(TAG, "garbage collector ends");
+      super.onStop();
    }
 
    // @Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); Log.i(TAG, "onCreate"); }
@@ -205,10 +203,10 @@ public class Rexx extends Activity
    *//*
    +-------------------------------------------------------------------------*/
    // this field is meant to be accessed by the  JNI side
-   private long context; // pointer to SystemContext
+   private volatile long context; // pointer to SystemContext
 
-   public native void initialize(RexxConsole console, String baseUri, Speaker speaker);
+   public native void commence(RexxConsole console, String baseUri, Speaker speaker);
    public native int interpret(String script, String args);
-   public native void finalize();
+   public native void terminate();
 }
 /*===========================================================================*/
