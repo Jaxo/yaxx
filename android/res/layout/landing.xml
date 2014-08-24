@@ -53,7 +53,7 @@
          android:layout_alignParentBottom="true"
          android:layout_width="fill_parent"
          android:textAppearance="?android:attr/textAppearanceSmall"
-         android:textSize="5pt"
+         android:textSize="10sp"
       />
       <!--
       <ImageView
