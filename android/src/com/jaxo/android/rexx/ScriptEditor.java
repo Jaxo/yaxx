@@ -218,7 +218,7 @@ public class ScriptEditor extends Activity
                   super.onCreate(savedInstanceState);
                   setContentView(R.layout.message);
                   getWindow().setLayout(
-                     LayoutParams.FILL_PARENT,
+                     LayoutParams.MATCH_PARENT,
                      LayoutParams.WRAP_CONTENT
                   );
                   setTitle(title);

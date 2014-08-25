@@ -17,6 +17,7 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 
 /*-- class Preferences --+
 *//**
@@ -26,6 +27,8 @@ import android.preference.PreferenceManager;
 */
 public class Preferences extends PreferenceActivity
 {
+   static SharedPreferences m_prefs;
+
    /*----------------------------------------------------------------onCreate-+
    *//**
    *//*
@@ -58,6 +61,43 @@ public class Preferences extends PreferenceActivity
          }
       }catch (Exception e) {}
       return prefs;
+   }
+
+   /*----------------------------------------------------------isImmediateRun-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   static boolean isImmediateRun(Context context) {
+      if (m_prefs == null) m_prefs = getPreferences(context);
+      return m_prefs.getBoolean("PREF_ONCLICK_RUN", false);
+   }
+
+   /*---------------------------------------------------------getTextSizeInSp-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   static float getTextSizeInSp(Context context) {
+      if (m_prefs == null) m_prefs = getPreferences(context);
+      switch (m_prefs.getString("PREF_FONTSIZE", "N").charAt(0)) {
+      case 'S':
+         return context.getResources().getDimension(R.dimen.FontSizeSmall);
+      case 'L':
+         return context.getResources().getDimension(R.dimen.FontSizeLarge);
+      default:
+         return context.getResources().getDimension(R.dimen.FontSizeNormal);
+      }
+   }
+
+   /*---------------------------------------------------------getTextSizeInPx-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   static float getTextSizeInPx(Context context) {
+      return TypedValue.applyDimension(  // in pixels
+         TypedValue.COMPLEX_UNIT_SP,
+         getTextSizeInSp(context),
+         context.getResources().getDisplayMetrics()
+      );
    }
 }
 

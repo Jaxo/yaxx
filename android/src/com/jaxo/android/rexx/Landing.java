@@ -13,8 +13,9 @@ package com.jaxo.android.rexx;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -103,6 +105,23 @@ public class Landing extends ListActivity
       m_speaker.close();
       m_rexxDb.close();
    }
+
+   @Override
+   /*----------------------------------------------------------------onResume-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   protected void onResume() {
+      super.onResume();
+      ensureTextSize();
+   }
+
+   //@Override protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); Log.i(TAG, "onCreate"); }
+   //@Override protected void onStart() { super.onStart(); Log.i(TAG, "onStart"); }
+   //@Override protected void onResume() { super.onResume(); Log.i(TAG, "onResume"); }
+   //@Override protected void onPause() { super.onPause(); Log.i(TAG, "onPause"); }
+   //@Override protected void onStop() { super.onStop(); Log.i(TAG, "onStop"); }
+   //@Override protected void onDestroy() { super.onDestroy(); Log.i(TAG, "onDestroy"); }
 
    @Override
    /*-----------------------------------------------------onCreateOptionsMenu-+
@@ -198,6 +217,23 @@ public class Landing extends ListActivity
       }
    }
 
+   /*----------------------------------------------------------ensureTextSize-+
+   *//**
+   *//*
+   +-------------------------------------------------------------------------*/
+   private void ensureTextSize() {
+      float prefdSizeInPx = Preferences.getTextSizeInPx(this);
+      ListView v = (ListView)findViewById(android.R.id.list);
+      for (int i=0, max=v.getChildCount(); i < max; ++i) {
+         TextView t = (TextView)((LinearLayout)v.getChildAt(i)).getChildAt(1);
+         float actualSizeInPx = t.getTextSize(); // pixels
+         if (actualSizeInPx != prefdSizeInPx) {
+            refreshList();
+            break;
+         }
+      }
+   }
+
    /*-------------------------------------------------------------refreshList-+
    *//**
    *//*
@@ -205,6 +241,8 @@ public class Landing extends ListActivity
    private void refreshList()
    {
       if (m_rexxDb == null) return;  // defense against unattended refreshList
+      final float titleSize = Preferences.getTextSizeInSp(this);
+      final float dateSize = titleSize * 0.7f;
       Cursor cursor = m_rexxDb.queryScripts();
       startManagingCursor(cursor);
       SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -222,31 +260,21 @@ public class Landing extends ListActivity
       );
       adapter.setViewBinder(
          new SimpleCursorAdapter.ViewBinder() {
-            public boolean setViewValue(
-               View view, Cursor cursor, int columnIndex
-            ) {
+            public boolean setViewValue(View view, Cursor cursor, int ix) {
                try {
-                  if (columnIndex == cursor.getColumnIndex(
-                        RexxDatabase.STATUS
-                     )
-                  ) {
+                  if (ix == cursor.getColumnIndex(RexxDatabase.TITLE)) {
+                     ((TextView)view).setTextSize(titleSize);
+                     return false;
+                  }else if (ix == cursor.getColumnIndex(RexxDatabase.STATUS)) {
                      ((ImageView)view).setImageResource(
-                        RexxDatabase.statusToBulletImage(
-                           cursor.getInt(columnIndex)
-                        )
+                        RexxDatabase.statusToBulletImage(cursor.getInt(ix))
                      );
                      return true;
-                  }else if (columnIndex == cursor.getColumnIndex(
-                        RexxDatabase.UPDATE_DATE
-                     )
-                  ) {
+                  }else if (ix == cursor.getColumnIndex(RexxDatabase.UPDATE_DATE)) {
+                     ((TextView)view).setTextSize(dateSize);
                      ((TextView)view).setText(
-                        DateFormat.getDateTimeInstance(
-                           DateFormat.SHORT, DateFormat.SHORT
-                        ).format(
-//                      new SimpleDateFormat("yyyy/MM/dd HH:mm").format(
-                           new Date(cursor.getLong(columnIndex))
-                        )
+                        new SimpleDateFormat("yyyy/MM/dd\nHH:mm:ss", Locale.US).
+                        format(new Date(cursor.getLong(ix)))
                      );
                      return true;
                   }else {
@@ -290,10 +318,7 @@ public class Landing extends ListActivity
    +-------------------------------------------------------------------------*/
    protected void onListItemClick(ListView l, View v, int position, long id) {
       super.onListItemClick(l, v, position, id);
-      editScript(
-         id,
-         (Preferences.getPreferences(this).getBoolean("PREF_ONCLICK_RUN", false))
-      );
+      editScript(id, Preferences.isImmediateRun(this));
    }
 
    @Override

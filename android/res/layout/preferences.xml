@@ -9,7 +9,7 @@
 -->
 
 <PreferenceScreen
-   xmlns:android="http://schemas.android.com/apk/res/android"       
+   xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
    android:layout_height="wrap_content"
 >
@@ -34,23 +34,23 @@
 |  </PreferenceScreen>
 -->
    <CheckBoxPreference
-       android:layout_width="fill_parent" 
+       android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:key="PREF_ONCLICK_RUN"
        android:title="@string/OnItemClicked"
        android:defaultValue="false"
        android:summary="@string/OnItemClickedSummary"
    />
-<!--
-|  <ListPreference
-|      android:key="PREF_ONCLICK"
-|      android:title="@string/OnItemClicked"
-|      android:summary="@string/OnItemClickedSummary"
-|      android:defaultValue="PREF_ONCLICK_EDIT"
-|      android:entries="@array/listArray"
-|      android:entryValues="@array/listValues"
-|  />
--->
+   <ListPreference
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:key="PREF_FONTSIZE"
+      android:title="@string/FontSize"
+      android:summary="@string/FontSizeSummary"
+      android:entries="@array/FontSizeEntries"
+      android:entryValues="@array/FontSizeValues"
+      android:defaultValue="N"
+   />
 <!--
 |  <CheckBoxPreference
 |      android:key="PREF_RXML"
