@@ -104,12 +104,12 @@ private:
    void setProperty(Property prop, RexxString & value);
    void loadFile(Arguments & args);
    void processTemplate(RexxString source);
-   void processCommand(RexxString & cmd, RexxString & env);
+   void processCommand(RexxString const & cmd, RexxString & env);
    char processInteractiveTrace();
    void processTraceClause(RexxString ** ppStrCreated, int iMax);
    void expandRoutineArray();
    int execCommand(
-      RexxString & cmd,
+      RexxString const & cmd,
       DataQueueMgr::QueueMode qmodeIn,
       DataQueueMgr::QueueMode qmodeOut,
       RexxString & res

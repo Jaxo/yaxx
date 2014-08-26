@@ -1288,15 +1288,15 @@ void Interpreter::setProperty(Property prop, RexxString & value)
 /*------------------------------------------------Interpreter::processCommand-+
 |                                                                             |
 +----------------------------------------------------------------------------*/
-void Interpreter::processCommand(RexxString & cmd, RexxString & env)
+void Interpreter::processCommand(RexxString const & cmd, RexxString & env)
 {
    DataQueueMgr::QueueMode qmodeIn;
    DataQueueMgr::QueueMode qmodeOut;
    int rc;
 
    if (!env.length() || (env == STR_ANY_SHELL) || (env == STR_DEFAULT_SHELL)) {
-      cmd = DataQueueMgr::stripQueueModes(cmd, qmodeIn, qmodeOut);
-      rc = execCommand(cmd, qmodeIn, qmodeOut, RexxString::Nil);
+      RexxString stripped(DataQueueMgr::stripQueueModes(cmd, qmodeIn, qmodeOut));
+      rc = execCommand(stripped, qmodeIn, qmodeOut, RexxString::Nil);
    }else {
       rc = -3;
    }
@@ -1396,7 +1396,7 @@ void Interpreter::processTraceClause(RexxString ** ppStrCreated, int iMaxCreated
 |                                                                             |
 +----------------------------------------------------------------------------*/
 int Interpreter::execCommand(
-   RexxString & cmd,
+   RexxString const & cmd,
    DataQueueMgr::QueueMode qmodeIn,
    DataQueueMgr::QueueMode qmodeOut,
    RexxString & res
