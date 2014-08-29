@@ -1,7 +1,0 @@
-   cd ~/yaxx
-   /usr/android-ndk-r6/ndk-build > & log
-   vi /usr/android-ndk-r6/sources/cxx-stl/stlport/stlport/iostream
-   vi /usr/android-ndk-r6/sources/cxx-stl/stlport/stlport/stl/config/_android.h
-
--- on Dupond --
-   /u/pgr/android-ndk-r6b/ndk-build

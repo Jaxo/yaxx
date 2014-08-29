@@ -1,9 +1,10 @@
 <table border="0" align="top">
 <tr><td><img src="rexx/rexx.png"/></td>
 <td>
-<b><a href="https://github.com/Jaxo/yaxx/releases/latest">LATEST RELEASE</a></b> August, 8th 2014 - "Emerald"</td></tr></table>
+<b><a href="https://github.com/Jaxo/yaxx/releases/latest">LATEST RELEASE</a></b>
+<br/>August, 28th 2014 - "Emerald b3"</td></tr></table>
 <h1>What is YAXX?</h1>
-One could consider YAXX as a collection of many pieces of code that have been developed along a period of 20 years of fun at doing programming.
+One could consider YAXX as a collection of many pieces of code that have been developed along a period of 25 years of fun at doing programming.
 
 - **toolslib** gathers C++ objects that were missing from the original C++ libraries (and, in my opinion, the gap was never filled the way Java designers did it later.)
 
@@ -16,21 +17,38 @@ One could consider YAXX as a collection of many pieces of code that have been de
 - **rexxlib** provides all objects and methods required by the implementation of the Rexx interpreter (Restructured extended editor)
 
 Fortunately, YAXX is not just a miscellany of heterogeneous (although usefull)
-routines.  It provides the means to build a _REXX interpreter_, and this is
-how most people will understand YAXX.
+routines.  It provides the means to build a _REXX interpreter_ (ANSI X3.274),
+and this is how most people will understand YAXX.
 <h3>Any doc?</h3>
-No real detailed documentation. After all, Rexx is &hellip; Rexx, a well documented programming language and the Rexxoid application should be enough intuitive to get you up and running quite immediately. Nevertheless, you will find <a href="docs/android/rexx.md">here</a> a series of screenshots describing in short how Rexx shows up on an Android device.
+No real detailed documentation. After all, Rexx is &hellip; Rexx,
+a well documented programming language and the Rexxoid application
+should be enough intuitive to get you up and running quite immediately.
+<br/>REXX scripts can be found <a href="scripts">here</a>:
+on a time permits basis, I will try to add the most relevant examples.
+Also, you will find <a href="docs/android/rexx.md">here</a>
+a series of screenshots describing in short how Rexx shows up on
+an Android device.
 <h1>Installing REXX</h1>
 If you don't want to build Rexx or Rexxoid, but just install it, pre-built
 executables are provided for Android, Linux and Windows.
-Also, Rexxoid -- Rexx for Android -- is available on Google Play Store.
+<ul><li>For Rexxoid -- Rexx for Android -- the recommended way is to
+install it from
+<a href="https://play.google.com/apps/testing/com.jaxo.android.rexx">
+Google Play Store</a>, or, only as an alternative, you can download it using
+the procedure described next and mail the <i>Rexxoid.apk</i> file
+to your email account on your android device.
+</li><li>
+To download Rexx to your computer:
 <ul>
 <li>Navigate to the <a href="https://github.com/Jaxo/yaxx/releases/latest">releases page</a>
 <li>Download the appropriate version and file
 <li>Install it on your device.
-<br/>For Rexxoid (REXX on Android), the easiest way is to mail the <i>Rexxoid.apk</i> file to your email account on your android device.  Then, you can install straight from the mail.
 </ul>
-If the proposed pre-builts do not match your OS versions, you will have to build it by yourself. As explained below, the repository provides the appropriate makefiles and it's not so difficult to do.
+</li><li>
+If the proposed pre-builts do not match your OS versions, you will have
+to build it by yourself. As explained below, the repository provides
+the appropriate makefiles and it's not so difficult to do.
+</li></ul>
 <h2>Importing my beloved REXX scripts in Android</h2>
 <ul>
 <li>Insert a comment in the first line of each script, with a couple of words identifying the script.
