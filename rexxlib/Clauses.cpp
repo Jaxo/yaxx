@@ -324,6 +324,17 @@ istream * Clauses::makeInputStream(RexxString & strPath)
             delete [] temp;
             pInput = SystemContext::makeStream(strPath, ios::in);
          }
+      }else {
+         // look for a shebang
+         if (pInput->peek() == '#') {
+            // a bit of paranoia in what's below...
+            pInput->get();
+            if (pInput->peek() == '!') {
+               while (pInput->get() != '\n');
+            }else {
+               pInput->putback('#');
+            }
+         }
       }
       return pInput;
    }
