@@ -60,7 +60,8 @@ public class ZoomableText extends android.widget.EditText {
 
       PinchZoomer(Context context) {
          m_scale = 1.f;
-         m_baseSize = getTextSize();
+         m_baseSize = Preferences.getTextSizeInSp(context);
+         setTextSize(m_baseSize);
          m_detector = new ScaleGestureDetector(context, this);
       }
       public boolean onTouchEvent(MotionEvent event) {

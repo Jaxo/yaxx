@@ -31,6 +31,7 @@
       android:layout_weight="10"
       android:singleLine="true"
       android:text="PI value"
+      android:textSize="@dimen/FontSizeNormal"
    />
    <TextView
       android:id="@+id/date"
@@ -39,6 +40,6 @@
       android:paddingRight="5dp"
       android:layout_gravity="bottom|right"
       android:lines="2"
-      android:text="2011/08/12 12:30"
-      android:textSize="10sp"/>
+      android:text="2011/08/12 12:30"/>
+   >
 </LinearLayout>

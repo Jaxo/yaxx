@@ -31,7 +31,7 @@
          android:layout_height="wrap_content"
          android:hint="@string/Title"
          android:maxLines="1"
-         android:textSize="12sp" />
+         android:textSize="@dimen/FontSizeNormal"/>
 
       <ScrollView
          android:id="@+id/scroll"
@@ -49,7 +49,7 @@
             android:minLines="10"
             android:scrollHorizontally="true"
             android:scrollbars="vertical|horizontal"
-            android:textSize="12sp" />
+            android:textSize="@dimen/FontSizeNormal"/>
       </ScrollView>
    </LinearLayout>
 

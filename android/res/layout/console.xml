@@ -20,7 +20,7 @@
       android:layout_height="wrap_content"
       android:inputType="textMultiLine"
       android:scrollbars="vertical"
-      android:textSize="12sp"
+      android:textSize="@dimen/FontSizeNormal"
       android:textColor="#000000"
       android:background="@drawable/say"
    >
