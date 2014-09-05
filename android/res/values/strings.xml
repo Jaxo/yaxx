@@ -39,7 +39,7 @@
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <string name="FontSize">Font size</string>
-    <string name="FontSizeSummary">Adjust the global size of the font for readibility</string>
+    <string name="FontSizeSummary">Change the font size (actually: <b>%s</b>)</string>
     <!--
     <string name="ParseRexxml">Enable REXXML</string>
     <string name="ParseRexxmlSummary">When REXXML tags are found in \"Say\" clauses, parse and act upon.</string>
