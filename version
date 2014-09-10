@@ -9,11 +9,12 @@ cd `dirname $0`
 set DESCRIBE = `git describe --long`
 set VERSION = `echo $DESCRIBE | cut -d- -f1`
 set BRANCH = `git rev-parse --abbrev-ref HEAD`
-if ($BRANCH == "master") then
-  set CODENAME = `git cat-file tag $VERSION | tail -n+6 | head -n 1`
-else
-  set CODENAME = `git config branch.$BRANCH.description | head -n 1`
-endif
+# if ($BRANCH == "master") then
+#   set CODENAME = `git cat-file tag $VERSION | tail -n+6 | head -n 1`
+# else
+#   set CODENAME = `git config branch.$BRANCH.description | head -n 1`
+# endif
+set CODENAME = `git config branch.$BRANCH.description | head -n 1`
 set VERSION = `echo $VERSION | sed 's/\./_/'`
 set COMMIT = `echo $DESCRIBE | cut -d- -f2`
 set UXTIME = `git show --format=%at | head -1`
