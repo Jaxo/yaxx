@@ -37,8 +37,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 all:	$(LIBDIR)/lib$(LIBNAME).a
 
 clean:
-	-rm $(OBJECTS)
+	-rm $(OBJECTS) dlmalloc.o
 
 $(LIBDIR)/lib$(LIBNAME).a:	$(OBJECTS) dlmalloc.o
 	@$(AR) ruv $@ $(OBJECTS) dlmalloc.o
-

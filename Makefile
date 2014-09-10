@@ -1,5 +1,5 @@
 # Usage: make
-#         (debug=1)? (os=win32)? (clean)?
+#         (debug=1)? (os=(win32 | win64))? (clean)?
 #         (rexx | yaxx | dectest | toolstest | all)
 
 .PHONY: all clean yaxx rexx dectest toolstest
@@ -12,10 +12,18 @@ endif
 
 ifeq ($(os),win32)
  export CXX := i686-w64-mingw32-g++   # i586-mingw32msvc-g++
- export CC :=  i686-w64-mingw32-gcc   # i586-mingw32msvc-gcc
- export AR :=  i686-w64-mingw32-ar    # i586-mingw32msvc-ar
- RUN_EXT := .exe
+ export CC := i686-w64-mingw32-gcc    # i586-mingw32msvc-gcc
+ export AR := i686-w64-mingw32-ar     # i586-mingw32msvc-ar
+ RUN_EXT := _32.exe
  CPPFLAGS += -D _WIN32 -D WIN32 -D NODLL -static-libgcc -static-libstdc++
+else ifeq ($(os),win64)
+ export CXX := x86_64-w64-mingw32-g++
+ export CC := x86_64-w64-mingw32-gcc
+ export AR := x86_64-w64-mingw32-ar
+ RUN_EXT := _64.exe
+ CPPFLAGS += -D _WIN32 -D WIN32 -D NODLL -static-libgcc -static-libstdc++
+else
+ RUN_EXT := .out
 endif
 
 $(eval $(shell csh version CPPFLAGS))

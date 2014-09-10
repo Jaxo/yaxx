@@ -42,7 +42,7 @@ increment the _android:versionCode="?"_ in yaxx/android/AndroidManifest.xml
 <h3>Step II</h3>
 Make sure everything is up-to-date:
 <pre>
-cd $HOME/yaxx/android
+cd $HOME/yaxx
 # Rexx for Linux:
 make clean rexx
 # The android part:
@@ -72,33 +72,41 @@ In the header at the top, click <b>releases</b>.
 </li><li>
 Click <b>Draft a new release</b>.
 </li><li>
-Type the version number (_v1.x.y_) for this release.
+The version number is _v1.x.y_
 </li><li>
 Select the branch that contains the project to release.
 Usually, it's against the master branch, unless for releasing beta software.
 </li><li>
-Type a title (code name, see above) and description.
+The title is the _codeName_ (see above)
 </li><li>
-Drag and drop the binary files or select files manually in the binaries box.
+In the description panel, describe briefly what has been changed,
+and end with the following:
+<pre>
+The &lt;a href="README.md">README file &lt;/a> may contain more infos.
+
+Download either
+&lt;ul>
+&lt;li>rexx.out  the linux version (rename it just 'rexx')
+&lt;li>rexx_32.exe  the windows version
+&lt;li>Rexxoid.apk the Android version
+&lt;/ul>
 </li><li>
-If the release is unstable, select <b>This is a pre-release</b> to notify
-users that it's not ready for production.
-</li><li>
-When ready to publicize the release, click <b>Publish</b> release.
-Otherwise, click <b>Save draft</b> to work on it later.
+Click <b>Publish release</b>.
 </li></ol>
 
+<h3>Step V</h3>
 After version v1.x.y has been published on github, first thing
 to do is make it an annotated tag from which the proper code name
 is extracted each time the revision is rebuilt.
 <pre>
+git pull
 git checkout v1.x.y
 git tag -d v1.x.y
 setenv GIT_COMMITTER_DATE `git show --format=%aD | head -1`
 </pre>
 Before to start the signing process. Make sure that your gpg matches!
 <pre>
-check 'gpg --list-key'
+# check 'gpg --list-key' (doesn't work)
 git tag -s -a v1.x.y
 </pre>
 You'll be presented with a nano editor screen. First line must be
@@ -110,6 +118,49 @@ Then, replace the tag on github:
 git push origin :refs/tags/v1.x.y
 git push --tags
 </pre>
+back to the master branch:
+<pre>
+git checkout master
+</pre>
+rebuild the binaries:
+<pre>
+cd $HOME/yaxx
+# Rexx for Linux:
+make clean rexx
+# Rexx for Win 32:
+make os=win32 clean rexx
+# The android part:
+cd android
+ant clean release
+</pre>
+
+<h3>Step VI</h3>
+Upload the binaries to the release distribution.
+<pre>
+mv $HOME/yaxx/android/bin/Rexxoid-release.apk $HOME/yaxx/Rexxoid.apk
+</pre>
+<ol><li>
+Go to the <a href="https://github.com/Jaxo/yaxx"> Yaxx repository on Github</a>
+</li><li>
+In the header at the top, click <b>releases</b>.
+</li><li>
+Click <b>Edit</b> inside the box describing the release.
+It opens a new page width a "binaries" box.
+</li><li>
+Manually, select these files to enter in the binaries box:
+<ul><li>
+$HOME/yaxx/Rexxoid.apk
+</li><li>
+$HOME/yaxx/rexx/rexx.out
+</li><li>
+$HOME/yaxx/rexx/rexx_32.exe
+</li></ul>
+</li><li>
+Click <b>Publish release</b>.
+</li></ol>
+
+<h3>Step VII</h3>
+This is the last step: update Rexxoid on Google Play.
 
 ## Working on a branch ##
 
