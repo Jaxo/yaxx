@@ -47,8 +47,8 @@ protected:
    void addLabel(Clauses & clauses);
    void addClause(Clauses & clauses);
 
-   Tokenizer::m_erh;
-   Tokenizer::getLastPos;           // access-adjuster
+   using Tokenizer::m_erh;
+   using Tokenizer::getLastPos;     // access-adjuster
 
 private:
    class LoopCtrl : public LinkedList::Item {

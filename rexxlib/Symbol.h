@@ -93,7 +93,7 @@ class REXX_API SymbolMap : private HashMap {
 public:
    Symbol * put(RexxString const & lit, Token tk);
    Symbol * get(RexxString const & lit) { return (Symbol *)HashMap::get(lit); }
-   HashMap::print;
+   using HashMap::print;
 private:
    HashMap constMap;
 };

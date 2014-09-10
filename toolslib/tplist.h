@@ -212,7 +212,7 @@ public:
       int iCount,
       TpListBase::e_FillAtInit
    );
-   TpList::inqListBase;
+   using TpList::inqListBase;
 
    //--- KeyCollection
    // insert item at the end (same as insertLast)
@@ -224,12 +224,12 @@ public:
    bool remove(UnicodeString const & ucsKey);
 
    // count of items
-   TpList::count;
+   using TpList::count;
 
 #if ! (defined(OS__EWS) || defined(OS__HPUX))
-   TpList::operator void*;                     // is the collection OK?
+   using TpList::operator void*;               // is the collection OK?
 #endif
-   TpList::operator!;                          // is not ok?
+   using TpList::operator!;                    // is not ok?
 
    //--- KeySequence
    // insert item at given position
@@ -252,10 +252,10 @@ public:
    UnicodeString const & findKey(int ixKi) const;
 
    // remove an item at some position
-   TpList::removeAt;                           // remove from given position
-   TpList::removeFirst;                        // remove first
-   TpList::removeLast;                         // remove last
-   TpList::operator--;                         // as RemoveLast
+   using TpList::removeAt;                     // remove from given position
+   using TpList::removeFirst;                  // remove first
+   using TpList::removeLast;                   // remove last
+   using TpList::operator--;                   // as RemoveLast
 
    //--- Specific to this class
    // same functions as above, but source is another list
@@ -284,11 +284,11 @@ protected:
    ) const;
 
    //--- KeySequence
-   TpList::applyData;
-   TpList::findDataAt;
-   TpList::firstData;
-   TpList::lastData;
-   TpList::applyDataFrom;
+   using TpList::applyData;
+   using TpList::findDataAt;
+   using TpList::firstData;
+   using TpList::lastData;
+   using TpList::applyDataFrom;
 
    // Returns item data from a key and a starting index (position.)
    // Set its actual index (if inexistent, index is -1 and 0 returned)

@@ -44,8 +44,8 @@ public:
    int inqIxOrCreate(UnicodeString const & ucsKey);
 
    // access adjust
-   TpListWithHash::count;
-   TpListWithHash::findKey;
+   using TpListWithHash::count;
+   using TpListWithHash::findKey;
 
    // Warning: following method shallow copies the name.
    bool operator+=(UnicodeString const & ucsName); // no duplicate

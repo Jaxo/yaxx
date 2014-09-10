@@ -159,9 +159,9 @@ public:
    // copy, assgnt op are the default
 
    bool operator+=(NamedArg const & source);
-   ArgListSimple::copy;
+   using ArgListSimple::copy;
 
-   ArgListSimple::isEmpty;
+   using ArgListSimple::isEmpty;
    unsigned int count() const;
    NamedArg operator[](int i) const;
    UnicodeString const & operator[](UnicodeString const &) const;

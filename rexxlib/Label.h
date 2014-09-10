@@ -63,7 +63,7 @@ public:
       return (Label *)HashMap::get(name);
    }
    Label * access(RexxString const & name, Label::Type type, CodePosition pos);
-   HashMap::print;
+   using HashMap::print;
 };
 
 #ifdef YAXX_NAMESPACE
